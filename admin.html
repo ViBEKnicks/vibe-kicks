@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -94,7 +95,8 @@ margin-bottom:6px;
 font-weight:bold;
 }
 
-input,select{
+input,
+select{
 width:100%;
 padding:13px;
 border-radius:8px;
@@ -135,6 +137,7 @@ margin-top:15px;
 padding:12px;
 border-radius:8px;
 display:none;
+word-break:break-word;
 }
 
 .produto{
@@ -171,6 +174,22 @@ font-size:18px;
 font-weight:bold;
 }
 
+.categoria{
+color:#aaa;
+margin-top:5px;
+}
+
+.etiqueta{
+display:inline-block;
+margin-top:7px;
+background:#ffb000;
+color:#111;
+padding:4px 8px;
+border-radius:5px;
+font-size:12px;
+font-weight:bold;
+}
+
 .acoes{
 display:flex;
 gap:8px;
@@ -201,7 +220,33 @@ padding:30px;
 color:#aaa;
 }
 
+@media(max-width:600px){
+
+.produto{
+align-items:flex-start;
+}
+
+.produto img{
+width:80px;
+height:80px;
+}
+
+.nome-produto{
+font-size:16px;
+}
+
+.preco{
+font-size:16px;
+}
+
+.botoes{
+flex-direction:column;
+}
+
+}
+
 </style>
+
 </head>
 
 <body>
@@ -218,23 +263,37 @@ VIBE KICKS
 
 </header>
 
+
 <div class="container">
+
 
 <div class="status" id="status">
 ✅ PAINEL VIBE KICKS ONLINE
 </div>
 
-<button class="botao-adicionar" id="abrir">
+
+<button
+class="botao-adicionar"
+id="abrir"
+type="button"
+>
 ➕ ADICIONAR PRODUTO
 </button>
 
-<div class="formulario" id="formulario">
+
+<div
+class="formulario"
+id="formulario"
+>
 
 <h2 id="tituloFormulario">
 Adicionar produto
 </h2>
 
-<label>Nome do produto</label>
+
+<label>
+Nome do produto
+</label>
 
 <input
 type="text"
@@ -242,7 +301,10 @@ id="nome"
 placeholder="Ex: Nike Air Max"
 >
 
-<label>Preço</label>
+
+<label>
+Preço
+</label>
 
 <input
 type="number"
@@ -251,7 +313,10 @@ placeholder="Ex: 399.90"
 step="0.01"
 >
 
-<label>Preço antigo</label>
+
+<label>
+Preço antigo
+</label>
 
 <input
 type="number"
@@ -260,7 +325,10 @@ placeholder="Ex: 499.90"
 step="0.01"
 >
 
-<label>Categoria</label>
+
+<label>
+Categoria
+</label>
 
 <select id="categoria">
 
@@ -282,7 +350,10 @@ Infantil
 
 </select>
 
-<label>Etiqueta</label>
+
+<label>
+Etiqueta
+</label>
 
 <select id="tag">
 
@@ -304,7 +375,10 @@ DESTAQUE
 
 </select>
 
-<label>URL da imagem</label>
+
+<label>
+URL da imagem
+</label>
 
 <input
 type="text"
@@ -312,33 +386,55 @@ id="imagem"
 placeholder="https://..."
 >
 
+
 <div class="botoes">
 
-<button class="salvar" id="salvar">
+<button
+class="salvar"
+id="salvar"
+type="button"
+>
 💾 SALVAR PRODUTO
 </button>
 
-<button class="cancelar" id="cancelar">
+
+<button
+class="cancelar"
+id="cancelar"
+type="button"
+>
 CANCELAR
 </button>
 
 </div>
 
-<div class="mensagem" id="mensagem"></div>
+
+<div
+class="mensagem"
+id="mensagem"
+></div>
 
 </div>
+
 
 <h2>
 📦 Produtos cadastrados
 </h2>
 
+
 <div id="lista">
 Carregando produtos...
 </div>
 
+
 </div>
 
+
 <script>
+
+/* ==================================
+   SUPABASE
+================================== */
 
 var SUPABASE_URL =
 "https://ravaircmbkotndfghilq.supabase.co";
@@ -346,114 +442,174 @@ var SUPABASE_URL =
 var SUPABASE_KEY =
 "sb_publishable_yL40T2sEFQBtKwISbLrY9Q_EHqvb23C";
 
+
 var editandoId = null;
 
 
-/* ABRIR */
+/* ==================================
+   ELEMENTOS
+================================== */
 
-document.getElementById("abrir").onclick =
-function(){
+var abrir =
+document.getElementById("abrir");
+
+var formulario =
+document.getElementById("formulario");
+
+var cancelar =
+document.getElementById("cancelar");
+
+var salvar =
+document.getElementById("salvar");
+
+var lista =
+document.getElementById("lista");
+
+var mensagem =
+document.getElementById("mensagem");
+
+var tituloFormulario =
+document.getElementById("tituloFormulario");
+
+
+/* ==================================
+   ABRIR
+================================== */
+
+abrir.onclick = function(){
 
 editandoId = null;
 
-document.getElementById("tituloFormulario").innerText =
+tituloFormulario.innerText =
 "Adicionar produto";
 
 limparFormulario();
 
-document.getElementById("formulario")
-.classList.add("aberto");
+mensagem.style.display =
+"none";
+
+formulario.classList.add("aberto");
 
 window.scrollTo(0,0);
 
 };
 
 
-/* CANCELAR */
+/* ==================================
+   CANCELAR
+================================== */
 
-document.getElementById("cancelar").onclick =
-function(){
+cancelar.onclick = function(){
 
-document.getElementById("formulario")
-.classList.remove("aberto");
+formulario.classList.remove("aberto");
 
 editandoId = null;
 
 limparFormulario();
 
+mensagem.style.display =
+"none";
+
 };
 
 
-/* LIMPAR */
+/* ==================================
+   LIMPAR FORMULÁRIO
+================================== */
 
 function limparFormulario(){
 
-document.getElementById("nome").value = "";
+document.getElementById("nome").value =
+"";
 
-document.getElementById("preco").value = "";
+document.getElementById("preco").value =
+"";
 
-document.getElementById("precoAntigo").value = "";
+document.getElementById("precoAntigo").value =
+"";
 
-document.getElementById("categoria").value = "Tênis";
+document.getElementById("categoria").value =
+"Tênis";
 
-document.getElementById("tag").value = "";
+document.getElementById("tag").value =
+"";
 
-document.getElementById("imagem").value = "";
+document.getElementById("imagem").value =
+"";
 
 }
 
 
-/* MENSAGEM */
+/* ==================================
+   MENSAGEM
+================================== */
 
-function mostrarMensagem(texto, sucesso){
+function mostrarMensagem(
+texto,
+sucesso
+){
 
-var mensagem =
-document.getElementById("mensagem");
+mensagem.style.display =
+"block";
 
-mensagem.style.display = "block";
-
-mensagem.innerText = texto;
+mensagem.innerText =
+texto;
 
 if(sucesso){
 
-mensagem.style.background = "#153d1e";
+mensagem.style.background =
+"#153d1e";
 
-mensagem.style.color = "#5cff78";
+mensagem.style.color =
+"#5cff78";
 
 }else{
 
-mensagem.style.background = "#451515";
+mensagem.style.background =
+"#451515";
 
-mensagem.style.color = "#ff7777";
+mensagem.style.color =
+"#ff7777";
 
 }
 
 }
 
 
-/* SALVAR */
+/* ==================================
+   SALVAR PRODUTO
+================================== */
 
-document.getElementById("salvar").onclick =
-async function(){
+salvar.onclick = async function(){
 
 var nome =
-document.getElementById("nome").value.trim();
+document.getElementById("nome")
+.value
+.trim();
 
 var preco =
-document.getElementById("preco").value;
+document.getElementById("preco")
+.value;
 
 var precoAntigo =
-document.getElementById("precoAntigo").value;
+document.getElementById("precoAntigo")
+.value;
 
 var categoria =
-document.getElementById("categoria").value;
+document.getElementById("categoria")
+.value;
 
 var tag =
-document.getElementById("tag").value;
+document.getElementById("tag")
+.value;
 
 var imagem =
-document.getElementById("imagem").value.trim();
+document.getElementById("imagem")
+.value
+.trim();
 
+
+/* VALIDAÇÕES */
 
 if(nome === ""){
 
@@ -491,11 +647,18 @@ return;
 }
 
 
-/*
-IMPORTANTE:
-A coluna no Supabase é CAT
-com C maiúsculo.
-*/
+/* ==================================
+   DADOS DO PRODUTO
+
+   NOMES EXATOS DO SUPABASE:
+
+   name
+   price
+   Cat
+   Old
+   Tag
+   image
+================================== */
 
 var produto = {
 
@@ -503,26 +666,23 @@ name: nome,
 
 price: Number(preco),
 
-old:
+Cat: categoria,
+
+Old:
 precoAntigo === ""
 ? null
 : Number(precoAntigo),
 
-Cat: categoria,
-
-tag: tag,
+Tag: tag,
 
 image: imagem
 
 };
 
 
-var botao =
-document.getElementById("salvar");
+salvar.disabled = true;
 
-botao.disabled = true;
-
-botao.innerText =
+salvar.innerText =
 "SALVANDO...";
 
 
@@ -531,11 +691,14 @@ try{
 var resposta;
 
 
+/* ==================================
+   NOVO PRODUTO
+================================== */
+
 if(editandoId === null){
 
-/* ADICIONAR */
-
-resposta = await fetch(
+resposta =
+await fetch(
 
 SUPABASE_URL +
 "/rest/v1/products",
@@ -546,7 +709,8 @@ method:"POST",
 
 headers:{
 
-"apikey":SUPABASE_KEY,
+"apikey":
+SUPABASE_KEY,
 
 "Content-Type":
 "application/json",
@@ -563,11 +727,15 @@ JSON.stringify(produto)
 
 );
 
+
+/* ==================================
+   EDITAR PRODUTO
+================================== */
+
 }else{
 
-/* EDITAR */
-
-resposta = await fetch(
+resposta =
+await fetch(
 
 SUPABASE_URL +
 "/rest/v1/products?id=eq." +
@@ -579,7 +747,8 @@ method:"PATCH",
 
 headers:{
 
-"apikey":SUPABASE_KEY,
+"apikey":
+SUPABASE_KEY,
 
 "Content-Type":
 "application/json",
@@ -599,6 +768,8 @@ JSON.stringify(produto)
 
 }
 
+
+/* RESPOSTA */
 
 var resultado =
 await resposta.text();
@@ -611,15 +782,11 @@ throw new Error(resultado);
 }
 
 
-document.getElementById("formulario")
-.classList.remove("aberto");
+/* SUCESSO */
 
-
-mostrarMensagem(
-"✅ Produto salvo com sucesso!",
-true
+formulario.classList.remove(
+"aberto"
 );
-
 
 editandoId = null;
 
@@ -628,33 +795,40 @@ limparFormulario();
 await carregarProdutos();
 
 
+alert(
+"✅ Produto salvo com sucesso!"
+);
+
+
 }catch(erro){
 
 console.error(erro);
 
 mostrarMensagem(
+
 "❌ Erro ao salvar: " +
 erro.message,
+
 false
+
 );
 
 }
 
 
-botao.disabled = false;
+salvar.disabled = false;
 
-botao.innerText =
+salvar.innerText =
 "💾 SALVAR PRODUTO";
 
 };
 
 
-/* CARREGAR */
+/* ==================================
+   CARREGAR PRODUTOS
+================================== */
 
 async function carregarProdutos(){
-
-var lista =
-document.getElementById("lista");
 
 lista.innerHTML =
 "Carregando produtos...";
@@ -662,7 +836,8 @@ lista.innerHTML =
 
 try{
 
-var resposta = await fetch(
+var resposta =
+await fetch(
 
 SUPABASE_URL +
 "/rest/v1/products?select=*&order=id.asc",
@@ -673,7 +848,8 @@ method:"GET",
 
 headers:{
 
-"apikey":SUPABASE_KEY
+"apikey":
+SUPABASE_KEY
 
 }
 
@@ -695,7 +871,8 @@ var produtos =
 await resposta.json();
 
 
-lista.innerHTML = "";
+lista.innerHTML =
+"";
 
 
 if(produtos.length === 0){
@@ -716,7 +893,9 @@ i < produtos.length;
 i++
 ){
 
-criarProduto(produtos[i]);
+criarProduto(
+produtos[i]
+);
 
 }
 
@@ -737,9 +916,13 @@ erro.message +
 }
 
 
-/* CRIAR PRODUTO */
+/* ==================================
+   CRIAR CARD
+================================== */
 
-function criarProduto(produto){
+function criarProduto(
+produto
+){
 
 var card =
 document.createElement("div");
@@ -748,19 +931,28 @@ card.className =
 "produto";
 
 
+/* IMAGEM */
+
 var imagem =
 document.createElement("img");
 
 imagem.src =
 produto.image || "";
 
+imagem.alt =
+produto.name || "Produto";
+
+
 imagem.onerror =
 function(){
 
-this.style.display = "none";
+this.style.display =
+"none";
 
 };
 
+
+/* INFO */
 
 var info =
 document.createElement("div");
@@ -769,6 +961,8 @@ info.className =
 "info";
 
 
+/* NOME */
+
 var nome =
 document.createElement("div");
 
@@ -776,8 +970,11 @@ nome.className =
 "nome-produto";
 
 nome.innerText =
-produto.name || "Sem nome";
+produto.name ||
+"Sem nome";
 
+
+/* PREÇO */
 
 var preco =
 document.createElement("div");
@@ -786,22 +983,48 @@ preco.className =
 "preco";
 
 preco.innerText =
-formatarPreco(produto.price);
+formatarPreco(
+produto.price
+);
 
+
+/* CATEGORIA */
 
 var categoria =
 document.createElement("div");
 
-/*
-IMPORTANTE:
-Aqui também usamos CAT
-com C maiúsculo.
-*/
+categoria.className =
+"categoria";
 
 categoria.innerText =
 "Categoria: " +
-(produto.Cat || "-");
+(
+produto.Cat ||
+"-"
+);
 
+
+/* TAG */
+
+if(produto.Tag){
+
+var etiqueta =
+document.createElement("div");
+
+etiqueta.className =
+"etiqueta";
+
+etiqueta.innerText =
+produto.Tag;
+
+info.appendChild(
+etiqueta
+);
+
+}
+
+
+/* AÇÕES */
 
 var acoes =
 document.createElement("div");
@@ -810,8 +1033,13 @@ acoes.className =
 "acoes";
 
 
+/* EDITAR */
+
 var editar =
 document.createElement("button");
+
+editar.type =
+"button";
 
 editar.className =
 "editar";
@@ -823,13 +1051,20 @@ editar.innerText =
 editar.onclick =
 function(){
 
-editarProduto(produto);
+editarProduto(
+produto
+);
 
 };
 
 
+/* EXCLUIR */
+
 var excluir =
 document.createElement("button");
+
+excluir.type =
+"button";
 
 excluir.className =
 "excluir";
@@ -841,80 +1076,122 @@ excluir.innerText =
 excluir.onclick =
 function(){
 
-excluirProduto(produto.id);
+excluirProduto(
+produto.id
+);
 
 };
 
 
-acoes.appendChild(editar);
+/* MONTAGEM */
 
-acoes.appendChild(excluir);
+acoes.appendChild(
+editar
+);
 
-
-info.appendChild(nome);
-
-info.appendChild(preco);
-
-info.appendChild(categoria);
-
-info.appendChild(acoes);
+acoes.appendChild(
+excluir
+);
 
 
-card.appendChild(imagem);
+info.appendChild(
+nome
+);
 
-card.appendChild(info);
+info.appendChild(
+preco
+);
+
+info.appendChild(
+categoria
+);
+
+info.appendChild(
+acoes
+);
 
 
-document.getElementById("lista")
-.appendChild(card);
+card.appendChild(
+imagem
+);
+
+card.appendChild(
+info
+);
+
+
+lista.appendChild(
+card
+);
 
 }
 
 
-/* EDITAR */
+/* ==================================
+   EDITAR
+================================== */
 
-function editarProduto(produto){
+function editarProduto(
+produto
+){
 
 editandoId =
 produto.id;
 
 
-document.getElementById(
-"tituloFormulario"
-).innerText =
+tituloFormulario.innerText =
 "Editar produto";
 
 
-document.getElementById("nome").value =
+document.getElementById("nome")
+.value =
 produto.name || "";
 
 
-document.getElementById("preco").value =
+document.getElementById("preco")
+.value =
 produto.price || "";
 
 
-document.getElementById("precoAntigo").value =
-produto.old || "";
+/* OLD */
+
+document.getElementById(
+"precoAntigo"
+).value =
+produto.Old || "";
 
 
-/*
-CAT com C maiúsculo
-*/
+/* CAT */
 
-document.getElementById("categoria").value =
+document.getElementById(
+"categoria"
+).value =
 produto.Cat || "Tênis";
 
 
-document.getElementById("tag").value =
-produto.tag || "";
+/* TAG */
+
+document.getElementById(
+"tag"
+).value =
+produto.Tag || "";
 
 
-document.getElementById("imagem").value =
+/* IMAGE */
+
+document.getElementById(
+"imagem"
+).value =
 produto.image || "";
 
 
-document.getElementById("formulario")
-.classList.add("aberto");
+mensagem.style.display =
+"none";
+
+
+formulario.classList.add(
+"aberto"
+);
 
 
 window.scrollTo(0,0);
@@ -922,9 +1199,13 @@ window.scrollTo(0,0);
 }
 
 
-/* EXCLUIR */
+/* ==================================
+   EXCLUIR
+================================== */
 
-async function excluirProduto(id){
+async function excluirProduto(
+id
+){
 
 var confirmar =
 confirm(
@@ -954,7 +1235,8 @@ method:"DELETE",
 
 headers:{
 
-"apikey":SUPABASE_KEY,
+"apikey":
+SUPABASE_KEY,
 
 "Prefer":
 "return=representation"
@@ -997,11 +1279,17 @@ erro.message
 }
 
 
-/* PREÇO */
+/* ==================================
+   FORMATAÇÃO DE PREÇO
+================================== */
 
-function formatarPreco(valor){
+function formatarPreco(
+valor
+){
 
-return Number(valor || 0)
+return Number(
+valor || 0
+)
 .toLocaleString(
 "pt-BR",
 {
@@ -1013,7 +1301,15 @@ currency:"BRL"
 }
 
 
-/* INICIAR */
+/* ==================================
+   INICIAR
+================================== */
+
+document.getElementById(
+"status"
+).innerText =
+"✅ PAINEL VIBE KICKS ONLINE — CONECTADO";
+
 
 carregarProdutos();
 
