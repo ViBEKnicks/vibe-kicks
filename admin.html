@@ -106,6 +106,47 @@ color:#fff;
 font-size:16px;
 }
 
+.botao-foto{
+display:block;
+width:100%;
+padding:15px;
+margin-top:8px;
+background:#333;
+border:2px dashed #ffb000;
+border-radius:10px;
+color:#fff;
+font-size:16px;
+font-weight:bold;
+text-align:center;
+cursor:pointer;
+}
+
+#foto{
+display:none;
+}
+
+.previa{
+display:none;
+margin-top:15px;
+text-align:center;
+}
+
+.previa img{
+width:180px;
+height:180px;
+object-fit:contain;
+background:#fff;
+border-radius:10px;
+padding:5px;
+}
+
+.nome-arquivo{
+margin-top:8px;
+color:#aaa;
+font-size:13px;
+word-break:break-word;
+}
+
 .botoes{
 display:flex;
 gap:10px;
@@ -266,8 +307,7 @@ VIBE KICKS
 
 <div class="container">
 
-
-<div class="status" id="status">
+<div class="status">
 ✅ PAINEL VIBE KICKS ONLINE
 </div>
 
@@ -377,14 +417,41 @@ DESTAQUE
 
 
 <label>
-URL da imagem
+Foto do produto
+</label>
+
+
+<label
+for="foto"
+class="botao-foto"
+>
+📷 ESCOLHER FOTO DO CELULAR
 </label>
 
 <input
-type="text"
-id="imagem"
-placeholder="https://..."
+type="file"
+id="foto"
+accept="image/*"
 >
+
+
+<div
+class="previa"
+id="previa"
+>
+
+<img
+id="imagemPrevia"
+src=""
+alt="Prévia"
+>
+
+<div
+class="nome-arquivo"
+id="nomeArquivo"
+></div>
+
+</div>
 
 
 <div class="botoes">
@@ -396,7 +463,6 @@ type="button"
 >
 💾 SALVAR PRODUTO
 </button>
-
 
 <button
 class="cancelar"
@@ -426,15 +492,14 @@ id="mensagem"
 Carregando produtos...
 </div>
 
-
 </div>
 
 
 <script>
 
-/* ==================================
-   SUPABASE
-================================== */
+/* =========================================
+   CONFIGURAÇÃO SUPABASE
+========================================= */
 
 var SUPABASE_URL =
 "https://ravaircmbkotndfghilq.supabase.co";
@@ -442,13 +507,17 @@ var SUPABASE_URL =
 var SUPABASE_KEY =
 "sb_publishable_yL40T2sEFQBtKwISbLrY9Q_EHqvb23C";
 
+var BUCKET =
+"produtos";
 
 var editandoId = null;
 
+var imagemAtual = "";
 
-/* ==================================
+
+/* =========================================
    ELEMENTOS
-================================== */
+========================================= */
 
 var abrir =
 document.getElementById("abrir");
@@ -462,23 +531,63 @@ document.getElementById("cancelar");
 var salvar =
 document.getElementById("salvar");
 
-var lista =
-document.getElementById("lista");
+var foto =
+document.getElementById("foto");
+
+var previa =
+document.getElementById("previa");
+
+var imagemPrevia =
+document.getElementById("imagemPrevia");
+
+var nomeArquivo =
+document.getElementById("nomeArquivo");
 
 var mensagem =
 document.getElementById("mensagem");
+
+var lista =
+document.getElementById("lista");
 
 var tituloFormulario =
 document.getElementById("tituloFormulario");
 
 
-/* ==================================
+/* =========================================
+   ESCOLHER FOTO
+========================================= */
+
+foto.onchange = function(){
+
+var arquivo = foto.files[0];
+
+if(!arquivo){
+
+return;
+
+}
+
+imagemPrevia.src =
+URL.createObjectURL(arquivo);
+
+nomeArquivo.innerText =
+arquivo.name;
+
+previa.style.display =
+"block";
+
+};
+
+
+/* =========================================
    ABRIR
-================================== */
+========================================= */
 
 abrir.onclick = function(){
 
 editandoId = null;
+
+imagemAtual = "";
 
 tituloFormulario.innerText =
 "Adicionar produto";
@@ -488,34 +597,46 @@ limparFormulario();
 mensagem.style.display =
 "none";
 
-formulario.classList.add("aberto");
+previa.style.display =
+"none";
+
+formulario.classList.add(
+"aberto"
+);
 
 window.scrollTo(0,0);
 
 };
 
 
-/* ==================================
+/* =========================================
    CANCELAR
-================================== */
+========================================= */
 
 cancelar.onclick = function(){
 
-formulario.classList.remove("aberto");
+formulario.classList.remove(
+"aberto"
+);
 
 editandoId = null;
+
+imagemAtual = "";
 
 limparFormulario();
 
 mensagem.style.display =
 "none";
 
+previa.style.display =
+"none";
+
 };
 
 
-/* ==================================
-   LIMPAR FORMULÁRIO
-================================== */
+/* =========================================
+   LIMPAR
+========================================= */
 
 function limparFormulario(){
 
@@ -534,15 +655,18 @@ document.getElementById("categoria").value =
 document.getElementById("tag").value =
 "";
 
-document.getElementById("imagem").value =
-"";
+foto.value = "";
+
+imagemPrevia.src = "";
+
+nomeArquivo.innerText = "";
 
 }
 
 
-/* ==================================
+/* =========================================
    MENSAGEM
-================================== */
+========================================= */
 
 function mostrarMensagem(
 texto,
@@ -576,11 +700,102 @@ mensagem.style.color =
 }
 
 
-/* ==================================
-   SALVAR PRODUTO
-================================== */
+/* =========================================
+   ENVIAR FOTO PARA SUPABASE
+========================================= */
 
-salvar.onclick = async function(){
+async function enviarFoto(){
+
+var arquivo =
+foto.files[0];
+
+if(!arquivo){
+
+return imagemAtual;
+
+}
+
+
+/* Nome único para evitar conflito */
+
+var nomeSeguro =
+arquivo.name
+.replace(/[^a-zA-Z0-9._-]/g,"-");
+
+var nomeArquivoFinal =
+Date.now() +
+"-" +
+nomeSeguro;
+
+
+var resposta =
+await fetch(
+
+SUPABASE_URL +
+"/storage/v1/object/" +
+BUCKET +
+"/" +
+nomeArquivoFinal,
+
+{
+
+method:"POST",
+
+headers:{
+
+"apikey":
+SUPABASE_KEY,
+
+"Content-Type":
+arquivo.type,
+
+"x-upsert":
+"true"
+
+},
+
+body:
+arquivo
+
+}
+
+);
+
+
+if(!resposta.ok){
+
+var erro =
+await resposta.text();
+
+throw new Error(
+"Erro ao enviar foto: " +
+erro
+);
+
+}
+
+
+/* URL pública */
+
+var urlPublica =
+SUPABASE_URL +
+"/storage/v1/object/public/" +
+BUCKET +
+"/" +
+nomeArquivoFinal;
+
+
+return urlPublica;
+
+}
+
+
+/* =========================================
+   SALVAR PRODUTO
+========================================= */
+
+salvar.onclick =
+async function(){
 
 var nome =
 document.getElementById("nome")
@@ -603,13 +818,6 @@ var tag =
 document.getElementById("tag")
 .value;
 
-var imagem =
-document.getElementById("imagem")
-.value
-.trim();
-
-
-/* VALIDAÇÕES */
 
 if(nome === ""){
 
@@ -635,10 +843,15 @@ return;
 }
 
 
-if(imagem === ""){
+/* Se for produto novo, precisa escolher foto */
+
+if(
+editandoId === null &&
+!foto.files[0]
+){
 
 mostrarMensagem(
-"Digite a URL da imagem.",
+"Escolha uma foto do celular.",
 false
 );
 
@@ -647,18 +860,25 @@ return;
 }
 
 
-/* ==================================
-   DADOS DO PRODUTO
+salvar.disabled = true;
 
-   NOMES EXATOS DO SUPABASE:
+salvar.innerText =
+"📤 ENVIANDO...";
 
-   name
-   price
-   Cat
-   Old
-   Tag
-   image
-================================== */
+
+try{
+
+/* Envia a foto */
+
+if(foto.files[0]){
+
+imagemAtual =
+await enviarFoto();
+
+}
+
+
+/* Dados do produto */
 
 var produto = {
 
@@ -675,25 +895,19 @@ precoAntigo === ""
 
 Tag: tag,
 
-image: imagem
+image: imagemAtual
 
 };
 
 
-salvar.disabled = true;
-
 salvar.innerText =
-"SALVANDO...";
+"💾 SALVANDO...";
 
-
-try{
 
 var resposta;
 
 
-/* ==================================
-   NOVO PRODUTO
-================================== */
+/* NOVO */
 
 if(editandoId === null){
 
@@ -728,9 +942,7 @@ JSON.stringify(produto)
 );
 
 
-/* ==================================
-   EDITAR PRODUTO
-================================== */
+/* EDITAR */
 
 }else{
 
@@ -763,13 +975,8 @@ JSON.stringify(produto)
 
 }
 
-);
-
-
 }
 
-
-/* RESPOSTA */
 
 var resultado =
 await resposta.text();
@@ -777,7 +984,9 @@ await resposta.text();
 
 if(!resposta.ok){
 
-throw new Error(resultado);
+throw new Error(
+resultado
+);
 
 }
 
@@ -790,7 +999,13 @@ formulario.classList.remove(
 
 editandoId = null;
 
+imagemAtual = "";
+
 limparFormulario();
+
+previa.style.display =
+"none";
+
 
 await carregarProdutos();
 
@@ -824,9 +1039,9 @@ salvar.innerText =
 };
 
 
-/* ==================================
+/* =========================================
    CARREGAR PRODUTOS
-================================== */
+========================================= */
 
 async function carregarProdutos(){
 
@@ -916,9 +1131,9 @@ erro.message +
 }
 
 
-/* ==================================
+/* =========================================
    CRIAR CARD
-================================== */
+========================================= */
 
 function criarProduto(
 produto
@@ -1083,8 +1298,6 @@ produto.id
 };
 
 
-/* MONTAGEM */
-
 acoes.appendChild(
 editar
 );
@@ -1127,9 +1340,9 @@ card
 }
 
 
-/* ==================================
+/* =========================================
    EDITAR
-================================== */
+========================================= */
 
 function editarProduto(
 produto
@@ -1137,6 +1350,10 @@ produto
 
 editandoId =
 produto.id;
+
+
+imagemAtual =
+produto.image || "";
 
 
 tituloFormulario.innerText =
@@ -1153,36 +1370,40 @@ document.getElementById("preco")
 produto.price || "";
 
 
-/* OLD */
-
-document.getElementById(
-"precoAntigo"
-).value =
+document.getElementById("precoAntigo")
+.value =
 produto.Old || "";
 
 
-/* CAT */
-
-document.getElementById(
-"categoria"
-).value =
+document.getElementById("categoria")
+.value =
 produto.Cat || "Tênis";
 
 
-/* TAG */
-
-document.getElementById(
-"tag"
-).value =
+document.getElementById("tag")
+.value =
 produto.Tag || "";
 
 
-/* IMAGE */
+/* Mostrar imagem atual */
 
-document.getElementById(
-"imagem"
-).value =
-produto.image || "";
+if(produto.image){
+
+imagemPrevia.src =
+produto.image;
+
+nomeArquivo.innerText =
+"Foto atual";
+
+previa.style.display =
+"block";
+
+}else{
+
+previa.style.display =
+"none";
+
+}
 
 
 mensagem.style.display =
@@ -1199,9 +1420,9 @@ window.scrollTo(0,0);
 }
 
 
-/* ==================================
+/* =========================================
    EXCLUIR
-================================== */
+========================================= */
 
 async function excluirProduto(
 id
@@ -1279,9 +1500,9 @@ erro.message
 }
 
 
-/* ==================================
+/* =========================================
    FORMATAÇÃO DE PREÇO
-================================== */
+========================================= */
 
 function formatarPreco(
 valor
@@ -1301,15 +1522,9 @@ currency:"BRL"
 }
 
 
-/* ==================================
+/* =========================================
    INICIAR
-================================== */
-
-document.getElementById(
-"status"
-).innerText =
-"✅ PAINEL VIBE KICKS ONLINE — CONECTADO";
-
+========================================= */
 
 carregarProdutos();
 
