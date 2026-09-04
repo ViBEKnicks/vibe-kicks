@@ -1,1146 +1,1203 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VIBE KICKS - Admin</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIBE KICKS - Admin</title>
 
-<style>
-* {
-    box-sizing: border-box;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #111;
-    color: white;
-}
-
-header {
-    background: #181818;
-    border-bottom: 2px solid #f5a400;
-    padding: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-}
-
-.logo {
-    color: #f5a400;
-    font-size: 22px;
-    font-weight: bold;
-}
-
-.usuario {
-    color: #aaa;
-    font-size: 12px;
-    margin-top: 4px;
-}
-
-.header-buttons {
-    display: flex;
-    gap: 8px;
-}
-
-.header-buttons button {
-    border: 0;
-    padding: 10px 12px;
-    border-radius: 7px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.loja {
-    background: #f5a400;
-    color: #111;
-}
-
-.sair {
-    background: #333;
-    color: white;
-}
-
-.container {
-    width: 100%;
-    max-width: 900px;
-    margin: auto;
-    padding: 20px;
-}
-
-.box {
-    background: #1b1b1b;
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-}
-
-h2 {
-    margin-top: 0;
-    color: #f5a400;
-}
-
-label {
-    display: block;
-    margin: 12px 0 6px;
-    font-weight: bold;
-}
-
-input {
-    width: 100%;
-    padding: 13px;
-    border-radius: 7px;
-    border: 1px solid #444;
-    background: #252525;
-    color: white;
-    font-size: 16px;
-}
-
-input[type="file"] {
-    padding: 10px;
-}
-
-.main-button {
-    width: 100%;
-    padding: 15px;
-    margin-top: 15px;
-    border: 0;
-    border-radius: 8px;
-    background: #f5a400;
-    color: #111;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.main-button:disabled {
-    opacity: .6;
-}
-
-.cancel-button {
-    width: 100%;
-    padding: 13px;
-    margin-top: 10px;
-    border: 0;
-    border-radius: 8px;
-    background: #444;
-    color: white;
-    font-weight: bold;
-}
-
-#mensagem {
-    display: none;
-    padding: 12px;
-    margin-top: 15px;
-    border-radius: 8px;
-    word-break: break-word;
-}
-
-.preview {
-    display: none;
-    margin-top: 12px;
-}
-
-.preview img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 10px;
-}
-
-.produto {
-    background: #242424;
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 15px;
-    display: flex;
-    gap: 15px;
-}
-
-.produto img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 8px;
-    background: #333;
-}
-
-.produto-info {
-    flex: 1;
-}
-
-.produto-info h3 {
-    margin: 0 0 7px;
-}
-
-.produto-info p {
-    margin: 5px 0;
-    color: #ccc;
-}
-
-.acoes {
-    display: flex;
-    gap: 8px;
-    margin-top: 10px;
-}
-
-.acoes button {
-    border: 0;
-    padding: 9px 12px;
-    border-radius: 7px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.editar {
-    background: #f5a400;
-    color: #111;
-}
-
-.excluir {
-    background: #d32f2f;
-    color: white;
-}
-
-.carregando {
-    color: #aaa;
-    padding: 10px 0;
-}
-
-.erro-lista {
-    background: #4b1d1d;
-    padding: 12px;
-    border-radius: 8px;
-}
-
-@media(max-width:600px) {
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+    }
 
     header {
-        align-items: flex-start;
+      background: #181818;
+      padding: 18px;
+      border-bottom: 2px solid #f5b400;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
-    .header-buttons {
-        flex-direction: column;
+    header h1 {
+      margin: 0;
+      color: #f5b400;
+      font-size: 24px;
     }
 
-    .header-buttons button {
-        width: 100%;
+    .top-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .btn-loja {
+      background: #f5b400;
+      color: #111;
+    }
+
+    .btn-sair {
+      background: #d62828;
+      color: #fff;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .usuario {
+      background: #1d1d1d;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 20px;
+      color: #ccc;
+      word-break: break-word;
+    }
+
+    .box {
+      background: #1b1b1b;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid #292929;
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #f5b400;
+    }
+
+    label {
+      display: block;
+      margin-top: 14px;
+      margin-bottom: 6px;
+      color: #ddd;
+      font-weight: bold;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 13px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background: #111;
+      color: #fff;
+      font-size: 16px;
+    }
+
+    input:focus,
+    select:focus {
+      outline: 2px solid #f5b400;
+    }
+
+    .btn-salvar {
+      width: 100%;
+      margin-top: 20px;
+      background: #f5b400;
+      color: #111;
+      font-size: 16px;
+      padding: 15px;
+    }
+
+    .btn-cancelar {
+      width: 100%;
+      margin-top: 10px;
+      background: #444;
+      color: #fff;
+    }
+
+    #mensagem {
+      display: none;
+      padding: 13px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      word-break: break-word;
+    }
+
+    .sucesso {
+      background: #14532d;
+      color: #bbf7d0;
+    }
+
+    .erro {
+      background: #7f1d1d;
+      color: #fecaca;
     }
 
     .produto {
-        align-items: flex-start;
+      background: #222;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      flex-wrap: wrap;
     }
 
     .produto img {
-        width: 80px;
-        height: 80px;
+      width: 110px;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 8px;
+      background: #333;
     }
 
-    .acoes {
-        flex-direction: column;
+    .produto-info {
+      flex: 1;
+      min-width: 200px;
     }
 
-    .acoes button {
-        width: 100%;
+    .produto-info h3 {
+      margin: 0 0 8px;
+      color: #fff;
     }
-}
-</style>
+
+    .produto-info p {
+      margin: 5px 0;
+      color: #bbb;
+    }
+
+    .produto-botoes {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-editar {
+      background: #2563eb;
+      color: #fff;
+    }
+
+    .btn-excluir {
+      background: #dc2626;
+      color: #fff;
+    }
+
+    #preview {
+      display: none;
+      max-width: 180px;
+      max-height: 180px;
+      margin-top: 12px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    .carregando {
+      text-align: center;
+      padding: 30px;
+      color: #aaa;
+    }
+
+    .vazio {
+      text-align: center;
+      padding: 30px;
+      color: #aaa;
+    }
+
+    .erro-lista {
+      background: #351313;
+      border: 1px solid #8b2525;
+      padding: 15px;
+      border-radius: 10px;
+      color: #ffb4b4;
+      text-align: center;
+    }
+
+    .btn-tentar {
+      margin-top: 12px;
+      background: #f5b400;
+      color: #111;
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
+  <h1>👟 VIBE KICKS — ADMIN</h1>
 
-    <div>
-        <div class="logo">VIBE KICKS</div>
-        <div class="usuario" id="usuario"></div>
-    </div>
+  <div class="top-buttons">
+    <button type="button" class="btn-loja" onclick="irParaLoja()">
+      🏪 LOJA
+    </button>
 
-    <div class="header-buttons">
-
-        <button
-            type="button"
-            class="loja"
-            onclick="irParaLoja()"
-        >
-            ← LOJA
-        </button>
-
-        <button
-            type="button"
-            class="sair"
-            onclick="sair()"
-        >
-            🚪 SAIR
-        </button>
-
-    </div>
-
+    <button type="button" class="btn-sair" onclick="sair()">
+      🚪 SAIR
+    </button>
+  </div>
 </header>
 
+<main>
 
-<div class="container">
+  <div class="usuario">
+    🔐 Logado como: <strong id="usuarioEmail">verificando...</strong>
+  </div>
 
-    <div class="box">
+  <div id="mensagem"></div>
 
-        <h2 id="tituloFormulario">
-            Adicionar produto
-        </h2>
+  <div class="box">
 
-        <form id="produtoForm">
+    <h2 id="tituloFormulario">➕ Adicionar produto</h2>
 
-            <label for="nome">
-                Nome do produto
-            </label>
+    <form id="produtoForm">
 
-            <input
-                id="nome"
-                type="text"
-                placeholder="Ex: Nike Air Max"
-                required
-            >
+      <label for="nome">Nome do produto</label>
+      <input
+        type="text"
+        id="nome"
+        placeholder="Ex: Nike Air Max"
+        required
+      >
 
+      <label for="preco">Preço</label>
+      <input
+        type="number"
+        id="preco"
+        placeholder="Ex: 299.90"
+        step="0.01"
+        min="0"
+        required
+      >
 
-            <label for="preco">
-                Preço
-            </label>
+      <label for="precoAntigo">Preço antigo</label>
+      <input
+        type="number"
+        id="precoAntigo"
+        placeholder="Ex: 399.90"
+        step="0.01"
+        min="0"
+      >
 
-            <input
-                id="preco"
-                type="number"
-                step="0.01"
-                placeholder="Ex: 299.90"
-                required
-            >
+      <label for="categoria">Categoria</label>
+      <input
+        type="text"
+        id="categoria"
+        placeholder="Ex: Masculino"
+      >
 
+      <label for="tag">Tag</label>
+      <input
+        type="text"
+        id="tag"
+        placeholder="Ex: PROMOÇÃO"
+      >
 
-            <label for="categoria">
-                Categoria
-            </label>
+      <label for="foto">Foto do produto</label>
+      <input
+        type="file"
+        id="foto"
+        accept="image/*"
+      >
 
-            <input
-                id="categoria"
-                type="text"
-                placeholder="Ex: Nike"
-            >
+      <img id="preview" alt="Prévia da foto">
 
+      <button type="submit" class="btn-salvar" id="btnSalvar">
+        💾 SALVAR PRODUTO
+      </button>
 
-            <label for="precoAntigo">
-                Preço antigo
-            </label>
+      <button
+        type="button"
+        class="btn-cancelar"
+        id="btnCancelar"
+        onclick="cancelarEdicao()"
+        style="display:none;"
+      >
+        CANCELAR EDIÇÃO
+      </button>
 
-            <input
-                id="precoAntigo"
-                type="number"
-                step="0.01"
-                placeholder="Ex: 399.90"
-            >
+    </form>
 
-
-            <label for="tag">
-                Tag
-            </label>
-
-            <input
-                id="tag"
-                type="text"
-                placeholder="Ex: PROMOÇÃO"
-            >
-
-
-            <label for="foto">
-                Foto do produto
-            </label>
-
-            <input
-                id="foto"
-                type="file"
-                accept="image/*"
-            >
-
-
-            <div
-                class="preview"
-                id="preview"
-            >
-                <img
-                    id="previewImg"
-                    alt="Prévia"
-                >
-            </div>
+  </div>
 
 
-            <button
-                type="submit"
-                class="main-button"
-                id="salvarBtn"
-            >
-                SALVAR PRODUTO
-            </button>
+  <div class="box">
 
+    <h2>📦 Produtos cadastrados</h2>
 
-            <button
-                type="button"
-                class="cancel-button"
-                id="cancelarBtn"
-                onclick="cancelarEdicao()"
-                style="display:none;"
-            >
-                CANCELAR EDIÇÃO
-            </button>
-
-        </form>
-
-
-        <div id="mensagem"></div>
-
+    <div id="listaProdutos">
+      <div class="carregando">
+        ⏳ Carregando produtos...
+      </div>
     </div>
 
+  </div>
 
-    <div class="box">
-
-        <h2>
-            Produtos cadastrados
-        </h2>
-
-        <div id="listaProdutos">
-            <div class="carregando">
-                Carregando produtos...
-            </div>
-        </div>
-
-    </div>
-
-</div>
+</main>
 
 
 <script>
 
-const SUPABASE_URL =
-"https://ravaircmbkotndfghilq.supabase.co";
+  /* =========================
+     CONFIGURAÇÃO SUPABASE
+  ========================= */
 
-const SUPABASE_KEY =
-"sb_publishable_yL40T2sEFQBtKwISbLrY9Q_EHqvb23C";
+  var SUPABASE_URL =
+    "https://ravaircmbkotndfghilq.supabase.co";
 
-const BUCKET =
-"produtos";
+  var SUPABASE_KEY =
+    "sb_publishable_yL40T2sEFQBtKwISbLrY9Q_EHqvb23C";
 
-
-let accessToken =
-localStorage.getItem("vibe_access_token");
-
-let produtoEditando = null;
-
-let imagemAtual = "";
+  var BUCKET = "produtos";
 
 
-/* ============================
-   VERIFICAR LOGIN
-============================ */
+  /* =========================
+     VARIÁVEIS
+  ========================= */
 
-async function verificarLogin() {
+  var accessToken =
+    localStorage.getItem("vibe_access_token");
+
+  var refreshToken =
+    localStorage.getItem("vibe_refresh_token");
+
+  var produtoEditando = null;
+
+  var imagemAtual = "";
+
+
+  /* =========================
+     VERIFICAR LOGIN
+  ========================= */
+
+  async function verificarLogin() {
 
     if (!accessToken) {
-
-        window.location.replace(
-            "login.html"
-        );
-
-        return false;
+      window.location.replace("login.html");
+      return false;
     }
-
 
     try {
 
-        const resposta =
-            await fetch(
-                SUPABASE_URL +
-                "/auth/v1/user",
-                {
-                    method: "GET",
-                    headers: {
-                        "apikey":
-                            SUPABASE_KEY,
-                        "Authorization":
-                            "Bearer " +
-                            accessToken
-                    }
-                }
-            );
+      var resposta = await fetch(
+        SUPABASE_URL + "/auth/v1/user",
+        {
+          method: "GET",
+          headers: {
+            "apikey": SUPABASE_KEY,
+            "Authorization": "Bearer " + accessToken
+          }
+        }
+      );
+
+      if (!resposta.ok) {
+
+        localStorage.removeItem("vibe_access_token");
+        localStorage.removeItem("vibe_refresh_token");
+        localStorage.removeItem("vibe_user_email");
+
+        window.location.replace("login.html");
+
+        return false;
+      }
+
+      var usuario = await resposta.json();
+
+      document.getElementById("usuarioEmail").textContent =
+        usuario.email || "Usuário autenticado";
+
+      return true;
+
+    } catch (erro) {
+
+      mostrarMensagem(
+        "Erro ao verificar login: " + erro.message,
+        true
+      );
+
+      return false;
+    }
+  }
 
 
-        if (!resposta.ok) {
+  /* =========================
+     LOJA
+  ========================= */
 
-            localStorage.removeItem(
-                "vibe_access_token"
-            );
+  function irParaLoja() {
 
-            localStorage.removeItem(
-                "vibe_refresh_token"
-            );
+    window.location.href =
+      "https://vibe-kicks.vercel.app/";
 
-            localStorage.removeItem(
-                "vibe_user_email"
-            );
+  }
 
-            window.location.replace(
-                "login.html"
-            );
 
-            return false;
+  /* =========================
+     SAIR
+  ========================= */
+
+  function sair() {
+
+    localStorage.removeItem("vibe_access_token");
+    localStorage.removeItem("vibe_refresh_token");
+    localStorage.removeItem("vibe_user_email");
+
+    window.location.replace("login.html");
+
+  }
+
+
+  /* =========================
+     MENSAGENS
+  ========================= */
+
+  function mostrarMensagem(texto, erro) {
+
+    var elemento =
+      document.getElementById("mensagem");
+
+    elemento.style.display = "block";
+
+    elemento.className =
+      erro ? "erro" : "sucesso";
+
+    elemento.textContent = texto;
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  }
+
+
+  function esconderMensagem() {
+
+    var elemento =
+      document.getElementById("mensagem");
+
+    elemento.style.display = "none";
+
+  }
+
+
+  /* =========================
+     ESCAPAR HTML
+  ========================= */
+
+  function escaparHTML(valor) {
+
+    if (valor === null || valor === undefined) {
+      return "";
+    }
+
+    return String(valor)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  /* =========================
+     CARREGAR PRODUTOS
+  ========================= */
+
+  async function carregarProdutos() {
+
+    var lista =
+      document.getElementById("listaProdutos");
+
+    lista.innerHTML =
+      '<div class="carregando">⏳ Carregando produtos...</div>';
+
+    try {
+
+      var controlador =
+        new AbortController();
+
+      var timeout =
+        setTimeout(function() {
+          controlador.abort();
+        }, 10000);
+
+
+      var resposta = await fetch(
+        SUPABASE_URL +
+        "/rest/v1/products?select=*&order=id.asc",
+        {
+          method: "GET",
+
+          headers: {
+            "apikey": SUPABASE_KEY,
+            "Authorization": "Bearer " + accessToken
+          },
+
+          signal: controlador.signal
+        }
+      );
+
+
+      clearTimeout(timeout);
+
+
+      if (!resposta.ok) {
+
+        var textoErro =
+          await resposta.text();
+
+        throw new Error(
+          "Erro " +
+          resposta.status +
+          ": " +
+          textoErro
+        );
+      }
+
+
+      var produtos =
+        await resposta.json();
+
+
+      if (!Array.isArray(produtos)) {
+
+        throw new Error(
+          "A resposta do Supabase não é uma lista de produtos."
+        );
+
+      }
+
+
+      if (produtos.length === 0) {
+
+        lista.innerHTML =
+          '<div class="vazio">' +
+          '📦 Nenhum produto cadastrado ainda.' +
+          '</div>';
+
+        return;
+      }
+
+
+      lista.innerHTML = "";
+
+
+      produtos.forEach(function(produto) {
+
+        var div =
+          document.createElement("div");
+
+        div.className = "produto";
+
+
+        var imagem =
+          produto.image ||
+          "https://via.placeholder.com/300x300?text=Sem+foto";
+
+
+        var preco =
+          produto.price !== null &&
+          produto.price !== undefined
+            ? Number(produto.price).toFixed(2).replace(".", ",")
+            : "0,00";
+
+
+        var precoAntigo = "";
+
+        if (
+          produto.Old !== null &&
+          produto.Old !== undefined &&
+          produto.Old !== ""
+        ) {
+
+          precoAntigo =
+            Number(produto.Old)
+              .toFixed(2)
+              .replace(".", ",");
+
         }
 
 
-        const usuario =
-            await resposta.json();
+        div.innerHTML = `
+
+          <img
+            src="${escaparHTML(imagem)}"
+            alt="${escaparHTML(produto.name)}"
+            onerror="this.src='https://via.placeholder.com/300x300?text=Sem+foto'"
+          >
+
+          <div class="produto-info">
+
+            <h3>
+              ${escaparHTML(produto.name)}
+            </h3>
+
+            <p>
+              💰 Preço:
+              <strong>R$ ${preco}</strong>
+            </p>
+
+            ${
+              precoAntigo
+                ? `<p>🏷️ Preço antigo: R$ ${precoAntigo}</p>`
+                : ""
+            }
+
+            <p>
+              📂 Categoria:
+              ${escaparHTML(produto.Cat || "-")}
+            </p>
+
+            <p>
+              🔖 Tag:
+              ${escaparHTML(produto.Tag || "-")}
+            </p>
+
+          </div>
+
+          <div class="produto-botoes">
+
+            <button
+              type="button"
+              class="btn-editar"
+              onclick="editarProduto(${Number(produto.id)})"
+            >
+              ✏️ EDITAR
+            </button>
+
+            <button
+              type="button"
+              class="btn-excluir"
+              onclick="excluirProduto(${Number(produto.id)})"
+            >
+              🗑️ EXCLUIR
+            </button>
+
+          </div>
+
+        `;
 
 
-        document.getElementById(
-            "usuario"
-        ).textContent =
-            usuario.email || "";
+        lista.appendChild(div);
+
+      });
 
 
-        return true;
+      window.produtosCarregados =
+        produtos;
 
 
     } catch (erro) {
 
-        console.error(erro);
+      console.error(erro);
 
-        window.location.replace(
-            "login.html"
-        );
+      var mensagemErro =
+        erro.name === "AbortError"
+          ? "O carregamento demorou demais. Verifique sua internet ou o Supabase."
+          : erro.message;
 
-        return false;
+
+      lista.innerHTML = `
+
+        <div class="erro-lista">
+
+          ❌ Não foi possível carregar os produtos.
+
+          <br><br>
+
+          ${escaparHTML(mensagemErro)}
+
+          <br>
+
+          <button
+            type="button"
+            class="btn-tentar"
+            onclick="carregarProdutos()"
+          >
+            🔄 TENTAR NOVAMENTE
+          </button>
+
+        </div>
+
+      `;
+
     }
-}
+
+  }
 
 
+  /* =========================
+     PREVIEW DA FOTO
+  ========================= */
 
-/* ============================
-   MENSAGEM
-============================ */
+  document
+    .getElementById("foto")
+    .addEventListener("change", function() {
 
-function mostrarMensagem(
-    texto,
-    erro = false
-) {
+      var arquivo =
+        this.files[0];
 
-    const elemento =
-        document.getElementById(
-            "mensagem"
+      var preview =
+        document.getElementById("preview");
+
+
+      if (!arquivo) {
+
+        preview.style.display = "none";
+        preview.src = "";
+
+        return;
+      }
+
+
+      if (!arquivo.type.startsWith("image/")) {
+
+        mostrarMensagem(
+          "Escolha uma imagem válida.",
+          true
         );
 
+        this.value = "";
 
-    elemento.style.display =
-        "block";
-
-    elemento.textContent =
-        texto;
+        return;
+      }
 
 
-    if (erro) {
-
-        elemento.style.background =
-            "#5b1b1b";
-
-    } else {
-
-        elemento.style.background =
-            "#234d23";
-    }
-}
+      var leitor =
+        new FileReader();
 
 
+      leitor.onload = function(e) {
 
-/* ============================
-   PREVIEW FOTO
-============================ */
+        preview.src =
+          e.target.result;
 
-document
-.getElementById("foto")
-.addEventListener(
-    "change",
-    function() {
+        preview.style.display =
+          "block";
 
-        const arquivo =
-            this.files[0];
+      };
 
 
-        if (!arquivo) {
+      leitor.readAsDataURL(arquivo);
 
-            document.getElementById(
-                "preview"
-            ).style.display =
-                "none";
-
-            return;
-        }
+    });
 
 
-        const leitor =
-            new FileReader();
+  /* =========================
+     ENVIAR FOTO
+  ========================= */
 
+  async function enviarFoto() {
 
-        leitor.onload =
-            function(evento) {
+    var input =
+      document.getElementById("foto");
 
-                document.getElementById(
-                    "previewImg"
-                ).src =
-                    evento.target.result;
-
-                document.getElementById(
-                    "preview"
-                ).style.display =
-                    "block";
-            };
-
-
-        leitor.readAsDataURL(
-            arquivo
-        );
-    }
-);
-
-
-
-/* ============================
-   ENVIAR FOTO
-============================ */
-
-async function enviarFoto() {
-
-    const input =
-        document.getElementById(
-            "foto"
-        );
-
-
-    const arquivo =
-        input.files[0];
+    var arquivo =
+      input.files[0];
 
 
     if (!arquivo) {
 
-        return imagemAtual || "";
+      return imagemAtual || "";
+
     }
 
 
-    if (
-        !arquivo.type.startsWith(
-            "image/"
-        )
-    ) {
+    if (!arquivo.type.startsWith("image/")) {
 
-        throw new Error(
-            "Escolha uma imagem válida."
-        );
+      throw new Error(
+        "Escolha uma imagem válida."
+      );
+
     }
 
 
-    if (
-        arquivo.size >
-        6 * 1024 * 1024
-    ) {
+    if (arquivo.size > 6 * 1024 * 1024) {
 
-        throw new Error(
-            "A foto deve ter no máximo 6 MB."
-        );
+      throw new Error(
+        "A foto deve ter no máximo 6 MB."
+      );
+
     }
 
 
-    const nomeOriginal =
-        arquivo.name.replace(
-            /[^a-zA-Z0-9._-]/g,
-            "-"
-        );
+    var nomeOriginal =
+      arquivo.name
+        .replace(/[^a-zA-Z0-9._-]/g, "-");
 
 
-    const nomeArquivo =
-        Date.now() +
-        "-" +
-        nomeOriginal;
+    var nomeArquivo =
+      Date.now() + "-" + nomeOriginal;
 
 
-    const resposta =
-        await fetch(
+    var resposta =
+      await fetch(
+        SUPABASE_URL +
+        "/storage/v1/object/" +
+        BUCKET +
+        "/" +
+        nomeArquivo,
+        {
 
-            SUPABASE_URL +
-            "/storage/v1/object/" +
-            BUCKET +
-            "/" +
-            nomeArquivo,
+          method: "POST",
 
-            {
-                method: "POST",
+          headers: {
 
-                headers: {
-                    "apikey":
-                        SUPABASE_KEY,
+            "apikey": SUPABASE_KEY,
 
-                    "Authorization":
-                        "Bearer " +
-                        accessToken,
+            "Authorization":
+              "Bearer " + accessToken,
 
-                    "Content-Type":
-                        arquivo.type,
+            "Content-Type":
+              arquivo.type,
 
-                    "x-upsert":
-                        "true"
-                },
+            "x-upsert":
+              "true"
 
-                body:
-                    arquivo
-            }
-        );
+          },
+
+          body: arquivo
+
+        }
+      );
 
 
     if (!resposta.ok) {
 
-        const erro =
-            await resposta.text();
+      var erro =
+        await resposta.text();
 
-        console.error(
-            "Erro no upload:",
-            erro
-        );
+      throw new Error(
+        "Erro ao enviar foto: " +
+        erro
+      );
 
-        throw new Error(
-            "Erro ao enviar foto: " +
-            erro
-        );
     }
 
 
     return (
-        SUPABASE_URL +
-        "/storage/v1/object/public/" +
-        BUCKET +
-        "/" +
-        nomeArquivo
+      SUPABASE_URL +
+      "/storage/v1/object/public/" +
+      BUCKET +
+      "/" +
+      nomeArquivo
     );
-}
+
+  }
 
 
+  /* =========================
+     SALVAR PRODUTO
+  ========================= */
 
-/* ============================
-   SALVAR PRODUTO
-============================ */
+  async function salvarProduto(evento) {
 
-async function salvarProduto(
-    evento
-) {
-
-    evento.preventDefault();
+    if (evento) {
+      evento.preventDefault();
+    }
 
 
-    const botao =
-        document.getElementById(
-            "salvarBtn"
-        );
+    esconderMensagem();
+
+
+    var btn =
+      document.getElementById("btnSalvar");
+
+
+    btn.disabled = true;
+
+    btn.textContent =
+      "⏳ SALVANDO...";
 
 
     try {
 
-        botao.disabled = true;
-
-        botao.textContent =
-            "⏳ SALVANDO...";
-
-
-        const nome =
-            document.getElementById(
-                "nome"
-            ).value.trim();
+      var nome =
+        document
+          .getElementById("nome")
+          .value
+          .trim();
 
 
-        const preco =
-            document.getElementById(
-                "preco"
-            ).value;
+      var preco =
+        document
+          .getElementById("preco")
+          .value;
 
 
-        const categoria =
-            document.getElementById(
-                "categoria"
-            ).value.trim();
+      var precoAntigo =
+        document
+          .getElementById("precoAntigo")
+          .value;
 
 
-        const precoAntigo =
-            document.getElementById(
-                "precoAntigo"
-            ).value;
+      var categoria =
+        document
+          .getElementById("categoria")
+          .value
+          .trim();
 
 
-        const tag =
-            document.getElementById(
-                "tag"
-            ).value.trim();
+      var tag =
+        document
+          .getElementById("tag")
+          .value
+          .trim();
 
 
-        if (!nome) {
+      if (!nome) {
 
-            throw new Error(
-                "Digite o nome do produto."
-            );
-        }
-
-
-        if (!preco) {
-
-            throw new Error(
-                "Digite o preço."
-            );
-        }
-
-
-        mostrarMensagem(
-            "⏳ Salvando produto..."
+        throw new Error(
+          "Digite o nome do produto."
         );
 
-
-        const imagem =
-            await enviarFoto();
+      }
 
 
-        const produto = {
+      if (!preco) {
 
-            name: nome,
-
-            price:
-                Number(preco),
-
-            Cat:
-                categoria,
-
-            Old:
-                precoAntigo === ""
-                ? null
-                : Number(precoAntigo),
-
-            Tag:
-                tag,
-
-            image:
-                imagem
-        };
-
-
-        let resposta;
-
-
-        /* EDITAR */
-
-        if (produtoEditando) {
-
-            resposta =
-                await fetch(
-
-                    SUPABASE_URL +
-                    "/rest/v1/products?id=eq." +
-                    produtoEditando,
-
-                    {
-                        method:
-                            "PATCH",
-
-                        headers: {
-
-                            "apikey":
-                                SUPABASE_KEY,
-
-                            "Authorization":
-                                "Bearer " +
-                                accessToken,
-
-                            "Content-Type":
-                                "application/json",
-
-                            "Prefer":
-                                "return=representation"
-                        },
-
-                        body:
-                            JSON.stringify(
-                                produto
-                            )
-                    }
-                );
-
-        }
-
-
-        /* ADICIONAR */
-
-        else {
-
-            resposta =
-                await fetch(
-
-                    SUPABASE_URL +
-                    "/rest/v1/products",
-
-                    {
-                        method:
-                            "POST",
-
-                        headers: {
-
-                            "apikey":
-                                SUPABASE_KEY,
-
-                            "Authorization":
-                                "Bearer " +
-                                accessToken,
-
-                            "Content-Type":
-                                "application/json",
-
-                            "Prefer":
-                                "return=representation"
-                        },
-
-                        body:
-                            JSON.stringify(
-                                produto
-                            )
-                    }
-                );
-        }
-
-
-        if (!resposta.ok) {
-
-            const erro =
-                await resposta.text();
-
-            console.error(
-                erro
-            );
-
-            throw new Error(
-                erro ||
-                "Erro ao salvar produto."
-            );
-        }
-
-
-        mostrarMensagem(
-            produtoEditando
-            ? "✅ Produto atualizado!"
-            : "✅ Produto cadastrado!"
+        throw new Error(
+          "Digite o preço do produto."
         );
 
+      }
 
-        limparFormulario();
+
+      var imagem =
+        await enviarFoto();
 
 
-        /*
-         * IMPORTANTE:
-         * Atualiza a lista sem travar
-         */
+      var produto = {
 
-        await carregarProdutos();
+        name: nome,
+
+        price: Number(preco),
+
+        Cat: categoria,
+
+        Old:
+          precoAntigo === ""
+            ? null
+            : Number(precoAntigo),
+
+        Tag: tag,
+
+        image: imagem
+
+      };
+
+
+      var resposta;
+
+
+      if (produtoEditando) {
+
+        resposta =
+          await fetch(
+            SUPABASE_URL +
+            "/rest/v1/products?id=eq." +
+            produtoEditando,
+            {
+
+              method: "PATCH",
+
+              headers: {
+
+                "apikey": SUPABASE_KEY,
+
+                "Authorization":
+                  "Bearer " + accessToken,
+
+                "Content-Type":
+                  "application/json",
+
+                "Prefer":
+                  "return=representation"
+
+              },
+
+              body:
+                JSON.stringify(produto)
+
+            }
+          );
+
+      } else {
+
+        resposta =
+          await fetch(
+            SUPABASE_URL +
+            "/rest/v1/products",
+            {
+
+              method: "POST",
+
+              headers: {
+
+                "apikey": SUPABASE_KEY,
+
+                "Authorization":
+                  "Bearer " + accessToken,
+
+                "Content-Type":
+                  "application/json",
+
+                "Prefer":
+                  "return=representation"
+
+              },
+
+              body:
+                JSON.stringify(produto)
+
+            }
+          );
+
+      }
+
+
+      if (!resposta.ok) {
+
+        var erroTexto =
+          await resposta.text();
+
+        throw new Error(
+          "Erro do Supabase: " +
+          resposta.status +
+          " - " +
+          erroTexto
+        );
+
+      }
+
+
+      mostrarMensagem(
+        produtoEditando
+          ? "✅ Produto atualizado com sucesso!"
+          : "✅ Produto cadastrado com sucesso!",
+        false
+      );
+
+
+      limparFormulario();
+
+
+      /* 
+         Não deixa a tela presa no "salvando".
+         O produto é salvo primeiro e depois
+         a lista é atualizada.
+      */
+
+      carregarProdutos();
 
 
     } catch (erro) {
 
-        console.error(erro);
+      console.error(erro);
 
-        mostrarMensagem(
-            "❌ " +
-            (
-                erro.message ||
-                "Erro ao salvar."
-            ),
-            true
-        );
-
+      mostrarMensagem(
+        "❌ " + erro.message,
+        true
+      );
 
     } finally {
 
-        botao.disabled =
-            false;
+      btn.disabled = false;
 
-        botao.textContent =
-            produtoEditando
-            ? "ATUALIZAR PRODUTO"
-            : "SALVAR PRODUTO";
+      btn.textContent =
+        "💾 SALVAR PRODUTO";
+
     }
 
-}
+  }
 
 
+  /* =========================
+     EDITAR PRODUTO
+  ========================= */
 
-/* ============================
-   FORMULÁRIO
-============================ */
+  function editarProduto(id) {
 
-document
-.getElementById("produtoForm")
-.addEventListener(
-    "submit",
-    salvarProduto
-);
+    var produtos =
+      window.produtosCarregados || [];
 
 
+    var produto =
+      produtos.find(function(item) {
 
-/* ============================
-   CARREGAR PRODUTOS
-============================ */
+        return Number(item.id) === Number(id);
 
-async function carregarProdutos() {
-
-    const lista =
-        document.getElementById(
-            "listaProdutos"
-        );
+      });
 
 
-    lista.innerHTML =
-        '<div class="carregando">⏳ Carregando produtos...</div>';
+    if (!produto) {
+
+      mostrarMensagem(
+        "Produto não encontrado.",
+        true
+      );
+
+      return;
+
+    }
 
 
-    try {
-
-        const resposta =
-            await fetch(
-
-                SUPABASE_URL +
-                "/rest/v1/products?select=*&order=id.asc",
-
-                {
-                    method: "GET",
-
-                    headers: {
-
-                        "apikey":
-                            SUPABASE_KEY,
-
-                        "Authorization":
-                            "Bearer " +
-                            accessToken,
-
-                        "Content-Type":
-                            "application/json"
-                    }
-                }
-            );
+    produtoEditando =
+      produto.id;
 
 
-        if (!resposta.ok) {
-
-            const erro =
-                await resposta.text();
-
-            throw new Error(
-                erro
-            );
-        }
+    document.getElementById("nome").value =
+      produto.name || "";
 
 
-        const produtos =
-            await resposta.json();
+    document.getElementById("preco").value =
+      produto.price || "";
 
 
-        lista.innerHTML = "";
+    document.getElementById("precoAntigo").value =
+      produto.Old || "";
 
 
-        if (
-            !Array.isArray(produtos) ||
-            produtos.length === 0
-        ) {
-
-            lista.innerHTML =
-                "<p>Nenhum produto cadastrado.</p>";
-
-            return;
-        }
+    document.getElementById("categoria").value =
+      produto.Cat || "";
 
 
-        produtos.forEach(
-            function(produto) {
-
-                const div =
-                    document.createElement(
-                        "div"
-                    );
+    document.getElementById("tag").value =
+      produto.Tag || "";
 
 
-                div.className =
-                    "produto";
+    imagemAtual =
+      produto.image || "";
 
 
-                const imagem =
-                    produto.image ||
-                    "";
+    document.getElementById(
+      "tituloFormulario"
+    ).textContent =
+      "✏️ Editando produto";
 
 
-                const preco =
-                    Number(
-                        produto.price || 0
-                    ).toLocaleString(
-                        "pt-BR",
-                        {
-                            style:
-                                "currency",
-                            currency:
-                                "BRL"
-                        }
-                    );
+    document.getElementById(
+      "btnSalvar"
+    ).textContent =
+      "💾 ATUALIZAR PRODUTO";
 
 
-                let precoAntigo =
-                    "";
+    document.getElementById(
+      "btnCancelar"
+    ).style.display =
+      "block";
 
 
-                if (
-                    produto.Old !== null &&
-                    produto.Old !== undefined &&
-                    produto.Old !== ""
-                ) {
-
-                    precoAntigo =
-                        Number(
-                            produto.Old
-                        ).toLocaleString(
-                            "pt-BR",
-                            {
-                                style:
-                                    "currency",
-                                currency:
-                                    "BRL"
-                            }
-                        );
-                }
-
-
-                div.innerHTML = `
-
-                    <img
-                        src="${escaparHTML(imagem)}"
-                        alt=""
-                        onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27100%27 height=%27100%27%3E%3Crect width=%27100%27 height=%27100%27 fill=%27%23333%27/%3E%3C/svg%3E'"
-                    >
-
-                    <div class="produto-info">
-
-                        <h3>
-                            ${escaparHTML(
-                                produto.name || ""
-                            )}
-                        </h3>
-
-                        <p>
-                            ${escaparHTML(
-                                produto.Cat || ""
-                            )}
-                        </p>
-
-                        <p>
-                            <strong>
-                                ${preco}
-    
+    var preview =
+      doc
