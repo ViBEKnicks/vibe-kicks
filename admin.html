@@ -7,38 +7,72 @@
 <title>Painel Vibe Kicks</title>
 
 <style>
+
+:root{
+--bg:#090909;
+--card:#151515;
+--accent:#f2a900;
+--text:#fff;
+--muted:#999;
+--line:#292929;
+--green:#25d366;
+--red:#ff5555;
+}
+
+*{
+box-sizing:border-box;
+}
+
 body{
 margin:0;
-background:#090909;
-color:#fff;
-font-family:Arial,sans-serif;
+background:var(--bg);
+color:var(--text);
+font-family:Arial,Helvetica,sans-serif;
 padding:20px;
 }
 
 .container{
-max-width:600px;
+max-width:700px;
 margin:auto;
 }
 
-h1{
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
 margin-bottom:25px;
+gap:15px;
 }
 
-button{
-background:#f2a900;
+h1{
+margin:0;
+font-size:28px;
+}
+
+.voltar{
+color:var(--accent);
+text-decoration:none;
+font-weight:bold;
+}
+
+.add-button{
+width:100%;
+background:var(--accent);
 color:#000;
 border:0;
-padding:14px 20px;
-border-radius:8px;
-font-weight:bold;
+padding:15px;
+border-radius:9px;
+font-size:16px;
+font-weight:900;
 cursor:pointer;
 }
 
 .form{
 display:none;
-background:#151515;
-padding:20px;
-border-radius:12px;
+background:var(--card);
+border:1px solid var(--line);
+padding:22px;
+border-radius:14px;
 margin-top:20px;
 }
 
@@ -46,33 +80,122 @@ margin-top:20px;
 display:block;
 }
 
+h2{
+margin-top:0;
+}
+
 label{
 display:block;
-margin-top:15px;
-margin-bottom:6px;
+margin-top:16px;
+margin-bottom:7px;
 font-weight:bold;
 }
 
-input,select{
+input,
+select{
 width:100%;
-padding:12px;
-box-sizing:border-box;
+padding:13px;
 background:#222;
 border:1px solid #444;
-border-radius:7px;
+border-radius:8px;
 color:#fff;
+font-size:15px;
+outline:none;
+}
+
+input:focus,
+select:focus{
+border-color:var(--accent);
 }
 
 .salvar{
-margin-top:20px;
 width:100%;
+margin-top:22px;
+padding:15px;
+background:var(--green);
+color:#000;
+border:0;
+border-radius:9px;
+font-weight:900;
+font-size:15px;
+cursor:pointer;
 }
 
-.voltar{
-display:inline-block;
-margin-top:20px;
-color:#f2a900;
+.cancelar{
+width:100%;
+margin-top:10px;
+padding:12px;
+background:#292929;
+color:#fff;
+border:0;
+border-radius:9px;
+font-weight:bold;
+cursor:pointer;
 }
+
+.status{
+margin-top:18px;
+padding:14px;
+border-radius:8px;
+display:none;
+line-height:1.5;
+}
+
+.status.show{
+display:block;
+}
+
+.produtos{
+margin-top:30px;
+}
+
+.produto{
+background:var(--card);
+border:1px solid var(--line);
+border-radius:12px;
+padding:15px;
+margin-bottom:12px;
+}
+
+.produto-nome{
+font-size:18px;
+font-weight:bold;
+}
+
+.produto-info{
+color:var(--muted);
+font-size:14px;
+margin-top:6px;
+}
+
+.tag{
+display:inline-block;
+background:var(--accent);
+color:#000;
+padding:4px 7px;
+border-radius:5px;
+font-size:11px;
+font-weight:bold;
+margin-top:8px;
+}
+
+@media(max-width:500px){
+
+body{
+padding:15px;
+}
+
+h1{
+font-size:23px;
+}
+
+header{
+align-items:flex-start;
+flex-direction:column;
+}
+
+}
+
 </style>
 </head>
 
@@ -80,87 +203,600 @@ color:#f2a900;
 
 <div class="container">
 
-<h1>⚡ Painel VIBE KICKS</h1>
+<header>
 
-<button onclick="abrirFormulario()">
-➕ ADICIONAR PRODUTO
-</button>
-
-<div class="form" id="formulario">
-
-<h2>Novo produto</h2>
-
-<label>Nome do tênis</label>
-<input id="nome" type="text" placeholder="Ex: Nike Air Max">
-
-<label>Preço</label>
-<input id="preco" type="number" step="0.01" placeholder="299.90">
-
-<label>Preço antigo</label>
-<input id="precoAntigo" type="number" step="0.01" placeholder="349.90">
-
-<label>Categoria</label>
-
-<select id="categoria">
-<option value="masculino">Masculino</option>
-<option value="feminino">Feminino</option>
-</select>
-
-<label>Etiqueta</label>
-
-<select id="tag">
-<option value="">Nenhuma</option>
-<option value="OFERTA">OFERTA</option>
-<option value="NOVO">NOVO</option>
-</select>
-
-<label>URL da imagem</label>
-<input id="imagem" type="text" placeholder="https://...">
-
-<button class="salvar" onclick="salvarProduto()">
-💾 SALVAR PRODUTO
-</button>
-
-</div>
+<h1>⚡ VIBE KICKS</h1>
 
 <a class="voltar" href="/">
-← Voltar para a loja
+← Loja
 </a>
+
+</header>
+
+
+<button
+class="add-button"
+onclick="abrirFormulario()">
+
+➕ ADICIONAR PRODUTO
+
+</button>
+
+
+<div
+class="form"
+id="formulario">
+
+<h2>📦 Novo produto</h2>
+
+
+<label for="nome">
+Nome do tênis
+</label>
+
+<input
+id="nome"
+type="text"
+placeholder="Ex: Nike Air Max"
+>
+
+
+<label for="preco">
+Preço
+</label>
+
+<input
+id="preco"
+type="number"
+step="0.01"
+placeholder="299.90"
+>
+
+
+<label for="precoAntigo">
+Preço antigo
+</label>
+
+<input
+id="precoAntigo"
+type="number"
+step="0.01"
+placeholder="349.90"
+>
+
+
+<label for="categoria">
+Categoria
+</label>
+
+<select id="categoria">
+
+<option value="masculino">
+Masculino
+</option>
+
+<option value="feminino">
+Feminino
+</option>
+
+</select>
+
+
+<label for="tag">
+Etiqueta
+</label>
+
+<select id="tag">
+
+<option value="">
+Nenhuma
+</option>
+
+<option value="OFERTA">
+OFERTA
+</option>
+
+<option value="NOVO">
+NOVO
+</option>
+
+</select>
+
+
+<label for="imagem">
+URL da imagem
+</label>
+
+<input
+id="imagem"
+type="url"
+placeholder="https://..."
+>
+
+
+<button
+class="salvar"
+id="botaoSalvar"
+onclick="salvarProduto()">
+
+💾 SALVAR PRODUTO
+
+</button>
+
+
+<button
+class="cancelar"
+onclick="fecharFormulario()">
+
+CANCELAR
+
+</button>
+
+
+<div
+class="status"
+id="status">
+</div>
 
 </div>
 
+
+<div class="produtos">
+
+<h2>📋 Produtos cadastrados</h2>
+
+<div id="listaProdutos">
+Carregando produtos...
+</div>
+
+</div>
+
+
+</div>
+
+
 <script>
+
+/* =================================
+   SUPABASE
+================================= */
+
+const SUPABASE_URL =
+'https://ravaircmbkotndfghilq.supabase.co';
+
+const SUPABASE_KEY =
+'sb_publishable_yL40T2sEFQBtKwISbLrY9Q_EHqvb23C';
+
+
+/* =================================
+   ABRIR FORMULÁRIO
+================================= */
 
 function abrirFormulario(){
 
 document
-.getElementById("formulario")
-.classList.toggle("show");
+.getElementById('formulario')
+.classList.add('show');
+
+window.scrollTo({
+top:0,
+behavior:'smooth'
+});
 
 }
 
 
-function salvarProduto(){
+/* =================================
+   FECHAR FORMULÁRIO
+================================= */
+
+function fecharFormulario(){
+
+document
+.getElementById('formulario')
+.classList.remove('show');
+
+}
+
+
+/* =================================
+   STATUS
+================================= */
+
+function mostrarStatus(
+mensagem,
+tipo
+){
+
+const status =
+document.getElementById('status');
+
+status.innerHTML =
+mensagem;
+
+status.className =
+'status show';
+
+
+if(tipo === 'erro'){
+
+status.style.background =
+'#351515';
+
+status.style.color =
+'#ff7777';
+
+}else{
+
+status.style.background =
+'#15351f';
+
+status.style.color =
+'#7cff9b';
+
+}
+
+}
+
+
+/* =================================
+   SALVAR PRODUTO
+================================= */
+
+async function salvarProduto(){
+
+const botao =
+document.getElementById(
+'botaoSalvar'
+);
+
 
 const nome =
-document.getElementById("nome").value.trim();
+document.getElementById(
+'nome'
+).value.trim();
+
 
 const preco =
-document.getElementById("preco").value;
+document.getElementById(
+'preco'
+).value;
 
-if(!nome || !preco){
 
-alert("Preencha o nome e o preço.");
+const precoAntigo =
+document.getElementById(
+'precoAntigo'
+).value;
+
+
+const categoria =
+document.getElementById(
+'categoria'
+).value;
+
+
+const tag =
+document.getElementById(
+'tag'
+).value;
+
+
+const imagem =
+document.getElementById(
+'imagem'
+).value.trim();
+
+
+/* Validação */
+
+if(!nome){
+
+mostrarStatus(
+'❌ Digite o nome do tênis.',
+'erro'
+);
 
 return;
 
 }
 
-alert(
-"Formulário funcionando! Agora vamos conectar ao Supabase."
+
+if(!preco){
+
+mostrarStatus(
+'❌ Digite o preço do tênis.',
+'erro'
+);
+
+return;
+
+}
+
+
+/* Botão */
+
+botao.disabled = true;
+
+botao.textContent =
+'⏳ SALVANDO...';
+
+
+try{
+
+const resposta =
+await fetch(
+SUPABASE_URL +
+'/rest/v1/products',
+{
+
+method:'POST',
+
+headers:{
+
+'apikey':
+SUPABASE_KEY,
+
+'Authorization':
+'Bearer ' +
+SUPABASE_KEY,
+
+'Content-Type':
+'application/json',
+
+'Prefer':
+'return=representation'
+
+},
+
+body:JSON.stringify({
+
+Name:nome,
+
+price:Number(preco),
+
+old:
+precoAntigo
+?
+Number(precoAntigo)
+:
+null,
+
+cat:categoria,
+
+tag:tag,
+
+image:imagem
+
+})
+
+}
+);
+
+
+/* Verifica erro */
+
+if(!resposta.ok){
+
+const erro =
+await resposta.text();
+
+throw new Error(erro);
+
+}
+
+
+/* Sucesso */
+
+mostrarStatus(
+'✅ Produto cadastrado com sucesso!',
+'sucesso'
+);
+
+
+/* Limpar */
+
+document.getElementById(
+'nome'
+).value='';
+
+document.getElementById(
+'preco'
+).value='';
+
+document.getElementById(
+'precoAntigo'
+).value='';
+
+document.getElementById(
+'imagem'
+).value='';
+
+document.getElementById(
+'categoria'
+).value='masculino';
+
+document.getElementById(
+'tag'
+).value='';
+
+
+/* Atualizar lista */
+
+carregarProdutos();
+
+
+}catch(erro){
+
+console.error(
+'Erro ao salvar:',
+erro
+);
+
+mostrarStatus(
+'❌ Erro ao salvar produto.<br><br>' +
+erro.message,
+'erro'
 );
 
 }
+
+
+/* Liberar botão */
+
+botao.disabled = false;
+
+botao.textContent =
+'💾 SALVAR PRODUTO';
+
+}
+
+
+/* =================================
+   CARREGAR PRODUTOS
+================================= */
+
+async function carregarProdutos(){
+
+const lista =
+document.getElementById(
+'listaProdutos'
+);
+
+lista.innerHTML =
+'Carregando produtos...';
+
+
+try{
+
+const resposta =
+await fetch(
+SUPABASE_URL +
+'/rest/v1/products?select=*&order=id.asc',
+{
+
+method:'GET',
+
+headers:{
+
+'apikey':
+SUPABASE_KEY,
+
+'Authorization':
+'Bearer ' +
+SUPABASE_KEY
+
+}
+
+}
+);
+
+
+if(!resposta.ok){
+
+const erro =
+await resposta.text();
+
+throw new Error(erro);
+
+}
+
+
+const produtos =
+await resposta.json();
+
+
+if(!produtos.length){
+
+lista.innerHTML =
+'<p style="color:#999">Nenhum produto cadastrado.</p>';
+
+return;
+
+}
+
+
+lista.innerHTML =
+produtos.map(
+produto => {
+
+const nome =
+produto.Name ||
+produto.name ||
+'Produto sem nome';
+
+
+const preco =
+Number(
+produto.price || 0
+).toLocaleString(
+'pt-BR',
+{
+style:'currency',
+currency:'BRL'
+}
+);
+
+
+return `
+
+<div class="produto">
+
+<div class="produto-nome">
+${nome}
+</div>
+
+<div class="produto-info">
+💰 ${preco}
+</div>
+
+<div class="produto-info">
+📂 ${
+produto.cat ||
+'Sem categoria'
+}
+</div>
+
+${
+produto.tag
+?
+`<span class="tag">
+${produto.tag}
+</span>`
+:
+''
+}
+
+</div>
+
+`;
+
+}
+).join('');
+
+
+}catch(erro){
+
+console.error(
+'Erro ao carregar:',
+erro
+);
+
+lista.innerHTML = `
+<p style="color:#ff7777">
+❌ Não foi possível carregar os produtos.
+</p>
+`;
+
+}
+
+}
+
+
+/* =================================
+   INICIAR
+================================= */
+
+carregarProdutos();
 
 </script>
 
