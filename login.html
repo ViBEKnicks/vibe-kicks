@@ -1,253 +1,289 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>VIBE KICKS - Login</title>
+  <title>VIBE KICKS - Login</title>
 
-<style>
-*{
-  box-sizing:border-box;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-body{
-  margin:0;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#0b0b0b;
-  color:white;
-  padding:20px;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
 
-.login{
-  width:100%;
-  max-width:400px;
-  background:#151515;
-  border:1px solid #333;
-  border-radius:15px;
-  padding:30px;
-  box-shadow:0 10px 40px rgba(0,0,0,.5);
-}
+    .login {
+      width: 100%;
+      max-width: 400px;
+      background: #1c1c1c;
+      padding: 30px;
+      border-radius: 15px;
+      border: 1px solid #333;
+      box-shadow: 0 10px 30px rgba(0,0,0,.4);
+    }
 
-.logo{
-  text-align:center;
-  font-size:30px;
-  font-weight:bold;
-  color:#ffb000;
-  margin-bottom:10px;
-}
+    h1 {
+      text-align: center;
+      color: #f5b400;
+      margin-top: 0;
+    }
 
-.subtitulo{
-  text-align:center;
-  color:#aaa;
-  margin-bottom:30px;
-}
+    p {
+      text-align: center;
+      color: #aaa;
+    }
 
-label{
-  display:block;
-  margin-bottom:7px;
-  font-weight:bold;
-}
+    label {
+      display: block;
+      margin-top: 18px;
+      margin-bottom: 7px;
+      font-weight: bold;
+    }
 
-input{
-  width:100%;
-  padding:14px;
-  margin-bottom:18px;
-  border-radius:8px;
-  border:1px solid #444;
-  background:#222;
-  color:white;
-  font-size:16px;
-}
+    input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background: #111;
+      color: white;
+      font-size: 16px;
+    }
 
-button{
-  width:100%;
-  padding:15px;
-  border:0;
-  border-radius:8px;
-  background:#ffb000;
-  color:#000;
-  font-size:17px;
-  font-weight:bold;
-  cursor:pointer;
-}
+    button {
+      width: 100%;
+      margin-top: 22px;
+      padding: 15px;
+      border: 0;
+      border-radius: 8px;
+      background: #f5b400;
+      color: #111;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-button:disabled{
-  opacity:.6;
-}
+    button:disabled {
+      opacity: .6;
+    }
 
-.erro{
-  display:none;
-  background:#7f1d1d;
-  color:#fecaca;
-  padding:12px;
-  border-radius:8px;
-  margin-bottom:15px;
-  text-align:center;
-}
-
-</style>
+    #mensagem {
+      display: none;
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #7f1d1d;
+      color: #fecaca;
+      text-align: center;
+      word-break: break-word;
+    }
+  </style>
 </head>
 
 <body>
 
 <div class="login">
 
-  <div class="logo">
-    VIBE KICKS
-  </div>
+  <h1>👟 VIBE KICKS</h1>
 
-  <div class="subtitulo">
-    Acesso administrativo
-  </div>
+  <p>Área administrativa</p>
 
-  <div id="erro" class="erro"></div>
+  <form id="loginForm">
 
-  <label>E-mail</label>
+    <label>E-mail</label>
 
-  <input
-    id="email"
-    type="email"
-    value="joaovitor.scardoso10@gmail.com"
-    autocomplete="email"
-  >
+    <input
+      type="email"
+      id="email"
+      value="joaovitor.scardoso10@gmail.com"
+      required
+    >
 
-  <label>Senha</label>
+    <label>Senha</label>
 
-  <input
-    id="senha"
-    type="password"
-    placeholder="Digite sua senha"
-    autocomplete="current-password"
-  >
+    <input
+      type="password"
+      id="senha"
+      placeholder="Digite sua senha"
+      required
+    >
 
-  <button id="entrar">
-    🔐 ENTRAR
-  </button>
+    <button type="submit" id="btnLogin">
+      🔐 ENTRAR
+    </button>
+
+  </form>
+
+  <div id="mensagem"></div>
 
 </div>
 
+
 <script>
 
-var SUPABASE_URL =
-"https://ravaircmbkotndfghilq.supabase.co";
+  var SUPABASE_URL =
+    "https://ravaircmbkotndfghilq.supabase.co";
 
-var SUPABASE_KEY =
-"sb_publishable_yL40T2sEFQBtKwISbLrY9Q_EHqvb23C";
-
-
-var email =
-document.getElementById("email");
-
-var senha =
-document.getElementById("senha");
-
-var entrar =
-document.getElementById("entrar");
-
-var erro =
-document.getElementById("erro");
+  var SUPABASE_KEY =
+    "sb_publishable_yL40T2sEFQBtKwISbLrY9Q_EHqvb23C";
 
 
-entrar.addEventListener("click", async function(){
+  function mostrarErro(texto) {
 
-  erro.style.display = "none";
+    var mensagem =
+      document.getElementById("mensagem");
 
-  if(!senha.value){
+    mensagem.style.display = "block";
 
-    erro.innerText =
-    "Digite sua senha.";
+    mensagem.textContent =
+      texto;
 
-    erro.style.display =
-    "block";
-
-    return;
   }
 
 
-  entrar.disabled = true;
+  document
+    .getElementById("loginForm")
+    .addEventListener("submit", async function(event) {
 
-  entrar.innerText =
-  "⏳ ENTRANDO...";
+      event.preventDefault();
 
 
-  try{
+      var email =
+        document
+          .getElementById("email")
+          .value
+          .trim();
 
-    var resposta =
-    await fetch(
-      SUPABASE_URL +
-      "/auth/v1/token?grant_type=password",
-      {
-        method:"POST",
 
-        headers:{
-          "apikey":SUPABASE_KEY,
-          "Content-Type":"application/json"
-        },
+      var senha =
+        document
+          .getElementById("senha")
+          .value;
 
-        body:JSON.stringify({
-          email:email.value,
-          password:senha.value
-        })
+
+      var botao =
+        document
+          .getElementById("btnLogin");
+
+
+      botao.disabled = true;
+
+      botao.textContent =
+        "⏳ ENTRANDO...";
+
+
+      try {
+
+        var resposta =
+          await fetch(
+            SUPABASE_URL +
+            "/auth/v1/token?grant_type=password",
+            {
+
+              method: "POST",
+
+              headers: {
+                "apikey": SUPABASE_KEY,
+                "Content-Type": "application/json"
+              },
+
+              body: JSON.stringify({
+                email: email,
+                password: senha
+              })
+
+            }
+          );
+
+
+        var dados =
+          await resposta.json();
+
+
+        if (!resposta.ok) {
+
+          throw new Error(
+            dados.error_description ||
+            dados.msg ||
+            dados.message ||
+            "E-mail ou senha incorretos."
+          );
+
+        }
+
+
+        if (!dados.access_token) {
+
+          throw new Error(
+            "O Supabase não retornou o token de acesso."
+          );
+
+        }
+
+
+        localStorage.setItem(
+          "vibe_access_token",
+          dados.access_token
+        );
+
+
+        if (dados.refresh_token) {
+
+          localStorage.setItem(
+            "vibe_refresh_token",
+            dados.refresh_token
+          );
+
+        }
+
+
+        localStorage.setItem(
+          "vibe_user_email",
+          email
+        );
+
+
+        /* 
+           Pequena pausa para garantir que o navegador
+           salvou a sessão antes de mudar de página.
+        */
+
+        setTimeout(function() {
+
+          window.location.replace(
+            "admin.html"
+          );
+
+        }, 300);
+
+
+      } catch (erro) {
+
+        console.error(erro);
+
+        mostrarErro(
+          "❌ " + erro.message
+        );
+
+        botao.disabled = false;
+
+        botao.textContent =
+          "🔐 ENTRAR";
+
       }
-    );
 
-
-    var dados =
-    await resposta.json();
-
-
-    if(!resposta.ok){
-
-      throw new Error(
-        "E-mail ou senha incorretos."
-      );
-
-    }
-
-
-    localStorage.setItem(
-      "vibe_access_token",
-      dados.access_token
-    );
-
-    localStorage.setItem(
-      "vibe_refresh_token",
-      dados.refresh_token
-    );
-
-    localStorage.setItem(
-      "vibe_user_email",
-      email.value
-    );
-
-
-    window.location.href =
-    "admin.html";
-
-  }
-
-  catch(e){
-
-    erro.innerText =
-    e.message;
-
-    erro.style.display =
-    "block";
-
-    entrar.disabled =
-    false;
-
-    entrar.innerText =
-    "🔐 ENTRAR";
-
-  }
-
-});
+    });
 
 </script>
 
