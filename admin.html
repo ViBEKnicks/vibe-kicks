@@ -176,7 +176,7 @@ async function saveProduct(){
     let image = null;
     if(file) image=await uploadImage(file);
 
-    const payload={Name:name,price:price,cat:cat,old:oldVal,tag:tag};
+    const payload={Name:name,price:price,cat:Cat,old:OldVal,tag:Tag};
     if(image) payload.image=image;
 
     let result;
@@ -199,7 +199,7 @@ async function saveProduct(){
 function editProduct(id){
   const p=products.find(x=>Number(x.id)===Number(id)); if(!p)return;
   $('productId').value=p.id;
-  $('name').value=p.Name||p.name||'';
+  $('name').value=p.name||p.name||'';
   $('price').value=p.price??'';
   $('cat').value=p.cat||'masculino';
   $('old').value=p.old??'';
@@ -212,7 +212,7 @@ function editProduct(id){
 async function deleteProduct(id){
   const p=products.find(x=>Number(x.id)===Number(id));
   if(!p)return;
-  if(!confirm(`Excluir "${p.Name||p.name||'este produto'}"?`))return;
+  if(!confirm(`Excluir "${p.name||p.name||'este produto'}"?`))return;
   status('Excluindo...',true);
   const {error}=await db.from(TABLE).delete().eq('id',Number(id));
   if(error){status('Erro ao excluir: '+error.message,false);return;}
