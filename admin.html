@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIBE KICKS | Administração</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:#090909;
+  color:#f5f5f5;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+header{
+  background:#111;
+  border-bottom:1px solid #292929;
+  padding:20px;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+.header{
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:900;
+}
+
+.logo span{
+  color:#f2a900;
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:30px 20px;
+}
+
+h1{
+  margin-top:0;
+}
+
+.card{
+  background:#121212;
+  border:1px solid #292929;
+  border-radius:14px;
+  padding:20px;
+  margin-bottom:20px;
+}
+
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:15px;
+}
+
+.product{
+  background:#181818;
+  border:1px solid #303030;
+  border-radius:12px;
+  padding:18px;
+}
+
+.product h3{
+  margin-top:0;
+}
+
+label{
+  display:block;
+  color:#aaa;
+  font-size:13px;
+  margin:12px 0 5px;
+}
+
+input,select{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #444;
+  background:#0d0d0d;
+  color:white;
+  font-size:15px;
+}
+
+button{
+  border:0;
+  border-radius:8px;
+  padding:12px 16px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.add{
+  background:#f2a900;
+  color:#000;
+}
+
+.save{
+  background:#25d366;
+  color:#000;
+  width:100%;
+  margin-top:20px;
+}
+
+.delete{
+  background:#401818;
+  color:#ff7777;
+  margin-top:15px;
+}
+
+.logout{
+  background:#242424;
+  color:white;
+}
+
+.empty{
+  color:#888;
+  text-align:center;
+  padding:30px;
+}
+
+.notice{
+  background:#211b0b;
+  border:1px solid #6d5500;
+  color:#ddd;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:20px;
+}
+
+@media(max-width:600px){
+  .header{
+    gap:15px;
+  }
+
+  .logo{
+    font-size:20px;
+  }
+
+  .container{
+    padding:20px 12px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header">
+    <div class="logo">VIBE <span>KICKS</span></div>
+    <button class="logout" onclick="sair()">Sair</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <h1>⚙️ Painel Administrativo</h1>
+
+  <div class="notice">
+    <b>VIBE KICKS</b><br>
+    Aqui você poderá administrar seus produtos.
+    O salvamento permanente será conectado na próxima etapa.
+  </div>
+
+  <div class="card">
+    <button class="add" onclick="novoProduto()">+ ADICIONAR PRODUTO</button>
+  </div>
+
+  <div id="products" class="products"></div>
+
+</div>
+
+<script>
+
+const produtosPadrao = [
+  {
+    name:"Street Black",
+    cat:"masculino",
+    price:129.90,
+    old:159.90,
+    tag:"OFERTA"
+  },
+  {
+    name:"Urban White",
+    cat:"feminino",
+    price:119.90,
+    old:149.90,
+    tag:"OFERTA"
+  },
+  {
+    name:"Vibe Runner",
+    cat:"masculino",
+    price:149.90,
+    old:"",
+    tag:"NOVO"
+  },
+  {
+    name:"Street Rose",
+    cat:"feminino",
+    price:139.90,
+    old:"",
+    tag:"NOVO"
+  },
+  {
+    name:"Classic Black",
+    cat:"masculino",
+    price:99.90,
+    old:129.90,
+    tag:"OFERTA"
+  },
+  {
+    name:"Vibe Cloud",
+    cat:"feminino",
+    price:159.90,
+    old:"",
+    tag:"NOVO"
+  },
+  {
+    name:"Cria White",
+    cat:"masculino",
+    price:124.90,
+    old:"",
+    tag:""
+  },
+  {
+    name:"Flow Pink",
+    cat:"feminino",
+    price:129.90,
+    old:159.90,
+    tag:"OFERTA"
+  }
+];
+
+let produtos =
+  JSON.parse(localStorage.getItem("vibe_kicks_produtos"))
+  || produtosPadrao;
+
+function salvarLocal(){
+
+  localStorage.setItem(
+    "vibe_kicks_produtos",
+    JSON.stringify(produtos)
+  );
+
+  alert("Produtos salvos neste dispositivo.");
+}
+
+function render(){
+
+  const area=document.getElementById("products");
+
+  if(!produtos.length){
+
+    area.innerHTML=
+      '<div class="empty">Nenhum produto cadastrado.</div>';
+
+    return;
+  }
+
+  area.innerHTML=produtos.map((p,i)=>`
+
+    <div class="product">
+
+      <h3>👟 Produto ${i+1}</h3>
+
+      <label>Nome do produto</label>
+
+      <input
+        value="${p.name || ''}"
+        onchange="editar(${i},'name',this.value)"
+      >
+
+      <label>Categoria</label>
+
+      <select onchange="editar(${i},'cat',this.value)">
+
+        <option value="masculino"
+          ${p.cat==="masculino"?"selected":""}>
+          Masculino
+        </option>
+
+        <option value="feminino"
+          ${p.cat==="feminino"?"selected":""}>
+          Feminino
+        </option>
+
+      </select>
+
+      <label>Preço</label>
+
+      <input
+        type="number"
+        step="0.01"
+        value="${p.price || ''}"
+        onchange="editar(${i},'price',parseFloat(this.value))"
+      >
+
+      <label>Preço antigo</label>
+
+      <input
+        type="number"
+        step="0.01"
+        value="${p.old || ''}"
+        onchange="editar(${i},'old',this.value ? parseFloat(this.value) : '')"
+      >
+
+      <label>Etiqueta</label>
+
+      <select onchange="editar(${i},'tag',this.value)">
+
+        <option value=""
+          ${p.tag===""?"selected":""}>
+          Sem etiqueta
+        </option>
+
+        <option value="OFERTA"
+          ${p.tag==="OFERTA"?"selected":""}>
+          OFERTA
+        </option>
+
+        <option value="NOVO"
+          ${p.tag==="NOVO"?"selected":""}>
+          NOVO
+        </option>
+
+      </select>
+
+      <button
+        class="delete"
+        onclick="excluir(${i})">
+        🗑️ EXCLUIR PRODUTO
+      </button>
+
+    </div>
+
+  `).join("");
+}
+
+function editar(i,campo,valor){
+
+  produtos[i][campo]=valor
