@@ -7,6 +7,7 @@
 <title>VIBE KICKS - Admin</title>
 
 <style>
+
 *{
   box-sizing:border-box;
 }
@@ -25,6 +26,7 @@ header{
   justify-content:space-between;
   align-items:center;
   border-bottom:1px solid #333;
+  gap:10px;
 }
 
 .logo{
@@ -33,12 +35,28 @@ header{
   color:#ffb000;
 }
 
-.loja{
-  background:#222;
+.header-buttons{
+  display:flex;
+  gap:8px;
+}
+
+.loja,
+.sair{
   color:white;
   text-decoration:none;
   padding:10px 15px;
   border-radius:8px;
+  border:0;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.loja{
+  background:#222;
+}
+
+.sair{
+  background:#dc2626;
 }
 
 .container{
@@ -80,7 +98,8 @@ label{
   font-weight:bold;
 }
 
-input,select{
+input,
+select{
   width:100%;
   padding:13px;
   border-radius:8px;
@@ -222,7 +241,25 @@ input[type="file"]{
   padding:20px;
 }
 
+.usuario{
+  color:#aaa;
+  font-size:12px;
+  margin-top:4px;
+}
+
 @media(max-width:600px){
+
+  header{
+    align-items:flex-start;
+  }
+
+  .logo{
+    font-size:20px;
+  }
+
+  .header-buttons{
+    flex-direction:column;
+  }
 
   .produto{
     align-items:flex-start;
@@ -241,7 +278,9 @@ input[type="file"]{
   .excluir{
     width:100%;
   }
+
 }
+
 </style>
 </head>
 
@@ -249,13 +288,27 @@ input[type="file"]{
 
 <header>
 
-  <div class="logo">
-    VIBE KICKS
+  <div>
+    <div class="logo">
+      VIBE KICKS
+    </div>
+
+    <div class="usuario" id="usuario">
+      Verificando acesso...
+    </div>
   </div>
 
-  <a class="loja" href="index.html">
-    ← Loja
-  </a>
+  <div class="header-buttons">
+
+    <a class="loja" href="index.html">
+      ← Loja
+    </a>
+
+    <button class="sair" id="sair">
+      🚪 Sair
+    </button>
+
+  </div>
 
 </header>
 
@@ -423,102 +476,274 @@ input[type="file"]{
 
 <script>
 
-/* ==============================
-   CONFIGURAÇÃO SUPABASE
-============================== */
+/* =================================
+   SUPABASE
+================================= */
 
 var SUPABASE_URL =
-  "https://ravaircmbkotndfghilq.supabase.co";
+"https://ravaircmbkotndfghilq.supabase.co";
 
 var SUPABASE_KEY =
-  "sb_publishable_yL40T2sEFQBtKwISbLrY9Q_EHqvb23C";
+"sb_publishable_yL40T2sEFQBtKwISbLrY9Q_EHqvb23C";
 
 var BUCKET =
-  "produtos";
+"produtos";
 
 
-/* ==============================
+/* =================================
    VARIÁVEIS
-============================== */
+================================= */
+
+var accessToken = null;
 
 var produtoEditando = null;
 
 var imagemAtual = "";
 
 
-/* ==============================
+/* =================================
    ELEMENTOS
-============================== */
+================================= */
 
 var abrir =
-  document.getElementById("abrir");
+document.getElementById("abrir");
 
 var formulario =
-  document.getElementById("formulario");
+document.getElementById("formulario");
 
 var cancelar =
-  document.getElementById("cancelar");
+document.getElementById("cancelar");
 
 var salvar =
-  document.getElementById("salvar");
+document.getElementById("salvar");
 
 var foto =
-  document.getElementById("foto");
+document.getElementById("foto");
 
 var preview =
-  document.getElementById("preview");
+document.getElementById("preview");
 
 var lista =
-  document.getElementById("lista");
+document.getElementById("lista");
 
 var status =
-  document.getElementById("status");
+document.getElementById("status");
+
+var sair =
+document.getElementById("sair");
+
+var usuario =
+document.getElementById("usuario");
 
 
-/* ==============================
-   MENSAGEM
-============================== */
+/* =================================
+   STATUS
+================================= */
 
-function mostrarStatus(mensagem, tipo){
+function mostrarStatus(mensagem,tipo){
 
-  status.innerText = mensagem;
+  status.innerText =
+  mensagem;
 
   status.className =
-    "status " + tipo;
+  "status " + tipo;
 
 }
 
 
-/* ==============================
+/* =================================
+   VERIFICAR LOGIN
+================================= */
+
+async function verificarLogin(){
+
+  accessToken =
+  localStorage.getItem(
+    "vibe_access_token"
+  );
+
+
+  if(!accessToken){
+
+    window.location.href =
+    "login.html";
+
+    return false;
+
+  }
+
+
+  try{
+
+    var resposta =
+    await fetch(
+      SUPABASE_URL +
+      "/auth/v1/user",
+      {
+        method:"GET",
+
+        headers:{
+          "apikey":SUPABASE_KEY,
+          "Authorization":
+          "Bearer " + accessToken
+        }
+      }
+    );
+
+
+    if(!resposta.ok){
+
+      throw new Error(
+        "Sessão inválida"
+      );
+
+    }
+
+
+    var dados =
+    await resposta.json();
+
+
+    usuario.innerText =
+    dados.email || "Administrador";
+
+
+    return true;
+
+  }
+
+  catch(e){
+
+    localStorage.removeItem(
+      "vibe_access_token"
+    );
+
+    localStorage.removeItem(
+      "vibe_refresh_token"
+    );
+
+    localStorage.removeItem(
+      "vibe_user_email"
+    );
+
+
+    window.location.href =
+    "login.html";
+
+
+    return false;
+
+  }
+
+}
+
+
+/* =================================
+   SAIR
+================================= */
+
+sair.addEventListener(
+"click",
+async function(){
+
+  try{
+
+    await fetch(
+      SUPABASE_URL +
+      "/auth/v1/logout",
+      {
+        method:"POST",
+
+        headers:{
+          "apikey":SUPABASE_KEY,
+          "Authorization":
+          "Bearer " + accessToken
+        }
+      }
+    );
+
+  }
+  catch(e){
+
+    console.log(e);
+
+  }
+
+
+  localStorage.removeItem(
+    "vibe_access_token"
+  );
+
+  localStorage.removeItem(
+    "vibe_refresh_token"
+  );
+
+  localStorage.removeItem(
+    "vibe_user_email"
+  );
+
+
+  window.location.href =
+  "login.html";
+
+});
+
+
+/* =================================
    ABRIR FORMULÁRIO
-============================== */
+================================= */
 
-abrir.addEventListener("click", function(){
+abrir.addEventListener(
+"click",
+function(){
 
-  produtoEditando = null;
+  produtoEditando =
+  null;
 
-  imagemAtual = "";
+  imagemAtual =
+  "";
 
-  document.getElementById("tituloFormulario").innerText =
-    "Novo Produto";
+  document.getElementById(
+    "tituloFormulario"
+  ).innerText =
+  "Novo Produto";
 
-  document.getElementById("nome").value = "";
+  document.getElementById(
+    "nome"
+  ).value =
+  "";
 
-  document.getElementById("preco").value = "";
+  document.getElementById(
+    "preco"
+  ).value =
+  "";
 
-  document.getElementById("precoAntigo").value = "";
+  document.getElementById(
+    "precoAntigo"
+  ).value =
+  "";
 
-  document.getElementById("categoria").value = "";
+  document.getElementById(
+    "categoria"
+  ).value =
+  "";
 
-  document.getElementById("tag").value = "";
+  document.getElementById(
+    "tag"
+  ).value =
+  "";
 
-  foto.value = "";
+  foto.value =
+  "";
 
-  preview.src = "";
+  preview.src =
+  "";
 
-  preview.style.display = "none";
+  preview.style.display =
+  "none";
 
-  formulario.style.display = "block";
+  formulario.style.display =
+  "block";
 
   window.scrollTo({
     top:0,
@@ -528,70 +753,81 @@ abrir.addEventListener("click", function(){
 });
 
 
-/* ==============================
+/* =================================
    CANCELAR
-============================== */
+================================= */
 
-cancelar.addEventListener("click", function(){
+cancelar.addEventListener(
+"click",
+function(){
 
-  formulario.style.display = "none";
+  formulario.style.display =
+  "none";
 
-  produtoEditando = null;
+  produtoEditando =
+  null;
 
-  imagemAtual = "";
+  imagemAtual =
+  "";
 
 });
 
 
-/* ==============================
-   PRÉVIA DA FOTO
-============================== */
+/* =================================
+   PRÉVIA
+================================= */
 
-foto.addEventListener("change", function(){
+foto.addEventListener(
+"change",
+function(){
 
-  var arquivo = foto.files[0];
+  var arquivo =
+  foto.files[0];
 
   if(!arquivo){
     return;
   }
 
+
   var leitor =
-    new FileReader();
+  new FileReader();
+
 
   leitor.onload =
-    function(event){
+  function(event){
 
-      preview.src =
-        event.target.result;
+    preview.src =
+    event.target.result;
 
-      preview.style.display =
-        "block";
+    preview.style.display =
+    "block";
 
-    };
+  };
 
-  leitor.readAsDataURL(arquivo);
+
+  leitor.readAsDataURL(
+    arquivo
+  );
 
 });
 
 
-/* ==============================
+/* =================================
    ENVIAR FOTO
-============================== */
+================================= */
 
 async function enviarFoto(){
 
   var arquivo =
-    foto.files[0];
+  foto.files[0];
 
-  /* Se não escolheu uma nova foto */
+
   if(!arquivo){
 
     return imagemAtual;
 
   }
 
-
-  /* Verifica se é imagem */
 
   if(!arquivo.type.startsWith("image/")){
 
@@ -602,130 +838,142 @@ async function enviarFoto(){
   }
 
 
-  /* Limite de 6 MB */
-
   if(arquivo.size > 6 * 1024 * 1024){
 
     throw new Error(
-      "A foto é muito grande. Escolha uma imagem de até 6 MB."
+      "A foto deve ter no máximo 6 MB."
     );
 
   }
 
 
-  /* Nome seguro */
-
   var nomeOriginal =
-    arquivo.name
-      .replace(/[^a-zA-Z0-9._-]/g,"-");
+  arquivo.name
+  .replace(
+    /[^a-zA-Z0-9._-]/g,
+    "-"
+  );
 
 
   var nomeArquivo =
-    Date.now() +
-    "-" +
-    nomeOriginal;
+  Date.now() +
+  "-" +
+  nomeOriginal;
 
 
-  /* Endereço do Storage */
+  var resposta =
+  await fetch(
 
-  var enderecoUpload =
     SUPABASE_URL +
     "/storage/v1/object/" +
     BUCKET +
     "/" +
-    nomeArquivo;
+    nomeArquivo,
 
+    {
 
-  /* Envia imagem */
+      method:"POST",
 
-  var resposta =
-    await fetch(
-      enderecoUpload,
-      {
-        method:"POST",
+      headers:{
 
-        headers:{
-          "apikey":SUPABASE_KEY,
-          "Authorization":
-            "Bearer " + SUPABASE_KEY,
-          "Content-Type":
-            arquivo.type,
-          "x-upsert":
-            "true"
-        },
+        "apikey":
+        SUPABASE_KEY,
 
-        body:arquivo
-      }
-    );
+        "Authorization":
+        "Bearer " +
+        accessToken,
+
+        "Content-Type":
+        arquivo.type,
+
+        "x-upsert":
+        "true"
+
+      },
+
+      body:
+      arquivo
+
+    }
+
+  );
 
 
   if(!resposta.ok){
 
     var erro =
-      await resposta.text();
+    await resposta.text();
 
     console.error(
-      "Erro Storage:",
       erro
     );
 
     throw new Error(
-      "Não foi possível enviar a foto."
+      "Erro ao enviar a foto."
     );
 
   }
 
 
-  /* URL pública */
+  return (
 
-  var urlPublica =
     SUPABASE_URL +
     "/storage/v1/object/public/" +
     BUCKET +
     "/" +
-    nomeArquivo;
+    nomeArquivo
 
-
-  return urlPublica;
+  );
 
 }
 
 
-/* ==============================
-   SALVAR PRODUTO
-============================== */
+/* =================================
+   SALVAR
+================================= */
 
-salvar.addEventListener("click", async function(){
+salvar.addEventListener(
+"click",
+async function(){
 
   try{
 
-    salvar.disabled = true;
+    salvar.disabled =
+    true;
 
     salvar.innerText =
-      "⏳ SALVANDO...";
+    "⏳ SALVANDO...";
 
 
     var nome =
-      document.getElementById("nome").value.trim();
+    document.getElementById(
+      "nome"
+    ).value.trim();
 
 
     var preco =
-      document.getElementById("preco").value;
+    document.getElementById(
+      "preco"
+    ).value;
 
 
     var precoAntigo =
-      document.getElementById("precoAntigo").value;
+    document.getElementById(
+      "precoAntigo"
+    ).value;
 
 
     var categoria =
-      document.getElementById("categoria").value;
+    document.getElementById(
+      "categoria"
+    ).value;
 
 
     var tag =
-      document.getElementById("tag").value;
+    document.getElementById(
+      "tag"
+    ).value;
 
-
-    /* Validações */
 
     if(!nome){
 
@@ -745,8 +993,6 @@ salvar.addEventListener("click", async function(){
     }
 
 
-    /* Foto */
-
     mostrarStatus(
       "Enviando foto...",
       "sucesso"
@@ -754,30 +1000,30 @@ salvar.addEventListener("click", async function(){
 
 
     var imagem =
-      await enviarFoto();
+    await enviarFoto();
 
-
-    /* Produto */
 
     var produto = {
 
-      name:nome,
+      name:
+      nome,
 
-      price:Number(preco),
+      price:
+      Number(preco),
 
       Cat:
-        categoria,
+      categoria,
 
       Old:
-        precoAntigo === ""
-          ? null
-          : Number(precoAntigo),
+      precoAntigo === ""
+      ? null
+      : Number(precoAntigo),
 
       Tag:
-        tag,
+      tag,
 
       image:
-        imagem
+      imagem
 
     };
 
@@ -788,49 +1034,53 @@ salvar.addEventListener("click", async function(){
     );
 
 
-    /* ==========================
-       NOVO PRODUTO
-    ========================== */
+    /* NOVO */
 
     if(produtoEditando === null){
 
       var resposta =
-        await fetch(
-          SUPABASE_URL +
-          "/rest/v1/products",
-          {
+      await fetch(
 
-            method:"POST",
+        SUPABASE_URL +
+        "/rest/v1/products",
 
-            headers:{
+        {
 
-              "apikey":
-                SUPABASE_KEY,
+          method:"POST",
 
-              "Authorization":
-                "Bearer " + SUPABASE_KEY,
+          headers:{
 
-              "Content-Type":
-                "application/json",
+            "apikey":
+            SUPABASE_KEY,
 
-              "Prefer":
-                "return=representation"
+            "Authorization":
+            "Bearer " +
+            accessToken,
 
-            },
+            "Content-Type":
+            "application/json",
 
-            body:
-              JSON.stringify(produto)
+            "Prefer":
+            "return=representation"
 
-          }
-        );
+          },
+
+          body:
+          JSON.stringify(produto)
+
+        }
+
+      );
 
 
       if(!resposta.ok){
 
         var erro =
-          await resposta.text();
+        await resposta.text();
 
-        console.error(erro);
+        console.error(
+          erro
+        );
 
         throw new Error(
           "Erro ao cadastrar produto."
@@ -841,51 +1091,54 @@ salvar.addEventListener("click", async function(){
     }
 
 
-    /* ==========================
-       EDITAR PRODUTO
-    ========================== */
+    /* EDITAR */
 
     else{
 
       var resposta =
-        await fetch(
-          SUPABASE_URL +
-          "/rest/v1/products?id=eq." +
-          produtoEditando,
+      await fetch(
 
-          {
+        SUPABASE_URL +
+        "/rest/v1/products?id=eq." +
+        produtoEditando,
 
-            method:"PATCH",
+        {
 
-            headers:{
+          method:"PATCH",
 
-              "apikey":
-                SUPABASE_KEY,
+          headers:{
 
-              "Authorization":
-                "Bearer " + SUPABASE_KEY,
+            "apikey":
+            SUPABASE_KEY,
 
-              "Content-Type":
-                "application/json",
+            "Authorization":
+            "Bearer " +
+            accessToken,
 
-              "Prefer":
-                "return=representation"
+            "Content-Type":
+            "application/json",
 
-            },
+            "Prefer":
+            "return=representation"
 
-            body:
-              JSON.stringify(produto)
+          },
 
-          }
-        );
+          body:
+          JSON.stringify(produto)
+
+        }
+
+      );
 
 
       if(!resposta.ok){
 
         var erro =
-          await resposta.text();
+        await resposta.text();
 
-        console.error(erro);
+        console.error(
+          erro
+        );
 
         throw new Error(
           "Erro ao editar produto."
@@ -903,28 +1156,26 @@ salvar.addEventListener("click", async function(){
 
 
     formulario.style.display =
-      "none";
+    "none";
 
 
     produtoEditando =
-      null;
-
+    null;
 
     imagemAtual =
-      "";
+    "";
 
 
     await carregarProdutos();
 
-
   }
 
-  catch(erro){
+  catch(e){
 
-    console.error(erro);
+    console.error(e);
 
     mostrarStatus(
-      "❌ " + erro.message,
+      "❌ " + e.message,
       "erro"
     );
 
@@ -933,49 +1184,52 @@ salvar.addEventListener("click", async function(){
   finally{
 
     salvar.disabled =
-      false;
+    false;
 
     salvar.innerText =
-      "💾 SALVAR PRODUTO";
+    "💾 SALVAR PRODUTO";
 
   }
 
 });
 
 
-/* ==============================
-   CARREGAR PRODUTOS
-============================== */
+/* =================================
+   CARREGAR
+================================= */
 
 async function carregarProdutos(){
 
   try{
 
     lista.innerHTML =
-      '<div class="carregando">Carregando produtos...</div>';
+    '<div class="carregando">Carregando produtos...</div>';
 
 
     var resposta =
-      await fetch(
-        SUPABASE_URL +
-        "/rest/v1/products?select=*&order=id.asc",
+    await fetch(
 
-        {
+      SUPABASE_URL +
+      "/rest/v1/products?select=*&order=id.asc",
 
-          method:"GET",
+      {
 
-          headers:{
+        method:"GET",
 
-            "apikey":
-              SUPABASE_KEY,
+        headers:{
 
-            "Authorization":
-              "Bearer " + SUPABASE_KEY
+          "apikey":
+          SUPABASE_KEY,
 
-          }
+          "Authorization":
+          "Bearer " +
+          accessToken
 
         }
-      );
+
+      }
+
+    );
 
 
     if(!resposta.ok){
@@ -988,16 +1242,17 @@ async function carregarProdutos(){
 
 
     var produtos =
-      await resposta.json();
+    await resposta.json();
 
 
-    lista.innerHTML = "";
+    lista.innerHTML =
+    "";
 
 
     if(produtos.length === 0){
 
       lista.innerHTML =
-        '<div class="carregando">Nenhum produto cadastrado.</div>';
+      '<div class="carregando">Nenhum produto cadastrado.</div>';
 
       return;
 
@@ -1014,145 +1269,149 @@ async function carregarProdutos(){
       }
     );
 
-
   }
 
-  catch(erro){
+  catch(e){
 
-    console.error(erro);
+    console.error(e);
 
     lista.innerHTML =
-      '<div class="status erro">Erro ao carregar produtos.</div>';
+    '<div class="status erro">Erro ao carregar produtos.</div>';
 
   }
 
 }
 
 
-/* ==============================
-   CRIAR CARD
-============================== */
+/* =================================
+   CARD
+================================= */
 
 function criarProdutoNaTela(produto){
 
   var div =
-    document.createElement("div");
+  document.createElement("div");
 
   div.className =
-    "produto";
+  "produto";
 
 
   var imagem =
-    document.createElement("img");
-
+  document.createElement("img");
 
   imagem.src =
-    produto.image || "";
+  produto.image || "";
 
 
   imagem.onerror =
-    function(){
+  function(){
 
-      imagem.style.display =
-        "none";
+    imagem.style.display =
+    "none";
 
-    };
+  };
 
 
   var info =
-    document.createElement("div");
+  document.createElement("div");
 
   info.className =
-    "info";
+  "info";
 
 
   var nome =
-    document.createElement("div");
+  document.createElement("div");
 
   nome.className =
-    "nome";
+  "nome";
 
   nome.innerText =
-    produto.name || "Sem nome";
+  produto.name || "Sem nome";
 
 
   var preco =
-    document.createElement("div");
+  document.createElement("div");
 
   preco.className =
-    "preco";
+  "preco";
 
   preco.innerText =
-    "R$ " +
-    Number(produto.price || 0)
-      .toFixed(2)
-      .replace(".",",");
+  "R$ " +
+  Number(
+    produto.price || 0
+  )
+  .toFixed(2)
+  .replace(".",",");
 
 
   var categoria =
-    document.createElement("div");
+  document.createElement("div");
 
   categoria.className =
-    "categoria";
+  "categoria";
 
   categoria.innerText =
-    "Categoria: " +
-    (produto.Cat || "-");
+  "Categoria: " +
+  (produto.Cat || "-");
 
 
   var tag =
-    document.createElement("div");
+  document.createElement("div");
 
   tag.className =
-    "categoria";
+  "categoria";
 
   tag.innerText =
-    "Tag: " +
-    (produto.Tag || "Nenhuma");
+  "Tag: " +
+  (produto.Tag || "Nenhuma");
 
 
   var acoes =
-    document.createElement("div");
+  document.createElement("div");
 
   acoes.className =
-    "acoes";
+  "acoes";
 
 
   var editar =
-    document.createElement("button");
+  document.createElement("button");
 
   editar.className =
-    "editar";
+  "editar";
 
   editar.innerText =
-    "✏️ Editar";
+  "✏️ Editar";
 
 
   editar.addEventListener(
     "click",
     function(){
 
-      editarProduto(produto);
+      editarProduto(
+        produto
+      );
 
     }
   );
 
 
   var excluir =
-    document.createElement("button");
+  document.createElement("button");
 
   excluir.className =
-    "excluir";
+  "excluir";
 
   excluir.innerText =
-    "🗑️ Excluir";
+  "🗑️ Excluir";
 
 
   excluir.addEventListener(
     "click",
     function(){
 
-      excluirProduto(produto.id);
+      excluirProduto(
+        produto.id
+      );
 
     }
   );
@@ -1204,81 +1463,83 @@ function criarProdutoNaTela(produto){
 }
 
 
-/* ==============================
+/* =================================
    EDITAR
-============================== */
+================================= */
 
 function editarProduto(produto){
 
   produtoEditando =
-    produto.id;
+  produto.id;
 
 
   imagemAtual =
-    produto.image || "";
+  produto.image || "";
 
 
   document.getElementById(
     "tituloFormulario"
   ).innerText =
-    "Editar Produto";
+  "Editar Produto";
 
 
   document.getElementById(
     "nome"
   ).value =
-    produto.name || "";
+  produto.name || "";
 
 
   document.getElementById(
     "preco"
   ).value =
-    produto.price || "";
+  produto.price || "";
 
 
   document.getElementById(
     "precoAntigo"
   ).value =
-    produto.Old || "";
+  produto.Old || "";
 
 
   document.getElementById(
     "categoria"
   ).value =
-    produto.Cat || "";
+  produto.Cat || "";
 
 
   document.getElementById(
     "tag"
   ).value =
-    produto.Tag || "";
+  produto.Tag || "";
 
 
-  foto.value = "";
+  foto.value =
+  "";
 
 
   if(produto.image){
 
     preview.src =
-      produto.image;
+    produto.image;
 
     preview.style.display =
-      "block";
+    "block";
 
   }
 
   else{
 
-    preview.src = "";
+    preview.src =
+    "";
 
     preview.style.display =
-      "none";
+    "none";
 
   }
 
 
   formulario.style.display =
-    "block";
+  "block";
 
 
   window.scrollTo({
@@ -1289,20 +1550,18 @@ function editarProduto(produto){
 }
 
 
-/* ==============================
+/* =================================
    EXCLUIR
-============================== */
+================================= */
 
 async function excluirProduto(id){
 
-  var confirmar =
-    confirm(
-      "Tem certeza que deseja excluir este produto?"
-    );
+  if(!confirm(
+    "Tem certeza que deseja excluir este produto?"
+  )){
 
-
-  if(!confirmar){
     return;
+
   }
 
 
@@ -1315,38 +1574,43 @@ async function excluirProduto(id){
 
 
     var resposta =
-      await fetch(
-        SUPABASE_URL +
-        "/rest/v1/products?id=eq." +
-        id,
+    await fetch(
 
-        {
+      SUPABASE_URL +
+      "/rest/v1/products?id=eq." +
+      id,
 
-          method:"DELETE",
+      {
 
-          headers:{
+        method:"DELETE",
 
-            "apikey":
-              SUPABASE_KEY,
+        headers:{
 
-            "Authorization":
-              "Bearer " + SUPABASE_KEY,
+          "apikey":
+          SUPABASE_KEY,
 
-            "Prefer":
-              "return=representation"
+          "Authorization":
+          "Bearer " +
+          accessToken,
 
-          }
+          "Prefer":
+          "return=representation"
 
         }
-      );
+
+      }
+
+    );
 
 
     if(!resposta.ok){
 
       var erro =
-        await resposta.text();
+      await resposta.text();
 
-      console.error(erro);
+      console.error(
+        erro
+      );
 
       throw new Error(
         "Não foi possível excluir."
@@ -1365,12 +1629,12 @@ async function excluirProduto(id){
 
   }
 
-  catch(erro){
+  catch(e){
 
-    console.error(erro);
+    console.error(e);
 
     mostrarStatus(
-      "❌ " + erro.message,
+      "❌ " + e.message,
       "erro"
     );
 
@@ -1379,11 +1643,23 @@ async function excluirProduto(id){
 }
 
 
-/* ==============================
+/* =================================
    INICIAR
-============================== */
+================================= */
 
-carregarProdutos();
+(async function(){
+
+  var autorizado =
+  await verificarLogin();
+
+
+  if(autorizado){
+
+    await carregarProdutos();
+
+  }
+
+})();
 
 </script>
 
