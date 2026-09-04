@@ -176,7 +176,11 @@ async function saveProduct(){
     let image = null;
     if(file) image=await uploadImage(file);
 
-    const payload={name:name,price:price,cat:cat,old:oldVal,tag:tag};
+   const payload={
+  Name: name,
+  price: price,
+  image: image
+};
     if(image) payload.image=image;
 
     let result;
