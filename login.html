@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VIBE KICKS - Login</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#0b0b0b;
+  color:white;
+  padding:20px;
+}
+
+.login{
+  width:100%;
+  max-width:400px;
+  background:#151515;
+  border:1px solid #333;
+  border-radius:15px;
+  padding:30px;
+  box-shadow:0 10px 40px rgba(0,0,0,.5);
+}
+
+.logo{
+  text-align:center;
+  font-size:30px;
+  font-weight:bold;
+  color:#ffb000;
+  margin-bottom:10px;
+}
+
+.subtitulo{
+  text-align:center;
+  color:#aaa;
+  margin-bottom:30px;
+}
+
+label{
+  display:block;
+  margin-bottom:7px;
+  font-weight:bold;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  margin-bottom:18px;
+  border-radius:8px;
+  border:1px solid #444;
+  background:#222;
+  color:white;
+  font-size:16px;
+}
+
+button{
+  width:100%;
+  padding:15px;
+  border:0;
+  border-radius:8px;
+  background:#ffb000;
+  color:#000;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:disabled{
+  opacity:.6;
+}
+
+.erro{
+  display:none;
+  background:#7f1d1d;
+  color:#fecaca;
+  padding:12px;
+  border-radius:8px;
+  margin-bottom:15px;
+  text-align:center;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="login">
+
+  <div class="logo">
+    VIBE KICKS
+  </div>
+
+  <div class="subtitulo">
+    Acesso administrativo
+  </div>
+
+  <div id="erro" class="erro"></div>
+
+  <label>E-mail</label>
+
+  <input
+    id="email"
+    type="email"
+    value="joaovitor.scardoso10@gmail.com"
+    autocomplete="email"
+  >
+
+  <label>Senha</label>
+
+  <input
+    id="senha"
+    type="password"
+    placeholder="Digite sua senha"
+    autocomplete="current-password"
+  >
+
+  <button id="entrar">
+    🔐 ENTRAR
+  </button>
+
+</div>
+
+<script>
+
+var SUPABASE_URL =
+"https://ravaircmbkotndfghilq.supabase.co";
+
+var SUPABASE_KEY =
+"sb_publishable_yL40T2sEFQBtKwISbLrY9Q_EHqvb23C";
+
+
+var email =
+document.getElementById("email");
+
+var senha =
+document.getElementById("senha");
+
+var entrar =
+document.getElementById("entrar");
+
+var erro =
+document.getElementById("erro");
+
+
+entrar.addEventListener("click", async function(){
+
+  erro.style.display = "none";
+
+  if(!senha.value){
+
+    erro.innerText =
+    "Digite sua senha.";
+
+    erro.style.display =
+    "block";
+
+    return;
+  }
+
+
+  entrar.disabled = true;
+
+  entrar.innerText =
+  "⏳ ENTRANDO...";
+
+
+  try{
+
+    var resposta =
+    await fetch(
+      SUPABASE_URL +
+      "/auth/v1/token?grant_type=password",
+      {
+        method:"POST",
+
+        headers:{
+          "apikey":SUPABASE_KEY,
+          "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+          email:email.value,
+          password:senha.value
+        })
+      }
+    );
+
+
+    var dados =
+    await resposta.json();
+
+
+    if(!resposta.ok){
+
+      throw new Error(
+        "E-mail ou senha incorretos."
+      );
+
+    }
+
+
+    localStorage.setItem(
+      "vibe_access_token",
+      dados.access_token
+    );
+
+    localStorage.setItem(
+      "vibe_refresh_token",
+      dados.refresh_token
+    );
+
+    localStorage.setItem(
+      "vibe_user_email",
+      email.value
+    );
+
+
+    window.location.href =
+    "admin.html";
+
+  }
+
+  catch(e){
+
+    erro.innerText =
+    e.message;
+
+    erro.style.display =
+    "block";
+
+    entrar.disabled =
+    false;
+
+    entrar.innerText =
+    "🔐 ENTRAR";
+
+  }
+
+});
+
+</script>
+
+</body>
+</html>
