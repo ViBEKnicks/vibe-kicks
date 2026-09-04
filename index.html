@@ -253,7 +253,7 @@ return;
 
 container.innerHTML = list.map(p => {
 
-const name = escapeHTML(p.Name);
+const name=escapeHTML(p.Name || p.name || ''),cat=escapeHTML(p.cat||''),tag=escapeHTML(p.tag||''),image=escapeHTML(p.image||'');
 const cat = escapeHTML(p.cat || '');
 const tag = escapeHTML(p.tag || '');
 const image = escapeHTML(p.image || '');
