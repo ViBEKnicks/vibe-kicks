@@ -1,7 +1,12 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Painel Vibe Kicks</title><style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Painel Vibe Kicks</title>
+
+<style>
 
 *{
 box-sizing:border-box;
@@ -9,60 +14,72 @@ box-sizing:border-box;
 
 body{
 margin:0;
-padding:20px;
-background:#090909;
-color:#fff;
 font-family:Arial,sans-serif;
-}
-
-.container{
-max-width:700px;
-margin:auto;
+background:#111;
+color:#fff;
 }
 
 header{
+background:#181818;
+padding:20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:25px;
+border-bottom:1px solid #333;
 }
 
-h1{
-margin:0;
+.logo{
 font-size:25px;
+font-weight:bold;
+color:#ffb000;
 }
 
 .voltar{
-color:#f2a900;
-font-weight:bold;
+color:#fff;
 text-decoration:none;
+background:#333;
+padding:10px 15px;
+border-radius:8px;
 }
 
-button{
-cursor:pointer;
+.container{
+max-width:900px;
+margin:auto;
+padding:20px;
 }
 
-#abrir{
+.status{
+background:#153d1e;
+color:#5cff78;
+padding:15px;
+border-radius:10px;
+margin-bottom:20px;
+text-align:center;
+font-weight:bold;
+}
+
+.botao-adicionar{
 width:100%;
-padding:17px;
+padding:16px;
 border:0;
 border-radius:10px;
-background:#f2a900;
-color:#000;
+background:#ffb000;
+color:#111;
 font-size:17px;
 font-weight:bold;
+cursor:pointer;
+margin-bottom:20px;
 }
 
-#formulario{
+.formulario{
 display:none;
-background:#151515;
+background:#1b1b1b;
 padding:20px;
-margin-top:20px;
 border-radius:12px;
-border:1px solid #333;
+margin-bottom:25px;
 }
 
-#formulario.aberto{
+.formulario.aberto{
 display:block;
 }
 
@@ -72,360 +89,484 @@ margin-top:0;
 
 label{
 display:block;
-margin-top:16px;
-margin-bottom:7px;
+margin-top:15px;
+margin-bottom:6px;
 font-weight:bold;
 }
 
-input,
-select{
+input,select{
 width:100%;
-padding:14px;
-background:#222;
-border:1px solid #555;
+padding:13px;
 border-radius:8px;
+border:1px solid #444;
+background:#252525;
 color:#fff;
 font-size:16px;
 }
 
-#salvar{
-display:block;
-width:100%;
-margin-top:25px;
-padding:17px;
-border:0;
-border-radius:10px;
-background:#25d366;
-color:#000;
-font-size:17px;
-font-weight:900;
-}
-
-#salvar:disabled{
-opacity:.6;
-}
-
-#cancelar{
-display:block;
-width:100%;
-margin-top:10px;
-padding:14px;
-border:0;
-border-radius:10px;
-background:#333;
-color:#fff;
-font-weight:bold;
-}
-
-#mensagem{
-display:none;
-margin-top:15px;
-padding:14px;
-border-radius:8px;
-line-height:1.5;
-}
-
-#lista{
+.botoes{
+display:flex;
+gap:10px;
 margin-top:20px;
 }
 
-.produto{
-background:#151515;
-border:1px solid #333;
-border-radius:12px;
-padding:16px;
-margin-bottom:12px;
+.salvar{
+flex:1;
+padding:15px;
+background:#22c55e;
+border:0;
+border-radius:8px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
 }
 
-.nome{
-font-size:19px;
-font-weight:bold;
+.cancelar{
+padding:15px;
+background:#555;
+color:#fff;
+border:0;
+border-radius:8px;
+cursor:pointer;
+}
+
+.mensagem{
+margin-top:15px;
+padding:12px;
+border-radius:8px;
+display:none;
+}
+
+.produto{
+background:#1b1b1b;
+padding:15px;
+border-radius:12px;
+margin-bottom:15px;
+display:flex;
+gap:15px;
+align-items:center;
+}
+
+.produto img{
+width:100px;
+height:100px;
+object-fit:contain;
+background:#fff;
+border-radius:8px;
 }
 
 .info{
-color:#aaa;
-margin-top:7px;
+flex:1;
+}
+
+.nome-produto{
+font-size:18px;
+font-weight:bold;
+margin-bottom:8px;
+}
+
+.preco{
+color:#ffb000;
+font-size:18px;
+font-weight:bold;
 }
 
 .acoes{
 display:flex;
-gap:10px;
-margin-top:15px;
-}
-
-.editar,
-.excluir{
-width:50%;
-padding:12px;
-border:0;
-border-radius:8px;
-font-weight:bold;
+gap:8px;
+margin-top:10px;
 }
 
 .editar{
-background:#287be5;
+background:#2563eb;
 color:#fff;
+border:0;
+padding:9px 12px;
+border-radius:7px;
+cursor:pointer;
 }
 
 .excluir{
-background:#e53935;
+background:#dc2626;
 color:#fff;
+border:0;
+padding:9px 12px;
+border-radius:7px;
+cursor:pointer;
 }
 
-.tag{
-display:inline-block;
-margin-top:8px;
-padding:5px 8px;
-border-radius:5px;
-background:#f2a900;
-color:#000;
-font-size:11px;
-font-weight:bold;
-}
-
-.aviso{
-background:#15351f;
-color:#7cff9b;
-padding:10px;
-border-radius:8px;
-margin-bottom:15px;
+.vazio{
 text-align:center;
+padding:30px;
+color:#aaa;
 }
 
-</style></head><body><div class="container"><div class="aviso">
-✅ PAINEL VIBE KICKS ONLINE
-</div><header><h1>⚡ VIBE KICKS</h1><a class="voltar" href="/">
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+VIBE KICKS
+</div>
+
+<a class="voltar" href="index.html">
 ← Loja
-</a></header><button id="abrir">
+</a>
+
+</header>
+
+<div class="container">
+
+<div class="status" id="status">
+✅ PAINEL VIBE KICKS ONLINE
+</div>
+
+<button class="botao-adicionar" id="abrir">
 ➕ ADICIONAR PRODUTO
-</button><div id="formulario"><h2 id="titulo">
-📦 Novo produto
-</h2><label for="nome">
-Nome do tênis
-</label><input
-id="nome"
+</button>
+
+<div class="formulario" id="formulario">
+
+<h2 id="tituloFormulario">
+Adicionar produto
+</h2>
+
+<label>
+Nome do produto
+</label>
+
+<input
 type="text"
+id="nome"
 placeholder="Ex: Nike Air Max"
+>
 
-«»
-
-<label for="preco">
+<label>
 Preço
-</label><input
+</label>
+
+<input
+type="number"
 id="preco"
-type="number"
+placeholder="Ex: 399.90"
 step="0.01"
-placeholder="299.90"
+>
 
-«»
-
-<label for="precoAntigo">
+<label>
 Preço antigo
-</label><input
-id="precoAntigo"
+</label>
+
+<input
 type="number"
+id="precoAntigo"
+placeholder="Ex: 499.90"
 step="0.01"
-placeholder="349.90"
+>
 
-«»
-
-<label for="categoria">
+<label>
 Categoria
-</label><select id="categoria"><option value="masculino">
+</label>
+
+<select id="categoria">
+
+<option value="Tênis">
+Tênis
+</option>
+
+<option value="Masculino">
 Masculino
-</option><option value="feminino">
+</option>
+
+<option value="Feminino">
 Feminino
-</option></select><label for="tag">
+</option>
+
+<option value="Infantil">
+Infantil
+</option>
+
+</select>
+
+<label>
 Etiqueta
-</label><select id="tag"><option value="">
-Nenhuma
-</option><option value="OFERTA">
-OFERTA
-</option><option value="NOVO">
+</label>
+
+<select id="tag">
+
+<option value="">
+Sem etiqueta
+</option>
+
+<option value="NOVO">
 NOVO
-</option></select><label for="imagem">
+</option>
+
+<option value="OFERTA">
+OFERTA
+</option>
+
+<option value="DESTAQUE">
+DESTAQUE
+</option>
+
+</select>
+
+<label>
 URL da imagem
-</label><input
+</label>
+
+<input
+type="text"
 id="imagem"
-type="url"
 placeholder="https://..."
+>
 
-«»
+<div class="botoes">
 
-<button id="salvar">
+<button class="salvar" id="salvar">
 💾 SALVAR PRODUTO
-</button><button id="cancelar">
-❌ CANCELAR
-</button><div id="mensagem"></div></div><h2>
-📋 Produtos cadastrados
-</h2><div id="lista">
-⏳ Carregando...
-</div></div><script>
+</button>
 
-const URL_SUPABASE =
+<button class="cancelar" id="cancelar">
+CANCELAR
+</button>
+
+</div>
+
+<div class="mensagem" id="mensagem"></div>
+
+</div>
+
+<h2>
+📦 Produtos cadastrados
+</h2>
+
+<div id="lista">
+Carregando produtos...
+</div>
+
+</div>
+
+<script>
+
+var SUPABASE_URL =
 "https://ravaircmbkotndfghilq.supabase.co";
 
-const CHAVE =
+var SUPABASE_KEY =
 "sb_publishable_yL40T2sEFQBtKwISbLrY9Q_EHqvb23C";
 
-let editandoId=null;
+var editandoId = null;
 
 
-/* ABRIR FORMULÁRIO */
+/* =========================
+   ELEMENTOS
+========================= */
 
-document
-.getElementById("abrir")
-.addEventListener("click",function(){
+var abrir =
+document.getElementById("abrir");
 
-document
-.getElementById("formulario")
-.classList.add("aberto");
+var formulario =
+document.getElementById("formulario");
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
+var cancelar =
+document.getElementById("cancelar");
 
-});
+var salvar =
+document.getElementById("salvar");
 
+var lista =
+document.getElementById("lista");
 
-/* CANCELAR */
+var mensagem =
+document.getElementById("mensagem");
 
-document
-.getElementById("cancelar")
-.addEventListener("click",function(){
-
-document
-.getElementById("formulario")
-.classList.remove("aberto");
-
-editandoId=null;
-
-});
+var tituloFormulario =
+document.getElementById("tituloFormulario");
 
 
-/* SALVAR */
+/* =========================
+   ABRIR FORMULÁRIO
+========================= */
 
-document
-.getElementById("salvar")
-.addEventListener("click",async function(){
+abrir.onclick = function(){
 
-const nome=
-document.getElementById("nome")
-.value.trim();
+editandoId = null;
 
-const preco=
-document.getElementById("preco")
-.value;
+tituloFormulario.innerText =
+"Adicionar produto";
 
-const precoAntigo=
-document.getElementById("precoAntigo")
-.value;
+limparFormulario();
 
-const categoria=
-document.getElementById("categoria")
-.value;
+formulario.classList.add("aberto");
 
-const tag=
-document.getElementById("tag")
-.value;
-
-const imagem=
-document.getElementById("imagem")
-.value.trim();
-
-
-if(!nome){
-
-mostrar(
-"❌ Digite o nome do tênis.",
-true
-);
-
-return;
-
-}
-
-
-if(!preco){
-
-mostrar(
-"❌ Digite o preço.",
-true
-);
-
-return;
-
-}
-
-
-const dados={
-
-name:nome,
-
-price:Number(preco),
-
-old:
-precoAntigo
-?
-Number(precoAntigo)
-:
-null,
-
-cat:categoria,
-
-tag:tag,
-
-image:imagem
+window.scrollTo(0,0);
 
 };
 
 
-this.disabled=true;
+/* =========================
+   CANCELAR
+========================= */
 
-this.textContent="⏳ SALVANDO...";
+cancelar.onclick = function(){
+
+formulario.classList.remove("aberto");
+
+editandoId = null;
+
+limparFormulario();
+
+};
+
+
+/* =========================
+   LIMPAR
+========================= */
+
+function limparFormulario(){
+
+document.getElementById("nome").value = "";
+
+document.getElementById("preco").value = "";
+
+document.getElementById("precoAntigo").value = "";
+
+document.getElementById("categoria").value = "Tênis";
+
+document.getElementById("tag").value = "";
+
+document.getElementById("imagem").value = "";
+
+}
+
+
+/* =========================
+   MENSAGEM
+========================= */
+
+function mostrarMensagem(texto, sucesso){
+
+mensagem.style.display = "block";
+
+mensagem.innerText = texto;
+
+if(sucesso){
+
+mensagem.style.background = "#153d1e";
+
+mensagem.style.color = "#5cff78";
+
+}else{
+
+mensagem.style.background = "#451515";
+
+mensagem.style.color = "#ff7777";
+
+}
+
+}
+
+
+/* =========================
+   SALVAR
+========================= */
+
+salvar.onclick = async function(){
+
+var nome =
+document.getElementById("nome").value.trim();
+
+var preco =
+document.getElementById("preco").value;
+
+var precoAntigo =
+document.getElementById("precoAntigo").value;
+
+var categoria =
+document.getElementById("categoria").value;
+
+var tag =
+document.getElementById("tag").value;
+
+var imagem =
+document.getElementById("imagem").value.trim();
+
+
+if(nome === ""){
+
+mostrarMensagem(
+"Digite o nome do produto.",
+false
+);
+
+return;
+
+}
+
+
+if(preco === ""){
+
+mostrarMensagem(
+"Digite o preço do produto.",
+false
+);
+
+return;
+
+}
+
+
+if(imagem === ""){
+
+mostrarMensagem(
+"Digite a URL da imagem.",
+false
+);
+
+return;
+
+}
+
+
+var produto = {
+
+name: nome,
+
+price: Number(preco),
+
+old: precoAntigo === ""
+? null
+: Number(precoAntigo),
+
+cat: categoria,
+
+tag: tag,
+
+image: imagem
+
+};
+
+
+salvar.disabled = true;
+
+salvar.innerText = "SALVANDO...";
 
 
 try{
 
-let resposta;
+var resposta;
 
 
-if(editandoId){
+if(editandoId === null){
 
-resposta=
-await fetch(
+/* NOVO PRODUTO */
 
-URL_SUPABASE+
-"/rest/v1/products?id=eq."+
-editandoId,
+resposta = await fetch(
 
-{
-
-method:"PATCH",
-
-headers:{
-
-"apikey":CHAVE,
-
-"Content-Type":
-"application/json"
-
-},
-
-body:
-JSON.stringify(dados)
-
-}
-
-);
-
-}else{
-
-resposta=
-await fetch(
-
-URL_SUPABASE+
+SUPABASE_URL +
 "/rest/v1/products",
 
 {
@@ -434,7 +575,7 @@ method:"POST",
 
 headers:{
 
-"apikey":CHAVE,
+"apikey":SUPABASE_KEY,
 
 "Content-Type":
 "application/json",
@@ -444,130 +585,127 @@ headers:{
 
 },
 
-body:
-JSON.stringify(dados)
+body:JSON.stringify(produto)
+
+}
+
+);
+
+}else{
+
+/* EDITAR PRODUTO */
+
+resposta = await fetch(
+
+SUPABASE_URL +
+"/rest/v1/products?id=eq." +
+editandoId,
+
+{
+
+method:"PATCH",
+
+headers:{
+
+"apikey":SUPABASE_KEY,
+
+"Content-Type":
+"application/json",
+
+"Prefer":
+"return=representation"
+
+},
+
+body:JSON.stringify(produto)
 
 }
 
 );
 
 }
+
+
+var texto =
+await resposta.text();
 
 
 if(!resposta.ok){
 
-throw new Error(
-await resposta.text()
-);
+throw new Error(texto);
 
 }
 
 
-mostrar(
+mostrarMensagem(
 
-editandoId
-?
-"✅ Produto atualizado com sucesso!"
-:
-"✅ Produto salvo com sucesso!"
+editandoId === null
+? "✅ Produto adicionado com sucesso!"
+: "✅ Produto atualizado com sucesso!",
+
+true
 
 );
 
 
-limpar();
+formulario.classList.remove("aberto");
 
-editandoId=null;
+editandoId = null;
 
-carregar();
+limparFormulario();
+
+await carregarProdutos();
 
 
 }catch(erro){
 
 console.error(erro);
 
-mostrar(
-"❌ Erro ao salvar:<br><br>"+
-esc(erro.message),
-true
+mostrarMensagem(
+
+"❌ Erro ao salvar: " +
+erro.message,
+
+false
+
 );
 
 }
 
 
-this.disabled=false;
+salvar.disabled = false;
 
-this.textContent=
+salvar.innerText =
 "💾 SALVAR PRODUTO";
 
-});
+};
 
 
-/* MENSAGEM */
+/* =========================
+   CARREGAR PRODUTOS
+========================= */
 
-function mostrar(texto,erro){
+async function carregarProdutos(){
 
-const m=
-document.getElementById("mensagem");
+lista.innerHTML =
+"Carregando produtos...";
 
-m.innerHTML=texto;
-
-m.style.display="block";
-
-m.style.background=
-erro
-?
-"#351515"
-:
-"#15351f";
-
-m.style.color=
-erro
-?
-"#ff7777"
-:
-"#7cff9b";
-
-}
-
-
-/* LIMPAR */
-
-function limpar(){
-
-document.getElementById("nome").value="";
-
-document.getElementById("preco").value="";
-
-document.getElementById("precoAntigo").value="";
-
-document.getElementById("categoria").value="masculino";
-
-document.getElementById("tag").value="";
-
-document.getElementById("imagem").value="";
-
-}
-
-
-/* CARREGAR */
-
-async function carregar(){
-
-const lista=
-document.getElementById("lista");
 
 try{
 
-const resposta=
-await fetch(
+var resposta = await fetch(
 
-URL_SUPABASE+
+SUPABASE_URL +
 "/rest/v1/products?select=*&order=id.asc",
 
 {
 
+method:"GET",
+
 headers:{
-"apikey":CHAVE
+
+"apikey":SUPABASE_KEY
+
 }
 
 }
@@ -584,30 +722,304 @@ await resposta.text()
 }
 
 
-const produtos=
+var produtos =
 await resposta.json();
 
 
-if(!produtos.length){
+lista.innerHTML = "";
 
-lista.innerHTML=
-"📦 Nenhum produto cadastrado.";
+
+if(produtos.length === 0){
+
+lista.innerHTML =
+'<div class="vazio">Nenhum produto cadastrado.</div>';
 
 return;
 
 }
 
 
-lista.innerHTML=
-produtos.map(function(p){
+for(var i = 0; i < produtos.length; i++){
 
-const nome=
-p.name ||
-p.Name ||
-"Produto";
+criarProduto(produtos[i]);
 
-const preco=
-Number(p.price||0)
+}
+
+
+}catch(erro){
+
+console.error(erro);
+
+lista.innerHTML =
+
+'<div class="vazio">' +
+"❌ Erro ao carregar produtos." +
+"<br><br>" +
+erro.message +
+"</div>";
+
+}
+
+}
+
+
+/* =========================
+   CRIAR CARD
+========================= */
+
+function criarProduto(produto){
+
+var card =
+document.createElement("div");
+
+card.className =
+"produto";
+
+
+var imagem =
+document.createElement("img");
+
+imagem.src =
+produto.image || "";
+
+imagem.onerror =
+function(){
+
+this.style.display = "none";
+
+};
+
+
+var info =
+document.createElement("div");
+
+info.className =
+"info";
+
+
+var nome =
+document.createElement("div");
+
+nome.className =
+"nome-produto";
+
+nome.innerText =
+produto.name || "Sem nome";
+
+
+var preco =
+document.createElement("div");
+
+preco.className =
+"preco";
+
+preco.innerText =
+formatarPreco(produto.price);
+
+
+var categoria =
+document.createElement("div");
+
+categoria.innerText =
+"Categoria: " +
+(produto.cat || "-");
+
+
+var acoes =
+document.createElement("div");
+
+acoes.className =
+"acoes";
+
+
+var editar =
+document.createElement("button");
+
+editar.className =
+"editar";
+
+editar.innerText =
+"✏️ EDITAR";
+
+
+editar.onclick =
+function(){
+
+editarProduto(produto);
+
+};
+
+
+var excluir =
+document.createElement("button");
+
+excluir.className =
+"excluir";
+
+excluir.innerText =
+"🗑️ EXCLUIR";
+
+
+excluir.onclick =
+function(){
+
+excluirProduto(produto.id);
+
+};
+
+
+acoes.appendChild(editar);
+
+acoes.appendChild(excluir);
+
+
+info.appendChild(nome);
+
+info.appendChild(preco);
+
+info.appendChild(categoria);
+
+info.appendChild(acoes);
+
+
+card.appendChild(imagem);
+
+card.appendChild(info);
+
+
+lista.appendChild(card);
+
+}
+
+
+/* =========================
+   EDITAR
+========================= */
+
+function editarProduto(produto){
+
+editandoId =
+produto.id;
+
+tituloFormulario.innerText =
+"Editar produto";
+
+
+document.getElementById("nome").value =
+produto.name || "";
+
+
+document.getElementById("preco").value =
+produto.price || "";
+
+
+document.getElementById("precoAntigo").value =
+produto.old || "";
+
+
+document.getElementById("categoria").value =
+produto.cat || "Tênis";
+
+
+document.getElementById("tag").value =
+produto.tag || "";
+
+
+document.getElementById("imagem").value =
+produto.image || "";
+
+
+formulario.classList.add("aberto");
+
+window.scrollTo(0,0);
+
+}
+
+
+/* =========================
+   EXCLUIR
+========================= */
+
+async function excluirProduto(id){
+
+var confirmar =
+confirm(
+"Tem certeza que deseja excluir este produto?"
+);
+
+
+if(!confirmar){
+
+return;
+
+}
+
+
+try{
+
+var resposta =
+await fetch(
+
+SUPABASE_URL +
+"/rest/v1/products?id=eq." +
+id,
+
+{
+
+method:"DELETE",
+
+headers:{
+
+"apikey":SUPABASE_KEY,
+
+"Prefer":
+"return=representation"
+
+}
+
+}
+
+);
+
+
+if(!resposta.ok){
+
+throw new Error(
+await resposta.text()
+);
+
+}
+
+
+alert(
+"✅ Produto excluído com sucesso!"
+);
+
+
+carregarProdutos();
+
+
+}catch(erro){
+
+console.error(erro);
+
+alert(
+"❌ Erro ao excluir: " +
+erro.message
+);
+
+}
+
+}
+
+
+/* =========================
+   PREÇO
+========================= */
+
+function formatarPreco(valor){
+
+return Number(valor || 0)
 .toLocaleString(
 "pt-BR",
 {
@@ -616,264 +1028,24 @@ currency:"BRL"
 }
 );
 
-return `
-
-<div class="produto">
-
-<div class="nome">
-${esc(nome)}
-</div>
-
-<div class="info">
-💰 ${preco}
-</div>
-
-<div class="info">
-📂 ${esc(p.cat||"Sem categoria")}
-</div>
-
-${p.tag?`
-
-<div class="tag">
-${esc(p.tag)}
-</div>
-
-`:``}
-
-<div class="acoes">
-
-<button
-class="editar"
-data-id="${p.id}"
->
-✏️ EDITAR
-</button>
-
-<button
-class="excluir"
-data-id="${p.id}"
->
-🗑️ EXCLUIR
-</button>
-
-</div>
-
-</div>
-
-`;
-
-}).join("");
-
-
-document
-.querySelectorAll(".editar")
-.forEach(function(btn){
-
-btn.addEventListener(
-"click",
-function(){
-
-editar(
-Number(this.dataset.id)
-);
-
-});
-
-});
-
-
-document
-.querySelectorAll(".excluir")
-.forEach(function(btn){
-
-btn.addEventListener(
-"click",
-function(){
-
-excluir(
-Number(this.dataset.id)
-);
-
-});
-
-});
-
-
-}catch(erro){
-
-lista.innerHTML=
-"❌ Erro: "+
-esc(erro.message);
-
-}
-
 }
 
 
-/* EDITAR */
+/* =========================
+   TESTE DO JAVASCRIPT
+========================= */
 
-async function editar(id){
+document.getElementById("status").innerText =
+"✅ PAINEL VIBE KICKS ONLINE — JAVASCRIPT FUNCIONANDO";
 
-try{
 
-const resposta=
-await fetch(
+/* =========================
+   INICIAR
+========================= */
 
-URL_SUPABASE+
-"/rest/v1/products?id=eq."+
-id,
+carregarProdutos();
 
-{
-
-headers:{
-"apikey":CHAVE
-}
-
-}
-
-);
-
-const produtos=
-await resposta.json();
-
-if(!produtos.length){
-
-alert("Produto não encontrado.");
-
-return;
-
-}
-
-const p=produtos[0];
-
-editandoId=id;
-
-document.getElementById("nome").value=
-p.name||p.Name||"";
-
-document.getElementById("preco").value=
-p.price||"";
-
-document.getElementById("precoAntigo").value=
-p.old||"";
-
-document.getElementById("categoria").value=
-p.cat||"masculino";
-
-document.getElementById("tag").value=
-p.tag||"";
-
-document.getElementById("imagem").value=
-p.image||"";
-
-document.getElementById("titulo").textContent=
-"✏️ Editar produto";
-
-document.getElementById("salvar").textContent=
-"💾 ATUALIZAR PRODUTO";
-
-document.getElementById("formulario")
-.classList.add("aberto");
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-}catch(erro){
-
-alert(
-"Erro ao editar:\n\n"+
-erro.message
-);
-
-}
-
-}
-
-
-/* EXCLUIR */
-
-async function excluir(id){
-
-if(!confirm(
-"Tem certeza que deseja excluir este produto?"
-)){
-
-return;
-
-}
-
-try{
-
-const resposta=
-await fetch(
-
-URL_SUPABASE+
-"/rest/v1/products?id=eq."+
-id,
-
-{
-
-method:"DELETE",
-
-headers:{
-"apikey":CHAVE
-}
-
-}
-
-);
-
-
-if(!resposta.ok){
-
-throw new Error(
-await resposta.text()
-);
-
-}
-
-
-alert(
-"✅ Produto excluído!"
-);
-
-carregar();
-
-
-}catch(erro){
-
-alert(
-"❌ Erro ao excluir:\n\n"+
-erro.message
-);
-
-}
-
-}
-
-
-/* ESCAPAR */
-
-function esc(valor){
-
-return String(valor??"")
-
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-
-}
-
-
-/* INICIAR */
-
-carregar();
-<script>
-alert("TESTE FUNCIONOU");
 </script>
-</script></body>
+
+</body>
 </html>
