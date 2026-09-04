@@ -1,4 +1,11 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Vibe Kicks - Painel</title><style>
+<!DOCTYPE html><html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Painel Vibe Kicks</title><style>
+
+*{
+box-sizing:border-box;
+}
 
 body{
 margin:0;
@@ -32,18 +39,18 @@ text-decoration:none;
 }
 
 button{
-width:100%;
-padding:16px;
-border:0;
-border-radius:10px;
-font-size:16px;
-font-weight:bold;
 cursor:pointer;
 }
 
 #abrir{
+width:100%;
+padding:17px;
+border:0;
+border-radius:10px;
 background:#f2a900;
 color:#000;
+font-size:17px;
+font-weight:bold;
 }
 
 #formulario{
@@ -52,59 +59,86 @@ background:#151515;
 padding:20px;
 margin-top:20px;
 border-radius:12px;
+border:1px solid #333;
+}
+
+#formulario.aberto{
+display:block;
+}
+
+h2{
+margin-top:0;
 }
 
 label{
 display:block;
-margin-top:15px;
-margin-bottom:6px;
+margin-top:16px;
+margin-bottom:7px;
 font-weight:bold;
 }
 
-input,select{
+input,
+select{
 width:100%;
-padding:13px;
+padding:14px;
 background:#222;
-border:1px solid #444;
+border:1px solid #555;
 border-radius:8px;
-color:white;
-font-size:15px;
-box-sizing:border-box;
+color:#fff;
+font-size:16px;
 }
 
 #salvar{
-margin-top:20px;
+display:block;
+width:100%;
+margin-top:25px;
+padding:17px;
+border:0;
+border-radius:10px;
 background:#25d366;
 color:#000;
+font-size:17px;
+font-weight:900;
+}
+
+#salvar:disabled{
+opacity:.6;
 }
 
 #cancelar{
+display:block;
+width:100%;
 margin-top:10px;
+padding:14px;
+border:0;
+border-radius:10px;
 background:#333;
 color:#fff;
+font-weight:bold;
 }
 
 #mensagem{
-margin-top:15px;
-padding:12px;
-border-radius:8px;
 display:none;
+margin-top:15px;
+padding:14px;
+border-radius:8px;
+line-height:1.5;
 }
 
 #lista{
-margin-top:25px;
+margin-top:20px;
 }
 
 .produto{
 background:#151515;
-border:1px solid #292929;
-padding:15px;
-border-radius:10px;
+border:1px solid #333;
+border-radius:12px;
+padding:16px;
 margin-bottom:12px;
 }
 
 .nome{
-font-size:18px;
+font-size:19px;
 font-weight:bold;
 }
 
@@ -119,6 +153,15 @@ gap:10px;
 margin-top:15px;
 }
 
+.editar,
+.excluir{
+width:50%;
+padding:12px;
+border:0;
+border-radius:8px;
+font-weight:bold;
+}
+
 .editar{
 background:#287be5;
 color:#fff;
@@ -129,24 +172,35 @@ background:#e53935;
 color:#fff;
 }
 
-#avisoJS{
+.tag{
+display:inline-block;
+margin-top:8px;
+padding:5px 8px;
+border-radius:5px;
+background:#f2a900;
+color:#000;
+font-size:11px;
+font-weight:bold;
+}
+
+.aviso{
 background:#15351f;
 color:#7cff9b;
-padding:12px;
+padding:10px;
 border-radius:8px;
 margin-bottom:15px;
 text-align:center;
 }
 
-</style></head><body><div class="container"><div id="avisoJS">
-✅ PAINEL CARREGADO
+</style></head><body><div class="container"><div class="aviso">
+✅ PAINEL VIBE KICKS ONLINE
 </div><header><h1>⚡ VIBE KICKS</h1><a class="voltar" href="/">
 ← Loja
 </a></header><button id="abrir">
 ➕ ADICIONAR PRODUTO
 </button><div id="formulario"><h2 id="titulo">
 📦 Novo produto
-</h2><label>
+</h2><label for="nome">
 Nome do tênis
 </label><input
 id="nome"
@@ -155,7 +209,7 @@ placeholder="Ex: Nike Air Max"
 
 «»
 
-<label>
+<label for="preco">
 Preço
 </label><input
 id="preco"
@@ -165,7 +219,7 @@ placeholder="299.90"
 
 «»
 
-<label>
+<label for="precoAntigo">
 Preço antigo
 </label><input
 id="precoAntigo"
@@ -175,13 +229,13 @@ placeholder="349.90"
 
 «»
 
-<label>
+<label for="categoria">
 Categoria
 </label><select id="categoria"><option value="masculino">
 Masculino
 </option><option value="feminino">
 Feminino
-</option></select><label>
+</option></select><label for="tag">
 Etiqueta
 </label><select id="tag"><option value="">
 Nenhuma
@@ -189,7 +243,7 @@ Nenhuma
 OFERTA
 </option><option value="NOVO">
 NOVO
-</option></select><label>
+</option></select><label for="imagem">
 URL da imagem
 </label><input
 id="imagem"
@@ -201,34 +255,31 @@ placeholder="https://..."
 <button id="salvar">
 💾 SALVAR PRODUTO
 </button><button id="cancelar">
-CANCELAR
+❌ CANCELAR
 </button><div id="mensagem"></div></div><h2>
 📋 Produtos cadastrados
 </h2><div id="lista">
-⏳ Carregando produtos...
+⏳ Carregando...
 </div></div><script>
 
-const SUPABASE_URL =
+const URL_SUPABASE =
 "https://ravaircmbkotndfghilq.supabase.co";
 
-const SUPABASE_KEY =
+const CHAVE =
 "sb_publishable_yL40T2sEFQBtKwISbLrY9Q_EHqvb23C";
 
+let editandoId=null;
 
-let editando = null;
 
-
-/* =========================
-ABRIR FORMULÁRIO
-========================= */
+/* ABRIR FORMULÁRIO */
 
 document
 .getElementById("abrir")
-.addEventListener("click", function(){
+.addEventListener("click",function(){
 
 document
 .getElementById("formulario")
-.style.display = "block";
+.classList.add("aberto");
 
 window.scrollTo({
 top:0,
@@ -238,91 +289,55 @@ behavior:"smooth"
 });
 
 
-/* =========================
-CANCELAR
-========================= */
+/* CANCELAR */
 
 document
 .getElementById("cancelar")
-.addEventListener("click", function(){
+.addEventListener("click",function(){
 
 document
 .getElementById("formulario")
-.style.display = "none";
+.classList.remove("aberto");
 
-editando=null;
+editandoId=null;
 
 });
 
 
-/* =========================
-MENSAGEM
-========================= */
-
-function mensagem(texto,erro){
-
-const m =
-document.getElementById("mensagem");
-
-m.innerHTML=texto;
-
-m.style.display="block";
-
-if(erro){
-
-m.style.background="#351515";
-
-m.style.color="#ff7777";
-
-}else{
-
-m.style.background="#15351f";
-
-m.style.color="#7cff9b";
-
-}
-
-}
-
-
-/* =========================
-SALVAR
-========================= */
+/* SALVAR */
 
 document
 .getElementById("salvar")
-.addEventListener("click", async function(){
+.addEventListener("click",async function(){
 
-const nome =
+const nome=
 document.getElementById("nome")
-.value
-.trim();
+.value.trim();
 
-const preco =
+const preco=
 document.getElementById("preco")
 .value;
 
-const precoAntigo =
+const precoAntigo=
 document.getElementById("precoAntigo")
 .value;
 
-const categoria =
+const categoria=
 document.getElementById("categoria")
 .value;
 
-const tag =
+const tag=
 document.getElementById("tag")
 .value;
 
-const imagem =
+const imagem=
 document.getElementById("imagem")
-.value
-.trim();
+.value.trim();
 
 
 if(!nome){
 
-mensagem(
+mostrar(
 "❌ Digite o nome do tênis.",
 true
 );
@@ -334,7 +349,7 @@ return;
 
 if(!preco){
 
-mensagem(
+mostrar(
 "❌ Digite o preço.",
 true
 );
@@ -366,11 +381,9 @@ image:imagem
 };
 
 
-const botao=this;
+this.disabled=true;
 
-botao.disabled=true;
-
-botao.textContent="⏳ SALVANDO...";
+this.textContent="⏳ SALVANDO...";
 
 
 try{
@@ -378,14 +391,14 @@ try{
 let resposta;
 
 
-if(editando){
+if(editandoId){
 
-resposta =
+resposta=
 await fetch(
 
-SUPABASE_URL +
-"/rest/v1/products?id=eq." +
-editando,
+URL_SUPABASE+
+"/rest/v1/products?id=eq."+
+editandoId,
 
 {
 
@@ -393,7 +406,7 @@ method:"PATCH",
 
 headers:{
 
-"apikey":SUPABASE_KEY,
+"apikey":CHAVE,
 
 "Content-Type":
 "application/json"
@@ -409,10 +422,10 @@ JSON.stringify(dados)
 
 }else{
 
-resposta =
+resposta=
 await fetch(
 
-SUPABASE_URL +
+URL_SUPABASE+
 "/rest/v1/products",
 
 {
@@ -421,7 +434,7 @@ method:"POST",
 
 headers:{
 
-"apikey":SUPABASE_KEY,
+"apikey":CHAVE,
 
 "Content-Type":
 "application/json",
@@ -443,56 +456,81 @@ JSON.stringify(dados)
 
 if(!resposta.ok){
 
-const erro =
-await resposta.text();
-
-throw new Error(erro);
+throw new Error(
+await resposta.text()
+);
 
 }
 
 
-mensagem(
+mostrar(
 
-editando
+editandoId
 ?
 "✅ Produto atualizado com sucesso!"
 :
-"✅ Produto cadastrado com sucesso!"
+"✅ Produto salvo com sucesso!"
 
 );
 
 
 limpar();
 
-editando=null;
+editandoId=null;
 
-carregarProdutos();
+carregar();
 
 
 }catch(erro){
 
 console.error(erro);
 
-mensagem(
-"❌ ERRO:<br><br>" +
-erro.message,
+mostrar(
+"❌ Erro ao salvar:<br><br>"+
+esc(erro.message),
 true
 );
 
 }
 
 
-botao.disabled=false;
+this.disabled=false;
 
-botao.textContent=
+this.textContent=
 "💾 SALVAR PRODUTO";
 
 });
 
 
-/* =========================
-LIMPAR
-========================= */
+/* MENSAGEM */
+
+function mostrar(texto,erro){
+
+const m=
+document.getElementById("mensagem");
+
+m.innerHTML=texto;
+
+m.style.display="block";
+
+m.style.background=
+erro
+?
+"#351515"
+:
+"#15351f";
+
+m.style.color=
+erro
+?
+"#ff7777"
+:
+"#7cff9b";
+
+}
+
+
+/* LIMPAR */
 
 function limpar(){
 
@@ -511,31 +549,25 @@ document.getElementById("imagem").value="";
 }
 
 
-/* =========================
-CARREGAR
-========================= */
+/* CARREGAR */
 
-async function carregarProdutos(){
+async function carregar(){
 
-const lista =
+const lista=
 document.getElementById("lista");
 
 try{
 
-const resposta =
+const resposta=
 await fetch(
 
-SUPABASE_URL +
+URL_SUPABASE+
 "/rest/v1/products?select=*&order=id.asc",
 
 {
 
-method:"GET",
-
 headers:{
-
-"apikey":SUPABASE_KEY
-
+"apikey":CHAVE
 }
 
 }
@@ -552,7 +584,7 @@ await resposta.text()
 }
 
 
-const produtos =
+const produtos=
 await resposta.json();
 
 
@@ -566,18 +598,15 @@ return;
 }
 
 
-lista.innerHTML="";
+lista.innerHTML=
+produtos.map(function(p){
 
-
-produtos.forEach(function(p){
-
-const nome =
+const nome=
 p.name ||
 p.Name ||
 "Produto";
 
-
-const preco =
+const preco=
 Number(p.price||0)
 .toLocaleString(
 "pt-BR",
@@ -587,17 +616,12 @@ currency:"BRL"
 }
 );
 
+return `
 
-const div =
-document.createElement("div");
-
-div.className="produto";
-
-
-div.innerHTML=`
+<div class="produto">
 
 <div class="nome">
-${escapar(nome)}
+${esc(nome)}
 </div>
 
 <div class="info">
@@ -605,16 +629,16 @@ ${escapar(nome)}
 </div>
 
 <div class="info">
-📂 ${escapar(p.cat||"Sem categoria")}
+📂 ${esc(p.cat||"Sem categoria")}
 </div>
 
-${p.tag ? `
+${p.tag?`
 
-<div class="info">
-🏷️ ${escapar(p.tag)}
+<div class="tag">
+${esc(p.tag)}
 </div>
 
-` : ""}
+`:``}
 
 <div class="acoes">
 
@@ -634,93 +658,83 @@ data-id="${p.id}"
 
 </div>
 
+</div>
+
 `;
 
+}).join("");
 
-div
-.querySelector(".editar")
-.addEventListener(
+
+document
+.querySelectorAll(".editar")
+.forEach(function(btn){
+
+btn.addEventListener(
 "click",
 function(){
 
-editarProduto(p.id);
-
-}
+editar(
+Number(this.dataset.id)
 );
 
+});
 
-div
-.querySelector(".excluir")
-.addEventListener(
+});
+
+
+document
+.querySelectorAll(".excluir")
+.forEach(function(btn){
+
+btn.addEventListener(
 "click",
 function(){
 
-excluirProduto(p.id);
-
-}
+excluir(
+Number(this.dataset.id)
 );
 
-
-lista.appendChild(div);
+});
 
 });
 
 
 }catch(erro){
 
-console.error(erro);
-
 lista.innerHTML=
-
-"❌ Erro ao carregar produtos:<br><br>" +
-
-escapar(erro.message);
+"❌ Erro: "+
+esc(erro.message);
 
 }
 
 }
 
 
-/* =========================
-EDITAR
-========================= */
+/* EDITAR */
 
-async function editarProduto(id){
+async function editar(id){
 
 try{
 
-const resposta =
+const resposta=
 await fetch(
 
-SUPABASE_URL +
-"/rest/v1/products?id=eq." +
+URL_SUPABASE+
+"/rest/v1/products?id=eq."+
 id,
 
 {
 
 headers:{
-
-"apikey":SUPABASE_KEY
-
+"apikey":CHAVE
 }
 
 }
 
 );
 
-
-if(!resposta.ok){
-
-throw new Error(
-await resposta.text()
-);
-
-}
-
-
-const produtos =
+const produtos=
 await resposta.json();
-
 
 if(!produtos.length){
 
@@ -730,56 +744,46 @@ return;
 
 }
 
-
 const p=produtos[0];
 
+editandoId=id;
 
-editando=id;
+document.getElementById("nome").value=
+p.name||p.Name||"";
 
+document.getElementById("preco").value=
+p.price||"";
 
-document.getElementById("nome").value =
-p.name || p.Name || "";
+document.getElementById("precoAntigo").value=
+p.old||"";
 
-document.getElementById("preco").value =
-p.price || "";
+document.getElementById("categoria").value=
+p.cat||"masculino";
 
-document.getElementById("precoAntigo").value =
-p.old || "";
+document.getElementById("tag").value=
+p.tag||"";
 
-document.getElementById("categoria").value =
-p.cat || "masculino";
+document.getElementById("imagem").value=
+p.image||"";
 
-document.getElementById("tag").value =
-p.tag || "";
-
-document.getElementById("imagem").value =
-p.image || "";
-
-
-document.getElementById("titulo")
-.textContent=
+document.getElementById("titulo").textContent=
 "✏️ Editar produto";
 
-
-document.getElementById("salvar")
-.textContent=
+document.getElementById("salvar").textContent=
 "💾 ATUALIZAR PRODUTO";
 
-
 document.getElementById("formulario")
-.style.display="block";
-
+.classList.add("aberto");
 
 window.scrollTo({
 top:0,
 behavior:"smooth"
 });
 
-
 }catch(erro){
 
 alert(
-"❌ Erro ao editar:\n\n" +
+"Erro ao editar:\n\n"+
 erro.message
 );
 
@@ -788,28 +792,25 @@ erro.message
 }
 
 
-/* =========================
-EXCLUIR
-========================= */
+/* EXCLUIR */
 
-async function excluirProduto(id){
+async function excluir(id){
 
 if(!confirm(
-"⚠️ Tem certeza que deseja excluir este produto?"
+"Tem certeza que deseja excluir este produto?"
 )){
 
 return;
 
 }
 
-
 try{
 
-const resposta =
+const resposta=
 await fetch(
 
-SUPABASE_URL +
-"/rest/v1/products?id=eq." +
+URL_SUPABASE+
+"/rest/v1/products?id=eq."+
 id,
 
 {
@@ -817,9 +818,7 @@ id,
 method:"DELETE",
 
 headers:{
-
-"apikey":SUPABASE_KEY
-
+"apikey":CHAVE
 }
 
 }
@@ -837,20 +836,17 @@ await resposta.text()
 
 
 alert(
-"✅ Produto excluído com sucesso!"
+"✅ Produto excluído!"
 );
 
-
-carregarProdutos();
+carregar();
 
 
 }catch(erro){
 
 alert(
-
-"❌ Erro ao excluir:\n\n" +
+"❌ Erro ao excluir:\n\n"+
 erro.message
-
 );
 
 }
@@ -858,31 +854,24 @@ erro.message
 }
 
 
-/* =========================
-ESCAPAR TEXTO
-========================= */
+/* ESCAPAR */
 
-function escapar(valor){
+function esc(valor){
 
-return String(valor ?? "")
+return String(valor??"")
 
 .replace(/&/g,"&amp;")
-
 .replace(/</g,"&lt;")
-
 .replace(/>/g,"&gt;")
-
 .replace(/"/g,"&quot;")
-
 .replace(/'/g,"&#039;");
 
 }
 
 
-/* =========================
-INICIAR
-========================= */
+/* INICIAR */
 
-carregarProdutos();
+carregar();
 
-</script></body></html>
+</script></body>
+</html>
