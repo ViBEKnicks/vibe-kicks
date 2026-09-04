@@ -1,1530 +1,1387 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Painel Vibe Kicks</title>
+<title>VIBE KICKS - Admin</title>
 
 <style>
-
 *{
-box-sizing:border-box;
+  box-sizing:border-box;
 }
 
 body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#111;
-color:#fff;
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#0b0b0b;
+  color:white;
 }
 
 header{
-background:#181818;
-padding:20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-border-bottom:1px solid #333;
+  background:#111;
+  padding:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #333;
 }
 
 .logo{
-font-size:25px;
-font-weight:bold;
-color:#ffb000;
+  font-size:24px;
+  font-weight:bold;
+  color:#ffb000;
 }
 
-.voltar{
-color:#fff;
-text-decoration:none;
-background:#333;
-padding:10px 15px;
-border-radius:8px;
+.loja{
+  background:#222;
+  color:white;
+  text-decoration:none;
+  padding:10px 15px;
+  border-radius:8px;
 }
 
 .container{
-max-width:900px;
-margin:auto;
-padding:20px;
+  max-width:900px;
+  margin:auto;
+  padding:20px;
 }
 
-.status{
-background:#153d1e;
-color:#5cff78;
-padding:15px;
-border-radius:10px;
-margin-bottom:20px;
-text-align:center;
-font-weight:bold;
+h1{
+  margin-top:10px;
 }
 
-.botao-adicionar{
-width:100%;
-padding:16px;
-border:0;
-border-radius:10px;
-background:#ffb000;
-color:#111;
-font-size:17px;
-font-weight:bold;
-cursor:pointer;
-margin-bottom:20px;
+.botao-principal{
+  width:100%;
+  padding:16px;
+  border:0;
+  border-radius:10px;
+  background:#ffb000;
+  color:#000;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+  margin-bottom:20px;
 }
 
 .formulario{
-display:none;
-background:#1b1b1b;
-padding:20px;
-border-radius:12px;
-margin-bottom:25px;
-}
-
-.formulario.aberto{
-display:block;
-}
-
-h2{
-margin-top:0;
+  display:none;
+  background:#151515;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:25px;
+  border:1px solid #333;
 }
 
 label{
-display:block;
-margin-top:15px;
-margin-bottom:6px;
-font-weight:bold;
+  display:block;
+  margin-top:15px;
+  margin-bottom:6px;
+  font-weight:bold;
 }
 
-input,
-select{
-width:100%;
-padding:13px;
-border-radius:8px;
-border:1px solid #444;
-background:#252525;
-color:#fff;
-font-size:16px;
+input,select{
+  width:100%;
+  padding:13px;
+  border-radius:8px;
+  border:1px solid #444;
+  background:#222;
+  color:white;
+  font-size:16px;
 }
 
-.botao-foto{
-display:block;
-width:100%;
-padding:15px;
-margin-top:8px;
-background:#333;
-border:2px dashed #ffb000;
-border-radius:10px;
-color:#fff;
-font-size:16px;
-font-weight:bold;
-text-align:center;
-cursor:pointer;
+input[type="file"]{
+  padding:10px;
 }
 
-#foto{
-display:none;
-}
-
-.previa{
-display:none;
-margin-top:15px;
-text-align:center;
-}
-
-.previa img{
-width:180px;
-height:180px;
-object-fit:contain;
-background:#fff;
-border-radius:10px;
-padding:5px;
-}
-
-.nome-arquivo{
-margin-top:8px;
-color:#aaa;
-font-size:13px;
-word-break:break-word;
+.preview{
+  width:100%;
+  max-height:300px;
+  object-fit:contain;
+  margin-top:15px;
+  border-radius:10px;
+  background:#000;
+  display:none;
 }
 
 .botoes{
-display:flex;
-gap:10px;
-margin-top:20px;
+  display:flex;
+  gap:10px;
+  margin-top:20px;
 }
 
 .salvar{
-flex:1;
-padding:15px;
-background:#22c55e;
-border:0;
-border-radius:8px;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
+  flex:1;
+  padding:15px;
+  border:0;
+  border-radius:8px;
+  background:#16a34a;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
 }
 
 .cancelar{
-padding:15px;
-background:#555;
-color:#fff;
-border:0;
-border-radius:8px;
-cursor:pointer;
-}
-
-.mensagem{
-margin-top:15px;
-padding:12px;
-border-radius:8px;
-display:none;
-word-break:break-word;
+  flex:1;
+  padding:15px;
+  border:0;
+  border-radius:8px;
+  background:#444;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
 }
 
 .produto{
-background:#1b1b1b;
-padding:15px;
-border-radius:12px;
-margin-bottom:15px;
-display:flex;
-gap:15px;
-align-items:center;
+  background:#151515;
+  border:1px solid #333;
+  border-radius:12px;
+  padding:15px;
+  margin-bottom:15px;
+  display:flex;
+  gap:15px;
+  align-items:center;
 }
 
 .produto img{
-width:100px;
-height:100px;
-object-fit:contain;
-background:#fff;
-border-radius:8px;
+  width:100px;
+  height:100px;
+  object-fit:contain;
+  background:#000;
+  border-radius:8px;
 }
 
 .info{
-flex:1;
+  flex:1;
 }
 
-.nome-produto{
-font-size:18px;
-font-weight:bold;
-margin-bottom:8px;
+.nome{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:7px;
 }
 
 .preco{
-color:#ffb000;
-font-size:18px;
-font-weight:bold;
+  color:#ffb000;
+  font-size:18px;
+  font-weight:bold;
 }
 
 .categoria{
-color:#aaa;
-margin-top:5px;
-}
-
-.etiqueta{
-display:inline-block;
-margin-top:7px;
-background:#ffb000;
-color:#111;
-padding:4px 8px;
-border-radius:5px;
-font-size:12px;
-font-weight:bold;
+  color:#aaa;
+  margin-top:5px;
 }
 
 .acoes{
-display:flex;
-gap:8px;
-margin-top:10px;
+  display:flex;
+  gap:8px;
+  margin-top:10px;
 }
 
 .editar{
-background:#2563eb;
-color:#fff;
-border:0;
-padding:9px 12px;
-border-radius:7px;
-cursor:pointer;
+  background:#2563eb;
+  color:white;
+  border:0;
+  padding:9px 12px;
+  border-radius:7px;
+  cursor:pointer;
 }
 
 .excluir{
-background:#dc2626;
-color:#fff;
-border:0;
-padding:9px 12px;
-border-radius:7px;
-cursor:pointer;
+  background:#dc2626;
+  color:white;
+  border:0;
+  padding:9px 12px;
+  border-radius:7px;
+  cursor:pointer;
 }
 
-.vazio{
-text-align:center;
-padding:30px;
-color:#aaa;
+.status{
+  padding:12px;
+  border-radius:8px;
+  margin-bottom:15px;
+  display:none;
+}
+
+.sucesso{
+  display:block;
+  background:#14532d;
+  color:#bbf7d0;
+}
+
+.erro{
+  display:block;
+  background:#7f1d1d;
+  color:#fecaca;
+}
+
+.carregando{
+  text-align:center;
+  color:#aaa;
+  padding:20px;
 }
 
 @media(max-width:600px){
 
-.produto{
-align-items:flex-start;
-}
+  .produto{
+    align-items:flex-start;
+  }
 
-.produto img{
-width:80px;
-height:80px;
-}
+  .produto img{
+    width:80px;
+    height:80px;
+  }
 
-.nome-produto{
-font-size:16px;
-}
+  .acoes{
+    flex-direction:column;
+  }
 
-.preco{
-font-size:16px;
+  .editar,
+  .excluir{
+    width:100%;
+  }
 }
-
-.botoes{
-flex-direction:column;
-}
-
-}
-
 </style>
-
 </head>
 
 <body>
 
 <header>
 
-<div class="logo">
-VIBE KICKS
-</div>
+  <div class="logo">
+    VIBE KICKS
+  </div>
 
-<a class="voltar" href="index.html">
-← Loja
-</a>
+  <a class="loja" href="index.html">
+    ← Loja
+  </a>
 
 </header>
 
 
 <div class="container">
 
-<div class="status">
-✅ PAINEL VIBE KICKS ONLINE
-</div>
+  <h1>Gerenciar Produtos</h1>
+
+  <div id="status" class="status"></div>
+
+  <button id="abrir" class="botao-principal">
+    ➕ ADICIONAR PRODUTO
+  </button>
 
 
-<button
-class="botao-adicionar"
-id="abrir"
-type="button"
->
-➕ ADICIONAR PRODUTO
-</button>
+  <div id="formulario" class="formulario">
+
+    <h2 id="tituloFormulario">
+      Novo Produto
+    </h2>
 
 
-<div
-class="formulario"
-id="formulario"
->
+    <label>
+      Nome do produto
+    </label>
 
-<h2 id="tituloFormulario">
-Adicionar produto
-</h2>
-
-
-<label>
-Nome do produto
-</label>
-
-<input
-type="text"
-id="nome"
-placeholder="Ex: Nike Air Max"
->
+    <input
+      id="nome"
+      type="text"
+      placeholder="Ex: Air Jordan 1"
+    >
 
 
-<label>
-Preço
-</label>
+    <label>
+      Preço
+    </label>
 
-<input
-type="number"
-id="preco"
-placeholder="Ex: 399.90"
-step="0.01"
->
-
-
-<label>
-Preço antigo
-</label>
-
-<input
-type="number"
-id="precoAntigo"
-placeholder="Ex: 499.90"
-step="0.01"
->
+    <input
+      id="preco"
+      type="number"
+      step="0.01"
+      placeholder="Ex: 299.90"
+    >
 
 
-<label>
-Categoria
-</label>
+    <label>
+      Preço antigo
+    </label>
 
-<select id="categoria">
-
-<option value="Tênis">
-Tênis
-</option>
-
-<option value="Masculino">
-Masculino
-</option>
-
-<option value="Feminino">
-Feminino
-</option>
-
-<option value="Infantil">
-Infantil
-</option>
-
-</select>
+    <input
+      id="precoAntigo"
+      type="number"
+      step="0.01"
+      placeholder="Ex: 399.90"
+    >
 
 
-<label>
-Etiqueta
-</label>
+    <label>
+      Categoria
+    </label>
 
-<select id="tag">
+    <select id="categoria">
 
-<option value="">
-Sem etiqueta
-</option>
+      <option value="">
+        Selecione
+      </option>
 
-<option value="NOVO">
-NOVO
-</option>
+      <option value="Masculino">
+        Masculino
+      </option>
 
-<option value="OFERTA">
-OFERTA
-</option>
+      <option value="Feminino">
+        Feminino
+      </option>
 
-<option value="DESTAQUE">
-DESTAQUE
-</option>
+      <option value="Infantil">
+        Infantil
+      </option>
 
-</select>
+      <option value="Lançamento">
+        Lançamento
+      </option>
 
-
-<label>
-Foto do produto
-</label>
-
-
-<label
-for="foto"
-class="botao-foto"
->
-📷 ESCOLHER FOTO DO CELULAR
-</label>
-
-<input
-type="file"
-id="foto"
-accept="image/*"
->
+    </select>
 
 
-<div
-class="previa"
-id="previa"
->
+    <label>
+      Tag
+    </label>
 
-<img
-id="imagemPrevia"
-src=""
-alt="Prévia"
->
+    <select id="tag">
 
-<div
-class="nome-arquivo"
-id="nomeArquivo"
-></div>
+      <option value="">
+        Nenhuma
+      </option>
 
-</div>
+      <option value="Novo">
+        Novo
+      </option>
 
+      <option value="Oferta">
+        Oferta
+      </option>
 
-<div class="botoes">
+      <option value="Mais vendido">
+        Mais vendido
+      </option>
 
-<button
-class="salvar"
-id="salvar"
-type="button"
->
-💾 SALVAR PRODUTO
-</button>
-
-<button
-class="cancelar"
-id="cancelar"
-type="button"
->
-CANCELAR
-</button>
-
-</div>
+    </select>
 
 
-<div
-class="mensagem"
-id="mensagem"
-></div>
+    <label>
+      Foto do produto
+    </label>
 
-</div>
-
-
-<h2>
-📦 Produtos cadastrados
-</h2>
+    <input
+      id="foto"
+      type="file"
+      accept="image/*"
+    >
 
 
-<div id="lista">
-Carregando produtos...
-</div>
+    <img
+      id="preview"
+      class="preview"
+      alt="Prévia da foto"
+    >
+
+
+    <div class="botoes">
+
+      <button
+        id="salvar"
+        class="salvar"
+        type="button"
+      >
+        💾 SALVAR PRODUTO
+      </button>
+
+      <button
+        id="cancelar"
+        class="cancelar"
+        type="button"
+      >
+        CANCELAR
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <h2>
+    Produtos cadastrados
+  </h2>
+
+  <div id="lista">
+    <div class="carregando">
+      Carregando produtos...
+    </div>
+  </div>
 
 </div>
 
 
 <script>
 
-/* =========================================
+/* ==============================
    CONFIGURAÇÃO SUPABASE
-========================================= */
+============================== */
 
 var SUPABASE_URL =
-"https://ravaircmbkotndfghilq.supabase.co";
+  "https://ravaircmbkotndfghilq.supabase.co";
 
 var SUPABASE_KEY =
-"sb_publishable_yL40T2sEFQBtKwISbLrY9Q_EHqvb23C";
+  "sb_publishable_yL40T2sEFQBtKwISbLrY9Q_EHqvb23C";
 
 var BUCKET =
-"produtos";
+  "produtos";
 
-var editandoId = null;
+
+/* ==============================
+   VARIÁVEIS
+============================== */
+
+var produtoEditando = null;
 
 var imagemAtual = "";
 
 
-/* =========================================
+/* ==============================
    ELEMENTOS
-========================================= */
+============================== */
 
 var abrir =
-document.getElementById("abrir");
+  document.getElementById("abrir");
 
 var formulario =
-document.getElementById("formulario");
+  document.getElementById("formulario");
 
 var cancelar =
-document.getElementById("cancelar");
+  document.getElementById("cancelar");
 
 var salvar =
-document.getElementById("salvar");
+  document.getElementById("salvar");
 
 var foto =
-document.getElementById("foto");
+  document.getElementById("foto");
 
-var previa =
-document.getElementById("previa");
-
-var imagemPrevia =
-document.getElementById("imagemPrevia");
-
-var nomeArquivo =
-document.getElementById("nomeArquivo");
-
-var mensagem =
-document.getElementById("mensagem");
+var preview =
+  document.getElementById("preview");
 
 var lista =
-document.getElementById("lista");
+  document.getElementById("lista");
 
-var tituloFormulario =
-document.getElementById("tituloFormulario");
-
-
-/* =========================================
-   ESCOLHER FOTO
-========================================= */
-
-foto.onchange = function(){
-
-var arquivo = foto.files[0];
-
-if(!arquivo){
-
-return;
-
-}
-
-imagemPrevia.src =
-URL.createObjectURL(arquivo);
-
-nomeArquivo.innerText =
-arquivo.name;
-
-previa.style.display =
-"block";
-
-};
+var status =
+  document.getElementById("status");
 
 
-/* =========================================
-   ABRIR
-========================================= */
-
-abrir.onclick = function(){
-
-editandoId = null;
-
-imagemAtual = "";
-
-tituloFormulario.innerText =
-"Adicionar produto";
-
-limparFormulario();
-
-mensagem.style.display =
-"none";
-
-previa.style.display =
-"none";
-
-formulario.classList.add(
-"aberto"
-);
-
-window.scrollTo(0,0);
-
-};
-
-
-/* =========================================
-   CANCELAR
-========================================= */
-
-cancelar.onclick = function(){
-
-formulario.classList.remove(
-"aberto"
-);
-
-editandoId = null;
-
-imagemAtual = "";
-
-limparFormulario();
-
-mensagem.style.display =
-"none";
-
-previa.style.display =
-"none";
-
-};
-
-
-/* =========================================
-   LIMPAR
-========================================= */
-
-function limparFormulario(){
-
-document.getElementById("nome").value =
-"";
-
-document.getElementById("preco").value =
-"";
-
-document.getElementById("precoAntigo").value =
-"";
-
-document.getElementById("categoria").value =
-"Tênis";
-
-document.getElementById("tag").value =
-"";
-
-foto.value = "";
-
-imagemPrevia.src = "";
-
-nomeArquivo.innerText = "";
-
-}
-
-
-/* =========================================
+/* ==============================
    MENSAGEM
-========================================= */
+============================== */
 
-function mostrarMensagem(
-texto,
-sucesso
-){
+function mostrarStatus(mensagem, tipo){
 
-mensagem.style.display =
-"block";
+  status.innerText = mensagem;
 
-mensagem.innerText =
-texto;
-
-if(sucesso){
-
-mensagem.style.background =
-"#153d1e";
-
-mensagem.style.color =
-"#5cff78";
-
-}else{
-
-mensagem.style.background =
-"#451515";
-
-mensagem.style.color =
-"#ff7777";
-
-}
+  status.className =
+    "status " + tipo;
 
 }
 
 
-/* =========================================
-   ENVIAR FOTO PARA SUPABASE
-========================================= */
+/* ==============================
+   ABRIR FORMULÁRIO
+============================== */
+
+abrir.addEventListener("click", function(){
+
+  produtoEditando = null;
+
+  imagemAtual = "";
+
+  document.getElementById("tituloFormulario").innerText =
+    "Novo Produto";
+
+  document.getElementById("nome").value = "";
+
+  document.getElementById("preco").value = "";
+
+  document.getElementById("precoAntigo").value = "";
+
+  document.getElementById("categoria").value = "";
+
+  document.getElementById("tag").value = "";
+
+  foto.value = "";
+
+  preview.src = "";
+
+  preview.style.display = "none";
+
+  formulario.style.display = "block";
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+});
+
+
+/* ==============================
+   CANCELAR
+============================== */
+
+cancelar.addEventListener("click", function(){
+
+  formulario.style.display = "none";
+
+  produtoEditando = null;
+
+  imagemAtual = "";
+
+});
+
+
+/* ==============================
+   PRÉVIA DA FOTO
+============================== */
+
+foto.addEventListener("change", function(){
+
+  var arquivo = foto.files[0];
+
+  if(!arquivo){
+    return;
+  }
+
+  var leitor =
+    new FileReader();
+
+  leitor.onload =
+    function(event){
+
+      preview.src =
+        event.target.result;
+
+      preview.style.display =
+        "block";
+
+    };
+
+  leitor.readAsDataURL(arquivo);
+
+});
+
+
+/* ==============================
+   ENVIAR FOTO
+============================== */
 
 async function enviarFoto(){
 
-var arquivo =
-foto.files[0];
+  var arquivo =
+    foto.files[0];
 
-if(!arquivo){
+  /* Se não escolheu uma nova foto */
+  if(!arquivo){
 
-return imagemAtual;
+    return imagemAtual;
+
+  }
+
+
+  /* Verifica se é imagem */
+
+  if(!arquivo.type.startsWith("image/")){
+
+    throw new Error(
+      "Escolha uma imagem válida."
+    );
+
+  }
+
+
+  /* Limite de 6 MB */
+
+  if(arquivo.size > 6 * 1024 * 1024){
+
+    throw new Error(
+      "A foto é muito grande. Escolha uma imagem de até 6 MB."
+    );
+
+  }
+
+
+  /* Nome seguro */
+
+  var nomeOriginal =
+    arquivo.name
+      .replace(/[^a-zA-Z0-9._-]/g,"-");
+
+
+  var nomeArquivo =
+    Date.now() +
+    "-" +
+    nomeOriginal;
+
+
+  /* Endereço do Storage */
+
+  var enderecoUpload =
+    SUPABASE_URL +
+    "/storage/v1/object/" +
+    BUCKET +
+    "/" +
+    nomeArquivo;
+
+
+  /* Envia imagem */
+
+  var resposta =
+    await fetch(
+      enderecoUpload,
+      {
+        method:"POST",
+
+        headers:{
+          "apikey":SUPABASE_KEY,
+          "Authorization":
+            "Bearer " + SUPABASE_KEY,
+          "Content-Type":
+            arquivo.type,
+          "x-upsert":
+            "true"
+        },
+
+        body:arquivo
+      }
+    );
+
+
+  if(!resposta.ok){
+
+    var erro =
+      await resposta.text();
+
+    console.error(
+      "Erro Storage:",
+      erro
+    );
+
+    throw new Error(
+      "Não foi possível enviar a foto."
+    );
+
+  }
+
+
+  /* URL pública */
+
+  var urlPublica =
+    SUPABASE_URL +
+    "/storage/v1/object/public/" +
+    BUCKET +
+    "/" +
+    nomeArquivo;
+
+
+  return urlPublica;
 
 }
 
 
-/* Nome único para evitar conflito */
-
-var nomeSeguro =
-arquivo.name
-.replace(/[^a-zA-Z0-9._-]/g,"-");
-
-var nomeArquivoFinal =
-Date.now() +
-"-" +
-nomeSeguro;
-
-
-var resposta =
-await fetch(
-
-SUPABASE_URL +
-"/storage/v1/object/" +
-BUCKET +
-"/" +
-nomeArquivoFinal,
-
-{
-
-method:"POST",
-
-headers:{
-
-"apikey":
-SUPABASE_KEY,
-
-"Content-Type":
-arquivo.type,
-
-"x-upsert":
-"true"
-
-},
-
-body:
-arquivo
-
-}
-
-);
-
-
-if(!resposta.ok){
-
-var erro =
-await resposta.text();
-
-throw new Error(
-"Erro ao enviar foto: " +
-erro
-);
-
-}
-
-
-/* URL pública */
-
-var urlPublica =
-SUPABASE_URL +
-"/storage/v1/object/public/" +
-BUCKET +
-"/" +
-nomeArquivoFinal;
-
-
-return urlPublica;
-
-}
-
-
-/* =========================================
+/* ==============================
    SALVAR PRODUTO
-========================================= */
+============================== */
 
-salvar.onclick =
-async function(){
+salvar.addEventListener("click", async function(){
 
-var nome =
-document.getElementById("nome")
-.value
-.trim();
+  try{
 
-var preco =
-document.getElementById("preco")
-.value;
+    salvar.disabled = true;
 
-var precoAntigo =
-document.getElementById("precoAntigo")
-.value;
+    salvar.innerText =
+      "⏳ SALVANDO...";
 
-var categoria =
-document.getElementById("categoria")
-.value;
 
-var tag =
-document.getElementById("tag")
-.value;
+    var nome =
+      document.getElementById("nome").value.trim();
 
 
-if(nome === ""){
+    var preco =
+      document.getElementById("preco").value;
 
-mostrarMensagem(
-"Digite o nome do produto.",
-false
-);
 
-return;
+    var precoAntigo =
+      document.getElementById("precoAntigo").value;
 
-}
 
+    var categoria =
+      document.getElementById("categoria").value;
 
-if(preco === ""){
 
-mostrarMensagem(
-"Digite o preço.",
-false
-);
+    var tag =
+      document.getElementById("tag").value;
 
-return;
 
-}
+    /* Validações */
 
+    if(!nome){
 
-/* Se for produto novo, precisa escolher foto */
+      throw new Error(
+        "Digite o nome do produto."
+      );
 
-if(
-editandoId === null &&
-!foto.files[0]
-){
+    }
 
-mostrarMensagem(
-"Escolha uma foto do celular.",
-false
-);
 
-return;
+    if(!preco){
 
-}
+      throw new Error(
+        "Digite o preço."
+      );
 
+    }
 
-salvar.disabled = true;
 
-salvar.innerText =
-"📤 ENVIANDO...";
+    /* Foto */
 
+    mostrarStatus(
+      "Enviando foto...",
+      "sucesso"
+    );
 
-try{
 
-/* Envia a foto */
+    var imagem =
+      await enviarFoto();
 
-if(foto.files[0]){
 
-imagemAtual =
-await enviarFoto();
+    /* Produto */
 
-}
+    var produto = {
 
+      name:nome,
 
-/* Dados do produto */
+      price:Number(preco),
 
-var produto = {
+      Cat:
+        categoria,
 
-name: nome,
+      Old:
+        precoAntigo === ""
+          ? null
+          : Number(precoAntigo),
 
-price: Number(preco),
+      Tag:
+        tag,
 
-Cat: categoria,
+      image:
+        imagem
 
-Old:
-precoAntigo === ""
-? null
-: Number(precoAntigo),
+    };
 
-Tag: tag,
 
-image: imagemAtual
+    mostrarStatus(
+      "Salvando produto...",
+      "sucesso"
+    );
 
-};
 
+    /* ==========================
+       NOVO PRODUTO
+    ========================== */
 
-salvar.innerText =
-"💾 SALVANDO...";
+    if(produtoEditando === null){
 
+      var resposta =
+        await fetch(
+          SUPABASE_URL +
+          "/rest/v1/products",
+          {
 
-var resposta;
+            method:"POST",
 
+            headers:{
 
-/* NOVO */
+              "apikey":
+                SUPABASE_KEY,
 
-if(editandoId === null){
+              "Authorization":
+                "Bearer " + SUPABASE_KEY,
 
-resposta =
-await fetch(
+              "Content-Type":
+                "application/json",
 
-SUPABASE_URL +
-"/rest/v1/products",
+              "Prefer":
+                "return=representation"
 
-{
+            },
 
-method:"POST",
+            body:
+              JSON.stringify(produto)
 
-headers:{
+          }
+        );
 
-"apikey":
-SUPABASE_KEY,
 
-"Content-Type":
-"application/json",
+      if(!resposta.ok){
 
-"Prefer":
-"return=representation"
+        var erro =
+          await resposta.text();
 
-},
+        console.error(erro);
 
-body:
-JSON.stringify(produto)
+        throw new Error(
+          "Erro ao cadastrar produto."
+        );
 
-}
+      }
 
-);
+    }
 
 
-/* EDITAR */
+    /* ==========================
+       EDITAR PRODUTO
+    ========================== */
 
-}else{
+    else{
 
-resposta =
-await fetch(
+      var resposta =
+        await fetch(
+          SUPABASE_URL +
+          "/rest/v1/products?id=eq." +
+          produtoEditando,
 
-SUPABASE_URL +
-"/rest/v1/products?id=eq." +
-editandoId,
+          {
 
-{
+            method:"PATCH",
 
-method:"PATCH",
+            headers:{
 
-headers:{
+              "apikey":
+                SUPABASE_KEY,
 
-"apikey":
-SUPABASE_KEY,
+              "Authorization":
+                "Bearer " + SUPABASE_KEY,
 
-"Content-Type":
-"application/json",
+              "Content-Type":
+                "application/json",
 
-"Prefer":
-"return=representation"
+              "Prefer":
+                "return=representation"
 
-},
+            },
 
-body:
-JSON.stringify(produto)
+            body:
+              JSON.stringify(produto)
 
-}
+          }
+        );
 
-}
 
+      if(!resposta.ok){
 
-var resultado =
-await resposta.text();
+        var erro =
+          await resposta.text();
 
+        console.error(erro);
 
-if(!resposta.ok){
+        throw new Error(
+          "Erro ao editar produto."
+        );
 
-throw new Error(
-resultado
-);
+      }
 
-}
+    }
 
 
-/* SUCESSO */
+    mostrarStatus(
+      "✅ Produto salvo com sucesso!",
+      "sucesso"
+    );
 
-formulario.classList.remove(
-"aberto"
-);
 
-editandoId = null;
+    formulario.style.display =
+      "none";
 
-imagemAtual = "";
 
-limparFormulario();
+    produtoEditando =
+      null;
 
-previa.style.display =
-"none";
 
+    imagemAtual =
+      "";
 
-await carregarProdutos();
 
+    await carregarProdutos();
 
-alert(
-"✅ Produto salvo com sucesso!"
-);
 
+  }
 
-}catch(erro){
+  catch(erro){
 
-console.error(erro);
+    console.error(erro);
 
-mostrarMensagem(
+    mostrarStatus(
+      "❌ " + erro.message,
+      "erro"
+    );
 
-"❌ Erro ao salvar: " +
-erro.message,
+  }
 
-false
+  finally{
 
-);
+    salvar.disabled =
+      false;
 
-}
+    salvar.innerText =
+      "💾 SALVAR PRODUTO";
 
+  }
 
-salvar.disabled = false;
+});
 
-salvar.innerText =
-"💾 SALVAR PRODUTO";
 
-};
-
-
-/* =========================================
+/* ==============================
    CARREGAR PRODUTOS
-========================================= */
+============================== */
 
 async function carregarProdutos(){
 
-lista.innerHTML =
-"Carregando produtos...";
+  try{
+
+    lista.innerHTML =
+      '<div class="carregando">Carregando produtos...</div>';
 
 
-try{
+    var resposta =
+      await fetch(
+        SUPABASE_URL +
+        "/rest/v1/products?select=*&order=id.asc",
 
-var resposta =
-await fetch(
+        {
 
-SUPABASE_URL +
-"/rest/v1/products?select=*&order=id.asc",
+          method:"GET",
 
-{
+          headers:{
 
-method:"GET",
+            "apikey":
+              SUPABASE_KEY,
 
-headers:{
+            "Authorization":
+              "Bearer " + SUPABASE_KEY
 
-"apikey":
-SUPABASE_KEY
+          }
 
-}
-
-}
-
-);
-
-
-if(!resposta.ok){
-
-throw new Error(
-await resposta.text()
-);
-
-}
+        }
+      );
 
 
-var produtos =
-await resposta.json();
+    if(!resposta.ok){
+
+      throw new Error(
+        "Não foi possível carregar os produtos."
+      );
+
+    }
 
 
-lista.innerHTML =
-"";
+    var produtos =
+      await resposta.json();
 
 
-if(produtos.length === 0){
-
-lista.innerHTML =
-'<div class="vazio">' +
-"Nenhum produto cadastrado." +
-"</div>";
-
-return;
-
-}
+    lista.innerHTML = "";
 
 
-for(
-var i = 0;
-i < produtos.length;
-i++
-){
+    if(produtos.length === 0){
 
-criarProduto(
-produtos[i]
-);
+      lista.innerHTML =
+        '<div class="carregando">Nenhum produto cadastrado.</div>';
 
-}
+      return;
+
+    }
 
 
-}catch(erro){
+    produtos.forEach(
+      function(produto){
 
-console.error(erro);
+        criarProdutoNaTela(
+          produto
+        );
 
-lista.innerHTML =
-'<div class="vazio">' +
-"❌ Erro ao carregar produtos." +
-"<br><br>" +
-erro.message +
-"</div>";
+      }
+    );
 
-}
+
+  }
+
+  catch(erro){
+
+    console.error(erro);
+
+    lista.innerHTML =
+      '<div class="status erro">Erro ao carregar produtos.</div>';
+
+  }
 
 }
 
 
-/* =========================================
+/* ==============================
    CRIAR CARD
-========================================= */
+============================== */
 
-function criarProduto(
-produto
-){
+function criarProdutoNaTela(produto){
 
-var card =
-document.createElement("div");
+  var div =
+    document.createElement("div");
 
-card.className =
-"produto";
+  div.className =
+    "produto";
 
 
-/* IMAGEM */
-
-var imagem =
-document.createElement("img");
-
-imagem.src =
-produto.image || "";
-
-imagem.alt =
-produto.name || "Produto";
+  var imagem =
+    document.createElement("img");
 
 
-imagem.onerror =
-function(){
-
-this.style.display =
-"none";
-
-};
+  imagem.src =
+    produto.image || "";
 
 
-/* INFO */
+  imagem.onerror =
+    function(){
 
-var info =
-document.createElement("div");
+      imagem.style.display =
+        "none";
 
-info.className =
-"info";
-
-
-/* NOME */
-
-var nome =
-document.createElement("div");
-
-nome.className =
-"nome-produto";
-
-nome.innerText =
-produto.name ||
-"Sem nome";
+    };
 
 
-/* PREÇO */
+  var info =
+    document.createElement("div");
 
-var preco =
-document.createElement("div");
-
-preco.className =
-"preco";
-
-preco.innerText =
-formatarPreco(
-produto.price
-);
+  info.className =
+    "info";
 
 
-/* CATEGORIA */
+  var nome =
+    document.createElement("div");
 
-var categoria =
-document.createElement("div");
+  nome.className =
+    "nome";
 
-categoria.className =
-"categoria";
-
-categoria.innerText =
-"Categoria: " +
-(
-produto.Cat ||
-"-"
-);
+  nome.innerText =
+    produto.name || "Sem nome";
 
 
-/* TAG */
+  var preco =
+    document.createElement("div");
 
-if(produto.Tag){
+  preco.className =
+    "preco";
 
-var etiqueta =
-document.createElement("div");
+  preco.innerText =
+    "R$ " +
+    Number(produto.price || 0)
+      .toFixed(2)
+      .replace(".",",");
 
-etiqueta.className =
-"etiqueta";
 
-etiqueta.innerText =
-produto.Tag;
+  var categoria =
+    document.createElement("div");
 
-info.appendChild(
-etiqueta
-);
+  categoria.className =
+    "categoria";
+
+  categoria.innerText =
+    "Categoria: " +
+    (produto.Cat || "-");
+
+
+  var tag =
+    document.createElement("div");
+
+  tag.className =
+    "categoria";
+
+  tag.innerText =
+    "Tag: " +
+    (produto.Tag || "Nenhuma");
+
+
+  var acoes =
+    document.createElement("div");
+
+  acoes.className =
+    "acoes";
+
+
+  var editar =
+    document.createElement("button");
+
+  editar.className =
+    "editar";
+
+  editar.innerText =
+    "✏️ Editar";
+
+
+  editar.addEventListener(
+    "click",
+    function(){
+
+      editarProduto(produto);
+
+    }
+  );
+
+
+  var excluir =
+    document.createElement("button");
+
+  excluir.className =
+    "excluir";
+
+  excluir.innerText =
+    "🗑️ Excluir";
+
+
+  excluir.addEventListener(
+    "click",
+    function(){
+
+      excluirProduto(produto.id);
+
+    }
+  );
+
+
+  acoes.appendChild(
+    editar
+  );
+
+  acoes.appendChild(
+    excluir
+  );
+
+
+  info.appendChild(
+    nome
+  );
+
+  info.appendChild(
+    preco
+  );
+
+  info.appendChild(
+    categoria
+  );
+
+  info.appendChild(
+    tag
+  );
+
+  info.appendChild(
+    acoes
+  );
+
+
+  div.appendChild(
+    imagem
+  );
+
+  div.appendChild(
+    info
+  );
+
+
+  lista.appendChild(
+    div
+  );
 
 }
 
 
-/* AÇÕES */
-
-var acoes =
-document.createElement("div");
-
-acoes.className =
-"acoes";
-
-
-/* EDITAR */
-
-var editar =
-document.createElement("button");
-
-editar.type =
-"button";
-
-editar.className =
-"editar";
-
-editar.innerText =
-"✏️ EDITAR";
-
-
-editar.onclick =
-function(){
-
-editarProduto(
-produto
-);
-
-};
-
-
-/* EXCLUIR */
-
-var excluir =
-document.createElement("button");
-
-excluir.type =
-"button";
-
-excluir.className =
-"excluir";
-
-excluir.innerText =
-"🗑️ EXCLUIR";
-
-
-excluir.onclick =
-function(){
-
-excluirProduto(
-produto.id
-);
-
-};
-
-
-acoes.appendChild(
-editar
-);
-
-acoes.appendChild(
-excluir
-);
-
-
-info.appendChild(
-nome
-);
-
-info.appendChild(
-preco
-);
-
-info.appendChild(
-categoria
-);
-
-info.appendChild(
-acoes
-);
-
-
-card.appendChild(
-imagem
-);
-
-card.appendChild(
-info
-);
-
-
-lista.appendChild(
-card
-);
-
-}
-
-
-/* =========================================
+/* ==============================
    EDITAR
-========================================= */
+============================== */
 
-function editarProduto(
-produto
-){
+function editarProduto(produto){
 
-editandoId =
-produto.id;
+  produtoEditando =
+    produto.id;
 
 
-imagemAtual =
-produto.image || "";
+  imagemAtual =
+    produto.image || "";
 
 
-tituloFormulario.innerText =
-"Editar produto";
+  document.getElementById(
+    "tituloFormulario"
+  ).innerText =
+    "Editar Produto";
 
 
-document.getElementById("nome")
-.value =
-produto.name || "";
+  document.getElementById(
+    "nome"
+  ).value =
+    produto.name || "";
 
 
-document.getElementById("preco")
-.value =
-produto.price || "";
+  document.getElementById(
+    "preco"
+  ).value =
+    produto.price || "";
 
 
-document.getElementById("precoAntigo")
-.value =
-produto.Old || "";
+  document.getElementById(
+    "precoAntigo"
+  ).value =
+    produto.Old || "";
 
 
-document.getElementById("categoria")
-.value =
-produto.Cat || "Tênis";
+  document.getElementById(
+    "categoria"
+  ).value =
+    produto.Cat || "";
 
 
-document.getElementById("tag")
-.value =
-produto.Tag || "";
+  document.getElementById(
+    "tag"
+  ).value =
+    produto.Tag || "";
 
 
-/* Mostrar imagem atual */
+  foto.value = "";
 
-if(produto.image){
 
-imagemPrevia.src =
-produto.image;
+  if(produto.image){
 
-nomeArquivo.innerText =
-"Foto atual";
+    preview.src =
+      produto.image;
 
-previa.style.display =
-"block";
+    preview.style.display =
+      "block";
 
-}else{
+  }
 
-previa.style.display =
-"none";
+  else{
+
+    preview.src = "";
+
+    preview.style.display =
+      "none";
+
+  }
+
+
+  formulario.style.display =
+    "block";
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
 }
 
 
-mensagem.style.display =
-"none";
-
-
-formulario.classList.add(
-"aberto"
-);
-
-
-window.scrollTo(0,0);
-
-}
-
-
-/* =========================================
+/* ==============================
    EXCLUIR
-========================================= */
+============================== */
 
-async function excluirProduto(
-id
-){
+async function excluirProduto(id){
 
-var confirmar =
-confirm(
-"Tem certeza que deseja excluir este produto?"
-);
+  var confirmar =
+    confirm(
+      "Tem certeza que deseja excluir este produto?"
+    );
 
 
-if(!confirmar){
-
-return;
-
-}
+  if(!confirmar){
+    return;
+  }
 
 
-try{
+  try{
 
-var resposta =
-await fetch(
-
-SUPABASE_URL +
-"/rest/v1/products?id=eq." +
-id,
-
-{
-
-method:"DELETE",
-
-headers:{
-
-"apikey":
-SUPABASE_KEY,
-
-"Prefer":
-"return=representation"
-
-}
-
-}
-
-);
+    mostrarStatus(
+      "Excluindo produto...",
+      "sucesso"
+    );
 
 
-if(!resposta.ok){
+    var resposta =
+      await fetch(
+        SUPABASE_URL +
+        "/rest/v1/products?id=eq." +
+        id,
 
-throw new Error(
-await resposta.text()
-);
+        {
 
-}
+          method:"DELETE",
 
+          headers:{
 
-alert(
-"✅ Produto excluído com sucesso!"
-);
+            "apikey":
+              SUPABASE_KEY,
 
+            "Authorization":
+              "Bearer " + SUPABASE_KEY,
 
-carregarProdutos();
+            "Prefer":
+              "return=representation"
 
+          }
 
-}catch(erro){
-
-console.error(erro);
-
-alert(
-"❌ Erro ao excluir: " +
-erro.message
-);
-
-}
-
-}
+        }
+      );
 
 
-/* =========================================
-   FORMATAÇÃO DE PREÇO
-========================================= */
+    if(!resposta.ok){
 
-function formatarPreco(
-valor
-){
+      var erro =
+        await resposta.text();
 
-return Number(
-valor || 0
-)
-.toLocaleString(
-"pt-BR",
-{
-style:"currency",
-currency:"BRL"
-}
-);
+      console.error(erro);
+
+      throw new Error(
+        "Não foi possível excluir."
+      );
+
+    }
+
+
+    mostrarStatus(
+      "✅ Produto excluído!",
+      "sucesso"
+    );
+
+
+    await carregarProdutos();
+
+  }
+
+  catch(erro){
+
+    console.error(erro);
+
+    mostrarStatus(
+      "❌ " + erro.message,
+      "erro"
+    );
+
+  }
 
 }
 
 
-/* =========================================
+/* ==============================
    INICIAR
-========================================= */
+============================== */
 
 carregarProdutos();
 
