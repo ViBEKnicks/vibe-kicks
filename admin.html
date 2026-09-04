@@ -234,9 +234,7 @@ VIBE KICKS
 Adicionar produto
 </h2>
 
-<label>
-Nome do produto
-</label>
+<label>Nome do produto</label>
 
 <input
 type="text"
@@ -244,9 +242,7 @@ id="nome"
 placeholder="Ex: Nike Air Max"
 >
 
-<label>
-Preço
-</label>
+<label>Preço</label>
 
 <input
 type="number"
@@ -255,9 +251,7 @@ placeholder="Ex: 399.90"
 step="0.01"
 >
 
-<label>
-Preço antigo
-</label>
+<label>Preço antigo</label>
 
 <input
 type="number"
@@ -266,9 +260,7 @@ placeholder="Ex: 499.90"
 step="0.01"
 >
 
-<label>
-Categoria
-</label>
+<label>Categoria</label>
 
 <select id="categoria">
 
@@ -290,9 +282,7 @@ Infantil
 
 </select>
 
-<label>
-Etiqueta
-</label>
+<label>Etiqueta</label>
 
 <select id="tag">
 
@@ -314,9 +304,7 @@ DESTAQUE
 
 </select>
 
-<label>
-URL da imagem
-</label>
+<label>URL da imagem</label>
 
 <input
 type="text"
@@ -361,59 +349,33 @@ var SUPABASE_KEY =
 var editandoId = null;
 
 
-/* =========================
-   ELEMENTOS
-========================= */
+/* ABRIR */
 
-var abrir =
-document.getElementById("abrir");
-
-var formulario =
-document.getElementById("formulario");
-
-var cancelar =
-document.getElementById("cancelar");
-
-var salvar =
-document.getElementById("salvar");
-
-var lista =
-document.getElementById("lista");
-
-var mensagem =
-document.getElementById("mensagem");
-
-var tituloFormulario =
-document.getElementById("tituloFormulario");
-
-
-/* =========================
-   ABRIR FORMULÁRIO
-========================= */
-
-abrir.onclick = function(){
+document.getElementById("abrir").onclick =
+function(){
 
 editandoId = null;
 
-tituloFormulario.innerText =
+document.getElementById("tituloFormulario").innerText =
 "Adicionar produto";
 
 limparFormulario();
 
-formulario.classList.add("aberto");
+document.getElementById("formulario")
+.classList.add("aberto");
 
 window.scrollTo(0,0);
 
 };
 
 
-/* =========================
-   CANCELAR
-========================= */
+/* CANCELAR */
 
-cancelar.onclick = function(){
+document.getElementById("cancelar").onclick =
+function(){
 
-formulario.classList.remove("aberto");
+document.getElementById("formulario")
+.classList.remove("aberto");
 
 editandoId = null;
 
@@ -422,9 +384,7 @@ limparFormulario();
 };
 
 
-/* =========================
-   LIMPAR
-========================= */
+/* LIMPAR */
 
 function limparFormulario(){
 
@@ -443,11 +403,12 @@ document.getElementById("imagem").value = "";
 }
 
 
-/* =========================
-   MENSAGEM
-========================= */
+/* MENSAGEM */
 
 function mostrarMensagem(texto, sucesso){
+
+var mensagem =
+document.getElementById("mensagem");
 
 mensagem.style.display = "block";
 
@@ -470,11 +431,10 @@ mensagem.style.color = "#ff7777";
 }
 
 
-/* =========================
-   SALVAR
-========================= */
+/* SALVAR */
 
-salvar.onclick = async function(){
+document.getElementById("salvar").onclick =
+async function(){
 
 var nome =
 document.getElementById("nome").value.trim();
@@ -510,7 +470,7 @@ return;
 if(preco === ""){
 
 mostrarMensagem(
-"Digite o preço do produto.",
+"Digite o preço.",
 false
 );
 
@@ -531,17 +491,24 @@ return;
 }
 
 
+/*
+IMPORTANTE:
+A coluna no Supabase é CAT
+com C maiúsculo.
+*/
+
 var produto = {
 
 name: nome,
 
 price: Number(preco),
 
-old: precoAntigo === ""
+old:
+precoAntigo === ""
 ? null
 : Number(precoAntigo),
 
-cat: categoria,
+Cat: categoria,
 
 tag: tag,
 
@@ -550,9 +517,13 @@ image: imagem
 };
 
 
-salvar.disabled = true;
+var botao =
+document.getElementById("salvar");
 
-salvar.innerText = "SALVANDO...";
+botao.disabled = true;
+
+botao.innerText =
+"SALVANDO...";
 
 
 try{
@@ -562,7 +533,7 @@ var resposta;
 
 if(editandoId === null){
 
-/* NOVO PRODUTO */
+/* ADICIONAR */
 
 resposta = await fetch(
 
@@ -585,7 +556,8 @@ headers:{
 
 },
 
-body:JSON.stringify(produto)
+body:
+JSON.stringify(produto)
 
 }
 
@@ -593,7 +565,7 @@ body:JSON.stringify(produto)
 
 }else{
 
-/* EDITAR PRODUTO */
+/* EDITAR */
 
 resposta = await fetch(
 
@@ -617,38 +589,37 @@ headers:{
 
 },
 
-body:JSON.stringify(produto)
+body:
+JSON.stringify(produto)
 
 }
 
 );
 
+
 }
 
 
-var texto =
+var resultado =
 await resposta.text();
 
 
 if(!resposta.ok){
 
-throw new Error(texto);
+throw new Error(resultado);
 
 }
 
 
+document.getElementById("formulario")
+.classList.remove("aberto");
+
+
 mostrarMensagem(
-
-editandoId === null
-? "✅ Produto adicionado com sucesso!"
-: "✅ Produto atualizado com sucesso!",
-
+"✅ Produto salvo com sucesso!",
 true
-
 );
 
-
-formulario.classList.remove("aberto");
 
 editandoId = null;
 
@@ -662,30 +633,28 @@ await carregarProdutos();
 console.error(erro);
 
 mostrarMensagem(
-
 "❌ Erro ao salvar: " +
 erro.message,
-
 false
-
 );
 
 }
 
 
-salvar.disabled = false;
+botao.disabled = false;
 
-salvar.innerText =
+botao.innerText =
 "💾 SALVAR PRODUTO";
 
 };
 
 
-/* =========================
-   CARREGAR PRODUTOS
-========================= */
+/* CARREGAR */
 
 async function carregarProdutos(){
+
+var lista =
+document.getElementById("lista");
 
 lista.innerHTML =
 "Carregando produtos...";
@@ -732,14 +701,20 @@ lista.innerHTML = "";
 if(produtos.length === 0){
 
 lista.innerHTML =
-'<div class="vazio">Nenhum produto cadastrado.</div>';
+'<div class="vazio">' +
+"Nenhum produto cadastrado." +
+"</div>";
 
 return;
 
 }
 
 
-for(var i = 0; i < produtos.length; i++){
+for(
+var i = 0;
+i < produtos.length;
+i++
+){
 
 criarProduto(produtos[i]);
 
@@ -751,7 +726,6 @@ criarProduto(produtos[i]);
 console.error(erro);
 
 lista.innerHTML =
-
 '<div class="vazio">' +
 "❌ Erro ao carregar produtos." +
 "<br><br>" +
@@ -763,9 +737,7 @@ erro.message +
 }
 
 
-/* =========================
-   CRIAR CARD
-========================= */
+/* CRIAR PRODUTO */
 
 function criarProduto(produto){
 
@@ -820,9 +792,15 @@ formatarPreco(produto.price);
 var categoria =
 document.createElement("div");
 
+/*
+IMPORTANTE:
+Aqui também usamos CAT
+com C maiúsculo.
+*/
+
 categoria.innerText =
 "Categoria: " +
-(produto.cat || "-");
+(produto.Cat || "-");
 
 
 var acoes =
@@ -887,21 +865,23 @@ card.appendChild(imagem);
 card.appendChild(info);
 
 
-lista.appendChild(card);
+document.getElementById("lista")
+.appendChild(card);
 
 }
 
 
-/* =========================
-   EDITAR
-========================= */
+/* EDITAR */
 
 function editarProduto(produto){
 
 editandoId =
 produto.id;
 
-tituloFormulario.innerText =
+
+document.getElementById(
+"tituloFormulario"
+).innerText =
 "Editar produto";
 
 
@@ -917,8 +897,12 @@ document.getElementById("precoAntigo").value =
 produto.old || "";
 
 
+/*
+CAT com C maiúsculo
+*/
+
 document.getElementById("categoria").value =
-produto.cat || "Tênis";
+produto.Cat || "Tênis";
 
 
 document.getElementById("tag").value =
@@ -929,16 +913,16 @@ document.getElementById("imagem").value =
 produto.image || "";
 
 
-formulario.classList.add("aberto");
+document.getElementById("formulario")
+.classList.add("aberto");
+
 
 window.scrollTo(0,0);
 
 }
 
 
-/* =========================
-   EXCLUIR
-========================= */
+/* EXCLUIR */
 
 async function excluirProduto(id){
 
@@ -1013,9 +997,7 @@ erro.message
 }
 
 
-/* =========================
-   PREÇO
-========================= */
+/* PREÇO */
 
 function formatarPreco(valor){
 
@@ -1031,17 +1013,7 @@ currency:"BRL"
 }
 
 
-/* =========================
-   TESTE DO JAVASCRIPT
-========================= */
-
-document.getElementById("status").innerText =
-"✅ PAINEL VIBE KICKS ONLINE — JAVASCRIPT FUNCIONANDO";
-
-
-/* =========================
-   INICIAR
-========================= */
+/* INICIAR */
 
 carregarProdutos();
 
