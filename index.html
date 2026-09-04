@@ -1,9 +1,12 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="VIBE KICKS — tênis masculino e feminino com estilo de rua e preço acessível.">
-<title>VIBE KICKS | Seu estilo começa no pé.</title><style>
+<title>VIBE KICKS | Seu estilo começa no pé.</title>
+
+<style>
 :root{--bg:#090909;--card:#121212;--text:#f5f5f5;--muted:#aaa;--accent:#f2a900;--line:#262626}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -18,6 +21,7 @@ nav{display:flex;gap:25px;font-size:14px;font-weight:700}
 nav a:hover{color:var(--accent)}
 .cart{border:1px solid #444;border-radius:10px;padding:10px 13px;font-weight:800;cursor:pointer}
 .cart b{color:var(--accent)}
+
 .hero{min-height:560px;display:flex;align-items:center;position:relative;overflow:hidden;background:radial-gradient(circle at 80% 40%,#29210e 0,#111 30%,#090909 65%)}
 .hero:after{content:"";position:absolute;right:-180px;bottom:-280px;width:650px;height:650px;border:2px solid #333;border-radius:50%}
 .hero-inner{max-width:1180px;width:100%;margin:auto;padding:80px 20px;position:relative;z-index:2}
@@ -26,36 +30,48 @@ nav a:hover{color:var(--accent)}
 .hero h1 span{color:var(--accent)}
 .hero p{color:#ccc;max-width:500px;font-size:18px;line-height:1.5}
 .btn{display:inline-block;background:var(--accent);color:#000;font-weight:900;padding:15px 22px;border-radius:9px;margin-top:18px}
-.btn:hover{transform:translateY(-2px)}
+
 .section{max-width:1180px;margin:auto;padding:70px 20px}
 .title{display:flex;align-items:end;justify-content:space-between;margin-bottom:28px}
 .title h2{font-size:34px;margin:0}
 .title p{color:var(--muted);margin:0}
+
 .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:25px}
 .filter{background:#151515;color:#ddd;border:1px solid #333;padding:10px 15px;border-radius:999px;cursor:pointer}
 .filter.active,.filter:hover{background:var(--accent);color:#000;border-color:var(--accent)}
+
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
 .product{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:.2s}
 .product:hover{transform:translateY(-4px);border-color:#444}
-.photo{height:245px;background:linear-gradient(135deg,#1d1d1d,#080808);display:flex;align-items:center;justify-content:center;position:relative}
-.photo img{width:100%;height:100%;object-fit:cover;display:block}
+
+.photo{height:245px;background:linear-gradient(135deg,#1d1d1d,#080808);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover}
 .shoe{font-size:70px;transform:rotate(-12deg);filter:grayscale(1)}
+
 .tag{position:absolute;top:12px;left:12px;background:var(--accent);color:#000;font-size:11px;font-weight:900;padding:6px 8px;border-radius:5px;z-index:2}
+
 .info{padding:16px}
 .info small{color:#888}
 .info h3{margin:7px 0;font-size:17px}
 .price{font-size:21px;font-weight:900}
 .old{text-decoration:line-through;color:#777;font-size:13px;margin-left:6px}
+
 .add{width:100%;border:0;background:#242424;color:#fff;padding:12px;border-radius:8px;font-weight:800;margin-top:13px;cursor:pointer}
 .add:hover{background:var(--accent);color:#000}
+
+.loading,.empty,.error{grid-column:1/-1;text-align:center;padding:40px 20px;color:#aaa;font-size:16px}
+.error{color:#ff7777}
+
 .banner{background:#151515;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .banner-inner{max-width:1180px;margin:auto;padding:45px 20px;display:flex;justify-content:space-between;align-items:center;gap:30px}
 .banner h2{margin:0;font-size:30px}
 .banner p{color:#aaa;margin:7px 0 0}
+
 footer{border-top:1px solid var(--line);padding:40px 20px;color:#888}
 .footer-inner{max-width:1180px;margin:auto;display:flex;justify-content:space-between;gap:30px}
 .footer-brand{color:#fff;font-weight:900;font-size:23px}
 .social{color:var(--accent);font-weight:800}
+
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:50;align-items:flex-end;justify-content:center}
 .modal.show{display:flex}
 .cartbox{background:#111;border:1px solid #333;width:min(520px,100%);max-height:80vh;overflow:auto;border-radius:18px 18px 0 0;padding:22px}
@@ -64,9 +80,6 @@ footer{border-top:1px solid var(--line);padding:40px 20px;color:#888}
 .cartitem{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #292929}
 .total{display:flex;justify-content:space-between;font-size:21px;font-weight:900;padding:18px 0}
 .checkout{width:100%;padding:15px;background:#25d366;border:0;border-radius:9px;font-weight:900;cursor:pointer}
-.loading{grid-column:1/-1;text-align:center;color:#aaa;padding:50px 20px}
-.empty{grid-column:1/-1;text-align:center;color:#888;padding:50px 20px}
-.error{grid-column:1/-1;text-align:center;color:#f66;padding:50px 20px}
 
 @media(max-width:850px){
 nav{display:none}
@@ -86,132 +99,237 @@ nav{display:none}
 .hero-inner{padding:65px 20px}
 .title h2{font-size:27px}
 }
-</style></head><body><div class="top">🔥 FRETE GRÁTIS A PARTIR DE R$ 199 — CONSULTE AS CONDIÇÕES</div><header>
+</style>
+</head>
+
+<body>
+
+<div class="top">
+🔥 FRETE GRÁTIS A PARTIR DE R$ 199 — CONSULTE AS CONDIÇÕES
+</div>
+
+<header>
 <div class="nav">
-<a class="logo" href="#">VIBE <span>KICKS</span></a><nav>
+
+<a class="logo" href="#">VIBE <span>KICKS</span></a>
+
+<nav>
 <a href="#inicio">Início</a>
 <a href="#catalogo">Tênis</a>
 <a href="#ofertas">Ofertas</a>
 <a href="#contato">Contato</a>
-</nav><div class="cart" onclick="openCart()">🛒 Carrinho <b id="count">0</b></div>
+</nav>
+
+<div class="cart" onclick="openCart()">
+🛒 Carrinho <b id="count">0</b>
 </div>
-</header><main><section class="hero" id="inicio">
+
+</div>
+</header>
+
+<main>
+
+<section class="hero" id="inicio">
 <div class="hero-inner">
+
 <div class="kicker">VIBE KICKS • STREETWEAR</div>
-<h1>SEU ESTILO<br>COMEÇA NO <span>PÉ.</span></h1>
-<p>Tênis masculino e feminino para quem gosta de presença, conforto e preço que cabe no bolso.</p>
+
+<h1>
+SEU ESTILO<br>
+COMEÇA NO <span>PÉ.</span>
+</h1>
+
+<p>
+Tênis masculino e feminino para quem gosta de presença,
+conforto e preço que cabe no bolso.
+</p>
+
 <a class="btn" href="#catalogo">VER TÊNIS →</a>
+
 </div>
-</section><section class="section" id="catalogo"><div class="title">
+</section>
+
+<section class="section" id="catalogo">
+
+<div class="title">
 <div>
 <h2>🔥 Mais pedidos</h2>
 <p>Modelos para chegar no estilo.</p>
 </div>
-</div><div class="filters">
-<button class="filter active" onclick="filterProducts('todos',this)">Todos</button>
-<button class="filter" onclick="filterProducts('masculino',this)">Masculino</button>
-<button class="filter" onclick="filterProducts('feminino',this)">Feminino</button>
-<button class="filter" onclick="filterProducts('oferta',this)">Ofertas</button>
-</div><div class="grid" id="products">
+</div>
+
+<div class="filters">
+
+<button class="filter active" onclick="filterProducts('todos',this)">
+Todos
+</button>
+
+<button class="filter" onclick="filterProducts('masculino',this)">
+Masculino
+</button>
+
+<button class="filter" onclick="filterProducts('feminino',this)">
+Feminino
+</button>
+
+<button class="filter" onclick="filterProducts('oferta',this)">
+Ofertas
+</button>
+
+</div>
+
+<div class="grid" id="products">
 <div class="loading">Carregando produtos...</div>
-</div></section><section class="banner" id="ofertas">
+</div>
+
+</section>
+
+<section class="banner" id="ofertas">
+
 <div class="banner-inner">
+
 <div>
 <h2>💥 Achou seu par? Manda pra casa.</h2>
 <p>Escolha o modelo, coloque no carrinho e finalize pelo WhatsApp.</p>
-</div><a class="btn" href="https://wa.me/5511976559878?text=Oi%20VIBE%20KICKS!%20Quero%20ver%20os%20t%C3%AAnis." target="_blank">
+</div>
+
+<a class="btn"
+href="https://wa.me/5511976559878?text=Oi%20VIBE%20KICKS!%20Quero%20ver%20os%20t%C3%AAnis."
+target="_blank">
 FALAR NO WHATSAPP
 </a>
+
 </div>
-</section></main><footer id="contato">
-<div class="footer-inner"><div>
+</section>
+
+</main>
+
+<footer id="contato">
+
+<div class="footer-inner">
+
+<div>
 <div class="footer-brand">VIBE KICKS</div>
 <p>Seu estilo começa no pé.</p>
-</div><div>
+</div>
+
+<div>
 <p>📦 Enviamos para todo o Brasil</p>
 <p>📲 <a class="social" href="https://www.instagram.com/vibekicksbr/" target="_blank" rel="noopener">@vibekicksbr</a></p>
 <p>📞 (11) 97655-9878</p>
-</div></div>
-</footer><div class="modal" id="modal" onclick="if(event.target===this)closeCart()"><div class="cartbox"><div class="carthead">
-<h2>Seu carrinho</h2>
-<button class="close" onclick="closeCart()">×</button>
-</div><div id="cartItems"></div><div class="total">
-<span>Total</span>
-<span id="total">R$ 0,00</span>
-</div><button class="checkout" onclick="checkout()">FINALIZAR PELO WHATSAPP</button>
+</div>
 
 </div>
-</div><script>
+</footer>
 
-/* ================================
-   SUPABASE
-================================ */
+<div class="modal" id="modal" onclick="if(event.target===this)closeCart()">
 
-const SUPABASE_URL = 'https://ravaircmbkotndfghilq.supabase.co';
+<div class="cartbox">
 
-/* Chave pública do Supabase */
-const SUPABASE_KEY = 'sb_publishable_yL40T2sEFQBtKwISbLrY9Q_EHqvb23C';
+<div class="carthead">
+<h2>Seu carrinho</h2>
+<button class="close" onclick="closeCart()">×</button>
+</div>
+
+<div id="cartItems"></div>
+
+<div class="total">
+<span>Total</span>
+<span id="total">R$ 0,00</span>
+</div>
+
+<button class="checkout" onclick="checkout()">
+FINALIZAR PELO WHATSAPP
+</button>
+
+</div>
+</div>
+
+<script>
+
+/* SUPABASE */
+
+const SUPABASE_URL =
+'https://ravaircmbkotndfghilq.supabase.co';
+
+const SUPABASE_KEY =
+'sb_publishable_yL40T2sEFQBtKwISbLrY9Q_EHqvb23C';
 
 
-/* ================================
-   CONFIGURAÇÃO
-================================ */
+/* VARIÁVEIS */
 
 let products = [];
 let cart = [];
 
-const money = value => Number(value || 0).toLocaleString('pt-BR',{
+
+/* DINHEIRO */
+
+function money(value){
+
+return Number(value || 0).toLocaleString(
+'pt-BR',
+{
 style:'currency',
 currency:'BRL'
-});
+}
+);
+
+}
 
 
-/* ================================
-   SEGURANÇA
-================================ */
+/* HTML SEGURO */
 
 function escapeHTML(value){
+
 return String(value ?? '')
 .replace(/&/g,'&amp;')
 .replace(/</g,'&lt;')
 .replace(/>/g,'&gt;')
 .replace(/"/g,'&quot;')
 .replace(/'/g,'&#039;');
+
 }
 
 
-/* ================================
-   BUSCAR PRODUTOS DO SUPABASE
-================================ */
+/* CARREGAR PRODUTOS */
 
 async function loadProducts(){
 
-const container = document.getElementById('products');
+const container =
+document.getElementById('products');
 
-container.innerHTML = '<div class="loading">Carregando produtos...</div>';
+container.innerHTML =
+'<div class="loading">Carregando produtos...</div>';
 
 try{
 
 const response = await fetch(
-`${SUPABASE_URL}/rest/v1/products?select=*`,
+SUPABASE_URL +
+'/rest/v1/products?select=*',
 {
 method:'GET',
 headers:{
 'apikey':SUPABASE_KEY,
-'Authorization':`Bearer ${SUPABASE_KEY}`
+'Authorization':'Bearer ' + SUPABASE_KEY,
+'Content-Type':'application/json'
 }
 }
 );
 
 if(!response.ok){
 
-const errorText = await response.text();
+const errorText =
+await response.text();
 
-throw new Error(errorText || 'Erro ao carregar produtos.');
+throw new Error(errorText);
 
 }
 
-products = await response.json();
+const data =
+await response.json();
+
+products =
+Array.isArray(data) ? data : [];
 
 render(products);
 
@@ -221,8 +339,9 @@ console.error('Erro Supabase:',error);
 
 container.innerHTML = `
 <div class="error">
-Não foi possível carregar os produtos.<br>
-Tente novamente mais tarde.
+Não foi possível carregar os produtos.
+<br><br>
+Verifique a conexão com o Supabase.
 </div>
 `;
 
@@ -231,13 +350,12 @@ Tente novamente mais tarde.
 }
 
 
-/* ================================
-   MOSTRAR PRODUTOS
-================================ */
+/* MOSTRAR PRODUTOS */
 
 function render(list){
 
-const container = document.getElementById('products');
+const container =
+document.getElementById('products');
 
 if(!list.length){
 
@@ -251,26 +369,84 @@ return;
 
 }
 
-container.innerHTML = list.map(p => {
+container.innerHTML = list.map((product) => {
 
-const name=escapeHTML(p.Name || p.name || ''),cat=escapeHTML(p.cat||''),tag=escapeHTML(p.tag||''),image=escapeHTML(p.image||'');
-const cat = escapeHTML(p.cat || '');
-const tag = escapeHTML(p.tag || '');
-const image = escapeHTML(p.image || '');
+const name =
+escapeHTML(
+product.Name ||
+product.name ||
+'Produto'
+);
+
+const category =
+escapeHTML(
+product.cat ||
+''
+);
+
+const tag =
+escapeHTML(
+product.tag ||
+''
+);
+
+const image =
+escapeHTML(
+product.image ||
+''
+);
+
+const price =
+Number(
+product.price ||
+0
+);
+
+const oldPrice =
+Number(
+product.old ||
+0
+);
 
 const categoryText =
-cat.toLowerCase() === 'masculino'
+category.toLowerCase() === 'masculino'
 ? 'MASCULINO'
-: cat.toLowerCase() === 'feminino'
+: category.toLowerCase() === 'feminino'
 ? 'FEMININO'
-: cat.toUpperCase();
+: category.toUpperCase();
 
-const photo = image
-? `<img src="${image}" alt="${name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
-<div class="shoe" style="display:none">👟</div>`
-: `<div class="shoe">👟</div>`;
+let photo;
+
+if(image){
+
+photo = `
+<img
+src="${image}"
+alt="${name}"
+loading="lazy"
+onerror="this.style.display='none';this.nextElementSibling.style.display='block';"
+>
+
+<div class="shoe" style="display:none">
+👟
+</div>
+`;
+
+}else{
+
+photo = `
+<div class="shoe">
+👟
+</div>
+`;
+
+}
+
+const productIndex =
+products.indexOf(product);
 
 return `
+
 <article class="product">
 
 <div class="photo">
@@ -283,27 +459,38 @@ ${photo}
 
 <div class="info">
 
-<small>${categoryText}</small>
+<small>
+${categoryText}
+</small>
 
-<h3>${name}</h3>
+<h3>
+${name}
+</h3>
 
 <div class="price">
 
-${money(p.price)}
+${money(price)}
 
-${p.old
-? `<span class="old">${money(p.old)}</span>`
-: ''}
+${oldPrice ? `
+<span class="old">
+${money(oldPrice)}
+</span>
+` : ''}
 
 </div>
 
-<button class="add" onclick="addToCart('${escapeHTML(p.Name)}')">
+<button
+class="add"
+onclick="addToCart(${productIndex})">
+
 ADICIONAR AO CARRINHO
+
 </button>
 
 </div>
 
 </article>
+
 `;
 
 }).join('');
@@ -311,14 +498,16 @@ ADICIONAR AO CARRINHO
 }
 
 
-/* ================================
-   FILTROS
-================================ */
+/* FILTROS */
 
 function filterProducts(category,element){
 
-document.querySelectorAll('.filter')
-.forEach(button => button.classList.remove('active'));
+document
+.querySelectorAll('.filter')
+.forEach(
+button =>
+button.classList.remove('active')
+);
 
 element.classList.add('active');
 
@@ -333,8 +522,10 @@ return;
 if(category === 'oferta'){
 
 render(
-products.filter(p =>
-String(p.tag || '').toUpperCase() === 'OFERTA'
+products.filter(
+product =>
+String(product.tag || '').toUpperCase()
+=== 'OFERTA'
 )
 );
 
@@ -343,29 +534,31 @@ return;
 }
 
 render(
-products.filter(p =>
-String(p.cat || '').toLowerCase() === category
+products.filter(
+product =>
+String(product.cat || '').toLowerCase()
+=== category
 )
 );
 
 }
 
 
-/* ================================
-   CARRINHO
-================================ */
+/* CARRINHO */
 
-function addToCart(productName){
+function addToCart(index){
 
-const product = products.find(
-p => String(p.Name) === String(productName)
-);
+const product =
+products[index];
 
-if(!product)return;
+if(!product){
+return;
+}
 
 cart.push(product);
 
-document.getElementById('count').textContent = cart.length;
+document.getElementById('count').textContent =
+cart.length;
 
 openCart();
 
@@ -374,7 +567,8 @@ openCart();
 
 function openCart(){
 
-document.getElementById('modal')
+document
+.getElementById('modal')
 .classList.add('show');
 
 renderCart();
@@ -384,7 +578,8 @@ renderCart();
 
 function closeCart(){
 
-document.getElementById('modal')
+document
+.getElementById('modal')
 .classList.remove('show');
 
 }
@@ -392,7 +587,8 @@ document.getElementById('modal')
 
 function renderCart(){
 
-const element = document.getElementById('cartItems');
+const element =
+document.getElementById('cartItems');
 
 if(!cart.length){
 
@@ -406,11 +602,24 @@ return;
 
 }
 
-element.innerHTML = cart.map((product,index) => `
+element.innerHTML =
+cart.map(
+(product,index) => {
+
+const name =
+escapeHTML(
+product.Name ||
+product.name ||
+'Produto'
+);
+
+return `
 
 <div class="cartitem">
 
-<span>${escapeHTML(product.Name)}</span>
+<span>
+${name}
+</span>
 
 <b>
 
@@ -418,8 +627,14 @@ ${money(product.price)}
 
 <button
 onclick="removeItem(${index})"
-style="background:none;border:0;color:#f66;cursor:pointer;font-size:18px"
->
+style="
+background:none;
+border:0;
+color:#f66;
+cursor:pointer;
+font-size:18px;
+">
+
 ×
 </button>
 
@@ -427,15 +642,19 @@ style="background:none;border:0;color:#f66;cursor:pointer;font-size:18px"
 
 </div>
 
-`).join('');
+`;
+
+}).join('');
+
+const total =
+cart.reduce(
+(sum,product) =>
+sum + Number(product.price || 0),
+0
+);
 
 document.getElementById('total').textContent =
-money(
-cart.reduce(
-(total,product) => total + Number(product.price || 0),
-0
-)
-);
+money(total);
 
 }
 
@@ -452,26 +671,30 @@ renderCart();
 }
 
 
-/* ================================
-   WHATSAPP
-================================ */
+/* WHATSAPP */
 
 function checkout(){
 
 if(!cart.length){
 
-alert('Adicione um tênis ao carrinho primeiro.');
+alert(
+'Adicione um tênis ao carrinho primeiro.'
+);
 
 return;
 
 }
 
-const items = cart.map(product =>
-`• ${product.Name} — ${money(product.price)}`
+const items =
+cart.map(
+product =>
+`• ${product.Name || product.name || 'Produto'} — ${money(product.price)}`
 ).join('\n');
 
-const total = cart.reduce(
-(sum,product) => sum + Number(product.price || 0),
+const total =
+cart.reduce(
+(sum,product) =>
+sum + Number(product.price || 0),
 0
 );
 
@@ -491,11 +714,11 @@ encodeURIComponent(text),
 }
 
 
-/* ================================
-   INICIAR
-================================ */
+/* INICIAR */
 
 loadProducts();
 
-</script></body>
+</script>
+
+</body>
 </html>
