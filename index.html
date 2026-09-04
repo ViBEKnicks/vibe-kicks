@@ -193,7 +193,7 @@ container.innerHTML = '<div class="loading">Carregando produtos...</div>';
 try{
 
 const response = await fetch(
-`${SUPABASE_URL}/rest/v1/Products?select=*`,
+`${SUPABASE_URL}/rest/v1/products?select=*`,
 {
 method:'GET',
 headers:{
